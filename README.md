@@ -1,7 +1,5 @@
 # testing_homework
 
-Ent Path
-
 This project was generated with [`wemake-django-template`](https://github.com/wemake-services/wemake-django-template). Current template version is: [85e91cdc9ac0f1d35b81f37bc7da170ce746d521](https://github.com/wemake-services/wemake-django-template/tree/85e91cdc9ac0f1d35b81f37bc7da170ce746d521). See what is [updated](https://github.com/wemake-services/wemake-django-template/compare/85e91cdc9ac0f1d35b81f37bc7da170ce746d521...master) since then.
 
 
@@ -11,7 +9,7 @@ This project was generated with [`wemake-django-template`](https://github.com/we
 
 ## Glossary
 
-See 
+See https://github.com/sobolevn/testing_homework/blob/master/docs/pages/project/glossary.rst
 
 
 ## Prerequisites
