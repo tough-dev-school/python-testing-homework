@@ -8,7 +8,7 @@
   <h1>Список любимых картинок</h1>
 
   {% for picture in object_list %}
-  <div>
+  <div data-test-id="favourites-picture-db">
     <p>Номер {{ picture.foreign_id }}</p>
     <img src="{{ picture.url }}" />
   </div>
