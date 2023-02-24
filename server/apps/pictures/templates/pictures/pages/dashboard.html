@@ -33,10 +33,6 @@
         <span>Электронная почта: </span>
         <span>{{ user.email }}</span>
       </li>
-      <li>
-        <span>Удобный способ связи:</span>
-        <span>{{ user.phone_type }}</span>
-      </li>
     </ul>
 
     <a href="{% url 'identity:user_update' %}">

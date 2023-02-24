@@ -22,7 +22,7 @@ PASSWORD_HASHERS = [
 # https://docs.djangoproject.com/en/3.2/ref/settings/
 
 LOGIN_URL = reverse_lazy('identity:login')
-LOGIN_REDIRECT_URL = reverse_lazy('main:dashboard')
+LOGIN_REDIRECT_URL = reverse_lazy('pictures:dashboard')
 LOGOUT_REDIRECT_URL = reverse_lazy('index')
 
 
