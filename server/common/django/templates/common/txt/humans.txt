@@ -1,0 +1,15 @@
+# The humans responsible & technology colophon
+# http://humanstxt.org/
+
+
+## wemake.services
+
+Team:
+- Architect: Nikita Sobolev
+
+
+## Technologies
+
+Language: English
+Doctype: HTML5
+Technologies: Python, Django

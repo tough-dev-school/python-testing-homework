@@ -1,0 +1,49 @@
+---
+
+# This docker-compose file is required to bind ports in development,
+# since binding ports in regular compose file will ruin scaling
+# in production. Due to how `ports` directive is merged with two files.
+#
+# This file is ignored in production, but
+# it is automatically picked up in development with:
+#
+#  $ docker-compose up
+
+version: "3.8"
+services:
+
+  # We only need this during development to mock real `Bitrix` instance:
+  bitrix:
+    image: "vimagick/json-server:latest"
+    entrypoint: ''
+    command: node server.js
+    ports:
+      # Access it as "https://127.0.0.1:3045/" locally
+      # Local connection will be insecure, that's fine.
+      - "3045:3045"
+    volumes:
+      - ./docker/bitrix:/data
+    networks:
+      - bitrixnet
+    environment:
+      NODE_PATH: '/usr/lib/node_modules'
+    env_file: ./config/.env
+
+  web:
+    ports:
+      # We only bind ports directly in development:
+      - "8000:8000"
+    volumes:
+      # We only mount source code in development:
+      - .:/code
+    networks:
+      - bitrixnet
+    build:
+      # Needed for fixing permissions of files created by Docker
+      args:
+        - UID=${UID:-1000}
+        - GID=${GID:-1000}
+
+networks:
+  # Fake API network:
+  bitrixnet:

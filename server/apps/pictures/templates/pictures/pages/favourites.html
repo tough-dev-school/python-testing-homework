@@ -1,0 +1,17 @@
+{% extends 'common/_base.html' %}
+{% load static %}
+
+{% block title %}Запись на консультацию с основателем{% endblock %}
+
+{% block content %}
+<main>
+  <h1>Список любимых картинок</h1>
+
+  {% for picture in object_list %}
+  <div>
+    <p>Номер {{ picture.foreign_id }}</p>
+    <img src="{{ picture.url }}" />
+  </div>
+  {% endfor %}
+</main>
+{% endblock %}

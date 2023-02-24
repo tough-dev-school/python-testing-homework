@@ -1,0 +1,52 @@
+# See https://caddyserver.com/docs
+
+# Email for Let's Encrypt expiration notices
+{
+	email {$TLS_EMAIL}
+}
+
+# "www" redirect to "non-www" version
+www.{$DOMAIN_NAME} {
+	redir https://{$DOMAIN_NAME}{uri}
+}
+
+{$DOMAIN_NAME} {
+	# HTTPS options:
+	header Strict-Transport-Security max-age=31536000;
+
+	# Removing some headers for improved security:
+	header -Server
+
+	# Serve static files
+	handle_path /static/* {
+		# STATIC_ROOT
+		root * /var/www/django/static
+
+		file_server {
+			# Staticfiles are pre-compressed in `gunicorn.sh`
+			precompressed br gzip
+		}
+	}
+
+	# Serve media files
+	handle_path /media/* {
+		# MEDIA_ROOT
+		root * /var/www/django/media
+
+		file_server
+	}
+
+	# Serve Django app
+	handle {
+		reverse_proxy web:8000
+	}
+
+	# Dynamically compress response with gzip when it makes sense.
+	# This setting is ignored for precompressed files.
+	encode gzip
+
+	# Logs:
+	log {
+		output stdout
+	}
+}

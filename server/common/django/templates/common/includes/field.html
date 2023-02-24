@@ -1,0 +1,25 @@
+{% load static %}
+
+<div>
+  <label for="{{ field.id_for_label }}">
+    {{ field_label }}
+  </label>
+  <input
+    placeholder=" "
+    type="{{ field.field.widget.input_type }}"
+    id="{{ field.id_for_label }}"
+    name="{{ field.name }}"
+    {% if field.field.required %} required {% endif %}
+    {% if not field.value or field.field.widget.input_type == 'password' %}
+      value=""
+    {% else %}
+      value="{{ field.value|stringformat:'s' }}"
+    {% endif %}
+  />
+
+  {% if field.errors %}
+  <div>
+    {{ field.errors }}
+  </div>
+  {% endif %}
+</div>

@@ -1,0 +1,56 @@
+# See https://github.com/seddonym/import-linter
+
+[importlinter]
+root_package = server
+include_external_packages = True
+
+
+[importlinter:contract:layers]
+name = Layered architecture of our project
+type = layers
+
+containers =
+  server.apps.main
+  server.apps.identity
+
+# Techincally `admin` and `urls` are on the same level, but it is not supported.
+# Techincally `container` and `models` are on the same lowest level
+layers =
+  (urls)
+  (admin)
+  (views)
+  (infrastructure)
+  (logic)
+  (models)
+  (container)
+
+
+[importlinter:contract:apps-independence]
+name = All apps must be independent
+type = independence
+
+modules =
+  server.apps.pictures
+  server.apps.identity
+
+
+[importlinter:contract:common-module-is-independent]
+name = Common utilities cannot import things from apps
+type = forbidden
+
+source_modules =
+  server.common
+
+forbidden_modules =
+  server.apps
+
+
+[importlinter:contract:tests-restrictions]
+name = Explicit import restrictions for tests
+type = forbidden
+
+source_modules =
+  server
+
+forbidden_modules =
+  tests
