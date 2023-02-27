@@ -12,23 +12,6 @@
 version: "3.8"
 services:
 
-  # We only need this during development to mock real `Bitrix` instance:
-  bitrix:
-    image: "vimagick/json-server:latest"
-    entrypoint: ''
-    command: node server.js
-    ports:
-      # Access it as "https://127.0.0.1:3045/" locally
-      # Local connection will be insecure, that's fine.
-      - "3045:3045"
-    volumes:
-      - ./docker/bitrix:/data
-    networks:
-      - bitrixnet
-    environment:
-      NODE_PATH: '/usr/lib/node_modules'
-    env_file: ./config/.env
-
   web:
     ports:
       # We only bind ports directly in development:
@@ -36,8 +19,6 @@ services:
     volumes:
       # We only mount source code in development:
       - .:/code
-    networks:
-      - bitrixnet
     build:
       # Needed for fixing permissions of files created by Docker
       args:
