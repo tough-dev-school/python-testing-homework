@@ -57,10 +57,15 @@ class LeadUpdate(http.BaseFetcher):
 
 
 def _serialize_user(user: User) -> Dict[str, str]:
+    if user.date_of_birth is not None:
+        date_of_birth = user.date_of_birth.strftime('%d.%m.%Y')
+    else:
+        date_of_birth = ''
+
     return {
         'name': user.first_name,
         'last_name': user.last_name,
-        'birthday': user.date_of_birth.strftime('%d.%m.%Y'),
+        'birthday': date_of_birth,
         'city_of_birth': user.address,
         'position': user.job_title,
         'email': user.email,
