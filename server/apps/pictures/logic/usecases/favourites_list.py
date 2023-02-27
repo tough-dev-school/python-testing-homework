@@ -3,7 +3,8 @@ from typing import final
 import attr
 from django.db.models import QuerySet
 
-from server.apps.pictures.intrastructure.queries import favourite_pictures
+# NOTE: this can be a dependency as well
+from server.apps.pictures.logic.repo.queries import favourite_pictures
 from server.apps.pictures.models import FavouritePicture
 
 

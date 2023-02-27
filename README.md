@@ -7,7 +7,24 @@ This project was generated with [`wemake-django-template`](https://github.com/we
 [![wemake-python-styleguide](https://img.shields.io/badge/style-wemake-000000.svg)](https://github.com/wemake-services/wemake-python-styleguide)
 
 
-## Glossary
+## What does this app do?
+
+This app surves one main purpose: show pictures and save your favoirutes ones.
+
+To do that we also have supporting features, like:
+- User registration and login / logout mechanics
+- Integration with other external "services"
+- Admin panel
+- All the required infrastructure code: including CI/CD and build scripts
+
+We also care about:
+- Code quality
+- Naming conventions
+- Architecture
+- Typing
+- Tooling
+
+### Glossary
 
 See https://github.com/sobolevn/testing_homework/blob/master/docs/pages/project/glossary.rst
 
@@ -16,7 +33,7 @@ See https://github.com/sobolevn/testing_homework/blob/master/docs/pages/project/
 
 You will need:
 
-- `python3.9` (see `pyproject.toml` for full version)
+- `python3.9` (see `pyproject.toml` or `.python-version` for full version)
 - `postgresql` with version `13`
 - `docker` with [version at least](https://docs.docker.com/compose/compose-file/#compose-and-docker-compatibility-matrix) `18.02`
 
@@ -27,6 +44,7 @@ When developing locally, we use:
 
 - [`editorconfig`](http://editorconfig.org/) plugin (**required**)
 - [`poetry`](https://github.com/python-poetry/poetry) (**required**)
+- [`pyenv`](https://github.com/pyenv/pyenv)
 - `pycharm 2017+` or `vscode`
 
 
