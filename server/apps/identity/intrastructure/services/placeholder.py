@@ -33,7 +33,7 @@ class LeadCreate(http.BaseFetcher):
             timeout=self._api_timeout,
         )
         response.raise_for_status()
-        return UserResponse(**response.json())
+        return UserResponse.parse_raw(response.text)
 
 
 @final
