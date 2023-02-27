@@ -1,6 +1,6 @@
 ---
 name: CI
-on:
+on: # yamllint disable-line
   push:
     branches:
       - master
@@ -34,4 +34,11 @@ jobs:
 
       - name: Test
         run: |
-          docker compose -f docker-compose.yml -f docker/docker-compose.prod.yml run --user=root --rm web ./docker/django/ci.sh
+          docker compose \
+            -f docker-compose.yml \
+            -f docker/docker-compose.prod.yml \
+            run \
+            --user=root \
+            --rm \
+            web \
+            ./docker/django/ci.sh
