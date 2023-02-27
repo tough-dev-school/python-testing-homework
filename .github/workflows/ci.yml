@@ -1,0 +1,37 @@
+---
+name: CI
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+
+      - name: Create default environment
+        run: cp config/.env.template config/.env
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Build the image
+        uses: docker/bake-action@v2.3.0
+        with:
+          files: docker-compose.yml, docker/docker-compose.prod.yml
+          targets: web
+          load: true
+          set: |
+            *.cache-from=type=gha,scope=cached-stage
+            *.cache-to=type=gha,scope=cached-stage,mode=max
+
+      - name: Test
+        run: |
+          docker compose -f docker-compose.yml -f docker/docker-compose.prod.yml run --user=root --rm web ./docker/django/ci.sh
