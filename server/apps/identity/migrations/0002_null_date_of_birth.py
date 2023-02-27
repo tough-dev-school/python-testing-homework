@@ -4,17 +4,13 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-    """Removes stale `phone_type` field, makes `date_of_birth` accept null."""
+    """Makes `date_of_birth` accept null."""
 
     dependencies = [
         ('identity', '0001_initial'),
     ]
 
     operations = [
-        migrations.RemoveField(
-            model_name='user',
-            name='phone_type',
-        ),
         migrations.AlterField(
             model_name='user',
             name='date_of_birth',
