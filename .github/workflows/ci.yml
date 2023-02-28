@@ -8,9 +8,6 @@ on: # yamllint disable-line
 
 jobs:
   build:
-    env:
-      DOCKER_BUILDKIT: 1
-
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -41,4 +38,4 @@ jobs:
         env:
           # This must not be public and must be stored as a secret value.
           # But, we don't really care in this homework.
-          SECRET_DJANGO_SECRET_KEY: 'htrG1aAJYa9fwmVMoW13PL0zwIFcwBV4iCevHTJzZHmpq1oR8Q'    
+          DJANGO_SECRET_KEY: 'htrG1aAJYa9fwmVMoW13PL0zwIFcwBV4iCevHTJzZHmpq1oR8Q'    
