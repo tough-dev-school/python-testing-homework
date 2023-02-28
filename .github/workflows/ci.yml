@@ -34,11 +34,8 @@ jobs:
 
       - name: Test
         run: |
-          docker compose \
-            -f docker-compose.yml \
-            -f docker/docker-compose.prod.yml \
-            run \
-            --user=root \
-            --rm \
-            web \
-            ./docker/django/ci.sh
+          docker-compose run --user=root --rm web ./docker/django/ci.sh
+        env:
+          # This must not be public and must be stored as a secret value.
+          # But, we don't really care in this homework.
+          SECRET_DJANGO_SECRET_KEY: 'htrG1aAJYa9fwmVMoW13PL0zwIFcwBV4iCevHTJzZHmpq1oR8Q'    

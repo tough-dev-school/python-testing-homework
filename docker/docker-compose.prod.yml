@@ -33,7 +33,7 @@ services:
       build:
         target: production_build
         args:
-          DJANGO_ENV: development
+          DJANGO_ENV: production
 
       volumes:
         - django-media:/var/www/django/media  # since in dev it is app's folder
