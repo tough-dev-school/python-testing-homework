@@ -39,4 +39,5 @@ jobs:
         env:
           # This must not be public and must be stored as a secret value.
           # But, we don't really care in this homework.
-          DJANGO_SECRET_KEY: 'htrG1aAJYa9fwmVMoW13PL0zwIFcwBV4iCevHTJzZHmpq1oR8Q'    
+          DJANGO_SECRET_KEY: |
+            htrG1aAJYa9fwmVMoW13PL0zwIFcwBV4iCevHTJzZHmpq1oR8Q
