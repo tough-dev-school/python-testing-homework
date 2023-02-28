@@ -8,6 +8,9 @@ on: # yamllint disable-line
 
 jobs:
   build:
+    env:
+      DOCKER_BUILDKIT: 1
+
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -25,7 +28,7 @@ jobs:
       - name: Build the image
         uses: docker/bake-action@v2.3.0
         with:
-          files: docker-compose.yml, docker/docker-compose.prod.yml
+          files: docker-compose.yml
           targets: web
           load: true
           set: |
