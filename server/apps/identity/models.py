@@ -67,7 +67,7 @@ class User(AbstractBaseUser, PermissionsMixin, TimedMixin):
     phone = models.CharField(max_length=_NAME_LENGTH)
 
     # Integration with Placeholder API:
-    lead_id = models.IntegerField(null=True)
+    lead_id = models.IntegerField(null=True, blank=True)
 
     # Security:
     is_staff = models.BooleanField(default=False)
