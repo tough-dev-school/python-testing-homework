@@ -10,7 +10,6 @@ version: "3.8"
 services:
   caddy:
     image: "caddy:2.6.2"
-    restart: unless-stopped
     env_file: ./config/.env
     volumes:
       - ./docker/caddy/Caddyfile:/srv/Caddyfile  # configuration
@@ -36,7 +35,6 @@ services:
         args:
           DJANGO_ENV: production
 
-      restart: unless-stopped
       volumes:
         - django-media:/var/www/django/media  # since in dev it is app's folder
         - django-locale:/code/locale  # since in dev it is app's folder

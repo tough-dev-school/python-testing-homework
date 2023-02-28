@@ -44,9 +44,7 @@ run_ci () {
   lint-imports
 
   # Running tests:
-  # TODO: remove `|| true` part: now tests always fail,
-  # because coverage is <100%
-  pytest || true
+  pytest
 
   # Run checks to be sure we follow all django's best practices:
   python manage.py check --fail-level WARNING
