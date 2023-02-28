@@ -1,5 +1,6 @@
 from typing import List, final
 
+import pydantic
 import requests
 
 from server.common import pydantic_model
@@ -33,4 +34,4 @@ class PicturesFetch(http.BaseFetcher):
             timeout=self._api_timeout,
         )
         response.raise_for_status()
-        return [PictureResponse(**picture) for picture in response.json()]
+        return pydantic.parse_raw_as(List[PictureResponse], response.text)
