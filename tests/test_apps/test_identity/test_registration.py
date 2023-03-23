@@ -1,5 +1,5 @@
 from http import HTTPStatus
-from typing import Any, Callable, Mapping
+from typing import TYPE_CHECKING
 
 from django.test import Client
 import pytest
@@ -7,13 +7,17 @@ import pytest
 from server.apps.identity.models import User
 
 
+if TYPE_CHECKING:
+    from tests.plugins.identity.user import ProfileData, ProfileAssertion
+
+
 @pytest.mark.django_db
 def test_success(
     client: Client,
     user_email: str,
     user_password: str,
-    user_profile_data: Mapping[str, Any],
-    assert_user_profile: Callable[[User, Mapping[str, Any]], None],
+    user_profile_data: 'ProfileData',
+    assert_user_profile: 'ProfileAssertion',
 ) -> None:
     auth_data = {
         'email': user_email,
@@ -22,7 +26,7 @@ def test_success(
     }
     response = client.post(
         '/identity/registration',
-        data=auth_data | user_profile_data,
+        data=user_profile_data | auth_data,
     )
     assert response.status_code == HTTPStatus.FOUND, (
         response.context['form'].errors
