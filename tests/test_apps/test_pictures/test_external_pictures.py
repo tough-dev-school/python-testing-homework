@@ -37,7 +37,6 @@ def test_mock_structure1() -> None:
     assert got_pictures[0].id == dummy_pictures[0].id
 
 
-
 @httpretty.activate(verbose=True, allow_net_connect=False)
 def test_mock_structure2() -> None:
     """Ensure the returned structure from the mocked image fetcher."""

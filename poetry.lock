@@ -385,6 +385,19 @@ dev = ["Django", "black", "django-stubs", "djangorestframework", "djangorestfram
 test = ["pytest", "pytest-cov", "pytest-django"]
 
 [[package]]
+name = "django-fakery"
+version = "4.1.0"
+description = "A model instances generator for Django"
+category = "dev"
+optional = false
+python-versions = ">=3.8"
+
+[package.dependencies]
+Django = ">=3.2"
+Faker = ">=10.0,<11.0"
+six = ">=1.10.1"
+
+[[package]]
 name = "django-health-check"
 version = "3.17.0"
 description = "Run checks on services like databases, queue servers, celery processes, etc."
@@ -619,6 +632,18 @@ python-versions = "*"
 
 [package.extras]
 tests = ["asttokens", "littleutils", "pytest", "rich"]
+
+[[package]]
+name = "faker"
+version = "10.0.0"
+description = "Faker is a Python package that generates fake data for you."
+category = "dev"
+optional = false
+python-versions = ">=3.6"
+
+[package.dependencies]
+python-dateutil = ">=2.4"
+text-unidecode = "1.3"
 
 [[package]]
 name = "flake8"
@@ -1157,6 +1182,14 @@ optional = false
 python-versions = "*"
 
 [[package]]
+name = "mimesis"
+version = "7.0.0"
+description = "Mimesis: Fake Data Generator."
+category = "dev"
+optional = false
+python-versions = ">=3.8,<4.0"
+
+[[package]]
 name = "more-itertools"
 version = "9.0.0"
 description = "More routines for operating on iterables, beyond itertools"
@@ -1556,6 +1589,17 @@ python-versions = ">=3.7.0,<4.0.0"
 
 [package.dependencies]
 watchdog = ">=2.0.0"
+
+[[package]]
+name = "python-dateutil"
+version = "2.8.2"
+description = "Extensions to the standard Python datetime module"
+category = "dev"
+optional = false
+python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,>=2.7"
+
+[package.dependencies]
+six = ">=1.5"
 
 [[package]]
 name = "python-decouple"
@@ -2118,7 +2162,7 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "1.1"
 python-versions = "3.9.15"
-content-hash = "6581b255384ffaf0c84b55035987b4f2d317d96747282ead48e1be5a72a9d5e5"
+content-hash = "bab24f022131df227c43418ce5e931d013d8f34b371b48b86ff372489d5379e4"
 
 [metadata.files]
 alabaster = [
@@ -2473,6 +2517,10 @@ django-extra-checks = [
     {file = "django-extra-checks-0.12.0.tar.gz", hash = "sha256:057a47de3807e47db91f62998958caa60fc2477611fd5367444c32d45a32d70f"},
     {file = "django_extra_checks-0.12.0-py3-none-any.whl", hash = "sha256:380b102364582f7f7ebc160cc769512e4f25ace7c3620b42c1ee573ba475f51d"},
 ]
+django-fakery = [
+    {file = "django-fakery-4.1.0.tar.gz", hash = "sha256:6a4831efd0fb871c58d555c97a652c03470a89521a4c4f85f61d94bf620228fa"},
+    {file = "django_fakery-4.1.0-py2.py3-none-any.whl", hash = "sha256:7d7e95c223ec2b35a0a3ae7b3d325afa9d5e37b61a12e99959c21914dbb6b51c"},
+]
 django-health-check = [
     {file = "django-health-check-3.17.0.tar.gz", hash = "sha256:d1b8671e79d1de6e3dd1a9c69566222b0bfcfacca8b90511a4407b2d0d3d2778"},
     {file = "django_health_check-3.17.0-py2.py3-none-any.whl", hash = "sha256:20dc5ccb516a4e7163593fd4026f0a7531e3027b47d23ebe3bd9dbc99ac4354c"},
@@ -2554,6 +2602,10 @@ exceptiongroup = [
 executing = [
     {file = "executing-1.2.0-py2.py3-none-any.whl", hash = "sha256:0314a69e37426e3608aada02473b4161d4caf5a4b244d1d0c48072b8fee7bacc"},
     {file = "executing-1.2.0.tar.gz", hash = "sha256:19da64c18d2d851112f09c287f8d3dbbdf725ab0e569077efb6cdcbd3497c107"},
+]
+faker = [
+    {file = "Faker-10.0.0-py3-none-any.whl", hash = "sha256:3163c84866cf118ac5329a802e046b0f729528ce62ebb2806b626e0badbb6ff3"},
+    {file = "Faker-10.0.0.tar.gz", hash = "sha256:530690ad12a2a054071af95fc8a354c5fd57b5e7707053a9662f40f14a87b68e"},
 ]
 flake8 = [
     {file = "flake8-4.0.1-py2.py3-none-any.whl", hash = "sha256:479b1304f72536a55948cb40a32dce8bb0ffe3501e26eaf292c7e60eb5e0428d"},
@@ -2764,6 +2816,10 @@ matplotlib-inline = [
 mccabe = [
     {file = "mccabe-0.6.1-py2.py3-none-any.whl", hash = "sha256:ab8a6258860da4b6677da4bd2fe5dc2c659cff31b3ee4f7f5d64e79735b80d42"},
     {file = "mccabe-0.6.1.tar.gz", hash = "sha256:dd8d182285a0fe56bace7f45b5e7d1a6ebcbf524e8f3bd87eb0f125271b8831f"},
+]
+mimesis = [
+    {file = "mimesis-7.0.0-py3-none-any.whl", hash = "sha256:ef6fb61eeb978d4d8d7dface23837ef2e1fd90659cd7dc83cf6d39a73db90e6d"},
+    {file = "mimesis-7.0.0.tar.gz", hash = "sha256:0ca1beffc8c62948753a0404e9f37283286c9177d7a59eaee095f89a1d6fd00a"},
 ]
 more-itertools = [
     {file = "more-itertools-9.0.0.tar.gz", hash = "sha256:5a6257e40878ef0520b1803990e3e22303a41b5714006c32a3fd8304b26ea1ab"},
@@ -3026,6 +3082,10 @@ pytest-timeout = [
 pytest-watcher = [
     {file = "pytest-watcher-0.2.6.tar.gz", hash = "sha256:351dfb3477366030ff275bfbfc9f29bee35cd07f16a3355b38bf92766886bae4"},
     {file = "pytest_watcher-0.2.6-py3-none-any.whl", hash = "sha256:0a507159d051c9461790363e0f9b2827c1d82ad2ae8966319598695e485b1dd5"},
+]
+python-dateutil = [
+    {file = "python-dateutil-2.8.2.tar.gz", hash = "sha256:0123cacc1627ae19ddf3c27a5de5bd67ee4586fbdd6440d9748f8abb483d3e86"},
+    {file = "python_dateutil-2.8.2-py2.py3-none-any.whl", hash = "sha256:961d03dc3453ebbc59dbdea9e4e11c5651520a876d0f4db161e8674aae935da9"},
 ]
 python-decouple = [
     {file = "python-decouple-3.7.tar.gz", hash = "sha256:e88a8d6bdf3b07d471a854099e455e20a6fa7a4d6ecf8631b250e3db654336e6"},
