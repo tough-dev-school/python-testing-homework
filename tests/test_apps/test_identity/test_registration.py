@@ -15,14 +15,14 @@ def test_success(
     user_profile_data: Mapping[str, Any],
     assert_user_profile: Callable[[User, Mapping[str, Any]], None],
 ) -> None:
-    credentials = {
+    auth_data = {
         'email': user_email,
         'password1': user_password,
         'password2': user_password,
     }
     response = client.post(
         '/identity/registration',
-        data=credentials | user_profile_data,
+        data=auth_data | user_profile_data,
     )
     assert response.status_code == HTTPStatus.FOUND, (
         response.context['form'].errors
