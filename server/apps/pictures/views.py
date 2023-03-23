@@ -43,7 +43,7 @@ class DashboardView(CreateView[FavouritePicture, FavouritesForm]):
     success_url = reverse_lazy('pictures:dashboard')
 
     def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
-        """Innject extra context to template rendering."""
+        """Inject extra context to template rendering."""
         fetch_puctures = container.instantiate(PicturesFetch)
 
         context = super().get_context_data(**kwargs)

@@ -14,7 +14,7 @@ class FavouritesList(object):
     """List :term:`favourites` pictures for a given user."""
 
     def __call__(self, user_id: int) -> QuerySet[FavouritePicture]:
-        """Update existing user in the remote api."""
+        """Fetches favourite pictures by user."""
         return self._list_pictures(user_id)
 
     def _list_pictures(self, user_id: int) -> QuerySet[FavouritePicture]:

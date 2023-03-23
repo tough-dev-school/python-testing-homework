@@ -48,6 +48,26 @@ When developing locally, we use:
 - `pycharm 2017+` or `vscode`
 
 
+## TLDR
+
+```bash
+cp config/.env.template config/.env
+# edit config/.env
+# set DJANGO_SECRET_KEY to
+# python3 -c 'from django.utils.crypto import get_random_string; print(get_random_string(50))'
+
+docker compose up --build
+
+docker compose exec -ti web bash
+
+$ pytest
+$ ptw
+```
+
+```bash
+poetry add pytest-watcher httpretty --group dev
+```
+
 ## Documentation
 
 Full documentation is available here: [`docs/`](docs).
