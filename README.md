@@ -61,7 +61,7 @@ docker compose up --build
 docker compose exec -ti web bash
 
 $ pytest
-$ ptw
+$ ptw . --runner ./fast-pytest --now --delay 0.1
 ```
 
 ```bash

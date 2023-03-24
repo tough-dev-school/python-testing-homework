@@ -63,10 +63,13 @@ dennis = "^1.1"
 dump-env = "^1.3"
 ipython = "^8.4"
 import-linter = "^1.6"
+
+# Additional homework deps
 pytest-watcher = "^0.2.6"
 httpretty = "^1.1.4"
 mimesis = "^7.0.0"
 django-fakery = "^4.1.0"
+black = "^23.1.0"
 
 [tool.poetry.group.docs]
 optional = true
