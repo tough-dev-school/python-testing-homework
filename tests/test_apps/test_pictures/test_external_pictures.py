@@ -1,8 +1,10 @@
 import re
-from typing import List
+from contextlib import contextmanager
+from typing import Callable, List
 from urllib.parse import urljoin
 
 import httpretty
+import pytest
 
 from server.apps.pictures.container import container
 from server.apps.pictures.intrastructure.services.placeholder import (
@@ -19,35 +21,38 @@ class PictureResponsesList(BaseModel):
     __root__: List[PictureResponse]
 
 
-def mock_pictures_fetch_dummy_response(
-    response: List[PictureResponse],
+@pytest.fixture()
+def mock_pictures_fetch_api(
     settings: Settings,
-) -> None:
+) -> Callable[[List[PictureResponse]], None]:
     """Mock placeholder API endpoint."""
-    mock_response = PictureResponsesList(__root__=response)
-    mock_url = urljoin(settings.PLACEHOLDER_API_URL, '.*')
-    httpretty.register_uri(
-        httpretty.GET,
-        re.compile(mock_url),
-        body=mock_response.json(),
-        content_type='application/json',
-    )
+
+    @contextmanager
+    def factory(response: List[PictureResponse]) -> None:
+        mock_response = PictureResponsesList(__root__=response)
+        mock_url = urljoin(settings.PLACEHOLDER_API_URL, '.*')
+        with httpretty.httprettized():
+            httpretty.register_uri(
+                httpretty.GET,
+                re.compile(mock_url),
+                body=mock_response.json(),
+                content_type='application/json',
+            )
+            yield
+            assert httpretty.has_request()
+    return factory
 
 
-@httpretty.activate(verbose=True, allow_net_connect=False)
 def test_pictures_correct_mock_structure(
     picture_response: PictureResponse,
-    settings: Settings,
+    mock_pictures_fetch_api,
 ) -> None:
     """Ensure the returned structure from the mocked image fetcher."""
     dummy_pictures: List[PictureResponse] = [picture_response]
-    mock_pictures_fetch_dummy_response(
-        response=dummy_pictures,
-        settings=settings,
-    )
     pictures_fetcher: PicturesFetch = container.instantiate(PicturesFetch)
 
-    got_pictures = pictures_fetcher(5)
+    with mock_pictures_fetch_api(response=dummy_pictures):
+        got_pictures = pictures_fetcher(5)
 
     assert len(got_pictures) == 1
     assert got_pictures[0].id == dummy_pictures[0].id
