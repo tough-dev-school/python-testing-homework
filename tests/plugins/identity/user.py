@@ -1,4 +1,5 @@
 from typing import Callable, TypedDict
+from unittest.mock import patch
 
 import faker
 import pytest
@@ -84,4 +85,11 @@ def assert_user_was_created() -> UserAssertion:
 @pytest.fixture()
 def user():
     """Create a user instance."""
-    return mixer.blend(User)
+    return mixer.blend(User, is_active=True)
+
+
+@pytest.fixture()
+def mock_authenticate():
+    """Mock authenticate method."""
+    with patch('server.apps.identity.models.User.check_password') as auth_mock:
+        yield auth_mock
