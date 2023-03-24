@@ -66,14 +66,14 @@ def test_sign_user_post_two_same_favourites(
 ) -> None:
     """Test signed user add two same favourites."""
     dashboard_url = reverse('pictures:dashboard')
-    favourite_picture_data = favourite_picture_data.dict()
+    favourite_picture_dict = favourite_picture_data.dict()
     response = client.post(
         dashboard_url,
-        data=favourite_picture_data,
+        data=favourite_picture_dict,
     )
     response = client.post(
         dashboard_url,
-        data=favourite_picture_data,
+        data=favourite_picture_dict,
     )
 
     assert response.status_code == HTTPStatus.FOUND
