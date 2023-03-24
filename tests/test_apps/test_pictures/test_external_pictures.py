@@ -14,6 +14,8 @@ from server.common.pydantic_model import BaseModel
 
 
 class PictureResponsesList(BaseModel):
+    """Structure for response."""
+
     __root__: List[PictureResponse]
 
 
@@ -21,6 +23,7 @@ def mock_pictures_fetch_dummy_response(
     response: List[PictureResponse],
     settings: Settings,
 ) -> None:
+    """Mock placeholder API endpoint."""
     mock_response = PictureResponsesList(__root__=response)
     mock_url = urljoin(settings.PLACEHOLDER_API_URL, '.*')
     httpretty.register_uri(
@@ -32,7 +35,7 @@ def mock_pictures_fetch_dummy_response(
 
 
 @httpretty.activate(verbose=True, allow_net_connect=False)
-def test_pictures__correct_mock_structure(
+def test_pictures_correct_mock_structure(
     picture_response: PictureResponse,
     settings: Settings,
 ) -> None:

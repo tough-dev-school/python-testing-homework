@@ -15,7 +15,7 @@ def registered_user(client: Client) -> None:
     """Registered user fixture."""
     person = Person(Locale.EN)
     address = Address(Locale.EN)
-    data = {
+    registration_data = {
         'email': person.email(domains=['mimesis.name'], unique=True),
         'first_name': person.first_name(),
         'last_name': person.last_name(),
@@ -26,13 +26,16 @@ def registered_user(client: Client) -> None:
         'password1': 'dd',
         'password2': 'dd',
     }
-    response = client.post(reverse('identity:registration'), data=data)
+    response = client.post(
+        reverse('identity:registration'),
+        data=registration_data,
+    )
     assert response.status_code == HTTPStatus.FOUND
     assert response.url == reverse('identity:login')
 
-    user = User.objects.get(email=data['email'])
-    user._password = data['password1']
-    yield user
+    user = User.objects.get(email=registration_data['email'])
+    user._password = registration_data['password1']
+    return user
 
 
 @pytest.fixture()
@@ -41,7 +44,10 @@ def signedin_user(client: Client, registered_user: User) -> None:
     """Test successful login."""
     response = client.post(
         reverse('identity:login'),
-        data={'username': registered_user.email, 'password': registered_user._password},
+        data={
+            'username': registered_user.email,
+            'password': registered_user._password,
+        },
     )
 
     assert response.status_code == HTTPStatus.FOUND

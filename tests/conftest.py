@@ -21,8 +21,8 @@ pytest_plugins = [
 
 
 @pytest.fixture()
-# @pytest.mark.django_db
 def user() -> None:
+    """Get random-hardcoded user."""
     user = User(email='aa')
     user.save()
     yield user
@@ -31,4 +31,5 @@ def user() -> None:
 
 @pytest.fixture()
 def settings() -> Settings:
+    """Get Django settings."""
     return container.resolve(Settings)
