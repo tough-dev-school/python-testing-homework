@@ -11,12 +11,41 @@ version: "3.8"
 services:
   db:
     image: "postgres:13-alpine"
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: testing_homework
+      POSTGRES_USER: testing_homework
+      POSTGRES_PASSWORD: testing_homework
+    healthcheck:
+      test: [
+        "CMD-SHELL",
+        "POSTGRES_PASSWORD=testing_homework pg_isready -U testing_homework"
+      ]
+      retries: 30
+      interval: 5s
+      timeout: 5s
     volumes:
       - pgdata:/var/lib/postgresql/data
     networks:
       - webnet
       - postgresnet
     env_file: ./config/.env
+
+  json-server:
+    <<: &json-server
+      # Image name is changed in production:
+      container_name: json-server
+      image: vimagick/json-server
+      volumes:
+        - ./data:/data
+      networks:
+        - webnet
+      env_file: ./config/.env
+      ports:
+        - '3000:80'
+      command: -H 0.0.0.0 -p 80 -w db.json -r routes.json --delay 2000
+      restart: always
 
   web:
     <<: &web
@@ -37,6 +66,7 @@ services:
         - django-static:/var/www/django/static
       depends_on:
         - db
+        - json-server
       networks:
         - webnet
         - postgresnet

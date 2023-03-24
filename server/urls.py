@@ -19,6 +19,7 @@ from health_check import urls as health_urls
 from server.apps.identity import urls as identity_urls
 from server.apps.pictures import urls as pictures_urls
 from server.apps.pictures.views import IndexView
+import debug_toolbar
 
 admin.autodiscover()
 
@@ -46,6 +47,7 @@ urlpatterns = [
 
     # It is a good practice to have an explicit index view:
     path('', IndexView.as_view(), name='index'),
+    path('__debug__/', include(debug_toolbar.urls)),
 ]
 
 if settings.DEBUG:  # pragma: no cover

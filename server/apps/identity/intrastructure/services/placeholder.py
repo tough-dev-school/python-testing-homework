@@ -60,7 +60,7 @@ def _serialize_user(user: User) -> Dict[str, str]:
     if user.date_of_birth is not None:
         date_of_birth = user.date_of_birth.strftime('%d.%m.%Y')
     else:
-        date_of_birth = ''
+        date_of_birth = ''  # type: ignore[unreachable]
 
     return {
         'name': user.first_name,

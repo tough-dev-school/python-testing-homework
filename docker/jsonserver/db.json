@@ -1,0 +1,32 @@
+{
+  "photos": [
+    {
+      "id": 1,
+      "url": "https://via.placeholder.com/600/f66b97"
+    },
+    {
+      "id": 2,
+      "url": "https://via.placeholder.com/600/f66b97"
+    },
+    {
+      "id": 3,
+      "url": "https://via.placeholder.com/600/f66b97"
+    },
+    {
+      "id": 4,
+      "url": "https://via.placeholder.com/600/f66b97"
+    }
+  ],
+  "users": [
+    {
+      "id": 1,
+      "name": "json_user_name",
+      "last_name": "json_user_last_name",
+      "birthday": "json_user_date_of_birth",
+      "city_of_birth": "json_user_address",
+      "position": "json_user_job_title",
+      "email": "json_user_email",
+      "phone": 12345678934
+    }
+  ]
+}
