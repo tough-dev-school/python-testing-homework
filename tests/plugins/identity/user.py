@@ -1,4 +1,4 @@
-from typing import TypedDict, final, Callable
+from typing import Callable, TypedDict
 
 import faker
 import pytest
@@ -11,12 +11,16 @@ fake = faker.Faker()
 
 
 class UserCredentials(TypedDict):
+    """User credentials for registration."""
+
     email: str
     password1: str
     password2: str
 
 
 class UserData(TypedDict):
+    """User data for registration."""
+
     first_name: str
     last_name: str
     date_of_birth: str
@@ -25,36 +29,43 @@ class UserData(TypedDict):
     phone: str
 
 
-@pytest.fixture
+@pytest.fixture()
 def user_credentials() -> UserCredentials:
+    """Generate user credentials for registration."""
     password = fake.password()
-    data = {
-        "email": fake.email(),
-        "password1": password,
-        "password2": password,
+    user_credentials = {
+        'email': fake.email(),
+        'password1': password,
+        'password2': password,
     }
-    return UserCredentials(**data)
+    return UserCredentials(
+        **user_credentials,
+    )
 
 
-@pytest.fixture
+@pytest.fixture()
 def user_data() -> UserData:
+    """Generate user data for registration."""
+    user_data = {
+        'first_name': fake.first_name(),
+        'last_name': fake.last_name(),
+        'date_of_birth': fake.date_of_birth(),
+        'address': fake.address(),
+        'job_title': fake.job(),
+        'phone': fake.phone_number(),
+    }
     return UserData(
-        **{
-            "first_name": fake.first_name(),
-            "last_name": fake.last_name(),
-            "date_of_birth": fake.date_of_birth(),
-            "address": fake.address(),
-            "job_title": fake.job(),
-            "phone": fake.phone_number(),
-        }
+        **user_data,
     )
 
 
 UserAssertion: TypeAlias = Callable[[UserCredentials, UserData], None]
 
 
-@pytest.fixture
+@pytest.fixture()
 def assert_user_was_created() -> UserAssertion:
+    """Assert that user was created with correct data."""
+
     def factory(user_credentials: UserCredentials, user_data: UserData) -> None:
         user = User.objects.get(email=user_credentials['email'])
         assert user.id
@@ -70,6 +81,7 @@ def assert_user_was_created() -> UserAssertion:
     return factory
 
 
-@pytest.fixture
+@pytest.fixture()
 def user():
+    """Create a user instance."""
     return mixer.blend(User)
