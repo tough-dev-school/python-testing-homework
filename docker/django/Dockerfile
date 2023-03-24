@@ -34,6 +34,14 @@ ENV DJANGO_ENV=${DJANGO_ENV} \
 
 SHELL ["/bin/bash", "-eo", "pipefail", "-c"]
 
+RUN apt-get update && apt-get upgrade -y \
+    && apt-get install --no-install-recommends -y curl \
+    &&  curl -k https://curl.se/ca/cacert.pem > cacert.pem \
+    &&  apt-get install ca-certificates \
+    &&  openssl x509 -outform der -in cacert.pem -out cacert.crt \
+    &&  cp cacert.crt /usr/local/share/ca-certificates/ \
+    &&  update-ca-certificates
+
 # System deps (we don't use exact versions because it is hard to update them,
 # pin when needed):
 # hadolint ignore=DL3008
