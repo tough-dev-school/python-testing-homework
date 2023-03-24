@@ -11,6 +11,30 @@
 
 version: "3.8"
 services:
+  db:
+    ports:
+      - "5432:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
+      retries: 5
+      interval: 10s
+      timeout: 5s
+      start_period: 10s
+
+  json-server:
+    container_name: json-server-container
+    image: "json-server-image"
+    build:
+      context: .
+      dockerfile: docker/json-server/Dockerfile
+    ports:
+      - '3000:3000'
+    volumes:
+      - ./tests/fixtures:/data
+    command: json-server --watch db.json --host 0.0.0.0
+    networks:
+      - webnet
+    env_file: ./config/.env
 
   web:
     ports:
@@ -24,6 +48,9 @@ services:
       args:
         - UID=${UID:-1000}
         - GID=${GID:-1000}
+    depends_on:
+      - db
+      - json-server
 
 networks:
   # Fake API network:

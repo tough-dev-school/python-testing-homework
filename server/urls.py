@@ -19,6 +19,7 @@ from health_check import urls as health_urls
 from server.apps.identity import urls as identity_urls
 from server.apps.pictures import urls as pictures_urls
 from server.apps.pictures.views import IndexView
+import debug_toolbar  # noqa: I001
 
 admin.autodiscover()
 
@@ -46,10 +47,11 @@ urlpatterns = [
 
     # It is a good practice to have an explicit index view:
     path('', IndexView.as_view(), name='index'),
+    path('__debug__/', include(debug_toolbar.urls)),
 ]
 
 if settings.DEBUG:  # pragma: no cover
-    import debug_toolbar  # noqa: WPS433
+    import debug_toolbar  # noqa: WPS440 WPS433
     from django.conf.urls.static import static  # noqa: WPS433
 
     urlpatterns = [

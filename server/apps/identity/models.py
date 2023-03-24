@@ -9,7 +9,7 @@ from django.db import models
 
 from server.common.django.models import TimedMixin
 
-# For now we use a single length for all items, later it can be changed.
+# For now, we use a single length for all items, later it can be changed.
 _NAME_LENGTH: Final = 254
 
 
@@ -23,7 +23,7 @@ class _UserManager(BaseUserManager['User']):
     ) -> 'User':
         """Create user: regular registration process."""
         if not email:
-            # We double check it here,
+            # We double-check it here,
             # but validation should make this unreachable.
             raise ValueError('Users must have an email address')
 
@@ -38,7 +38,7 @@ class _UserManager(BaseUserManager['User']):
         password: str,
         **extra_fields,
     ) -> 'User':
-        """Create super user."""
+        """Create superuser."""
         user = self.create_user(email, password, **extra_fields)
         user.is_superuser = True
         user.is_staff = True
@@ -58,7 +58,7 @@ class User(AbstractBaseUser, PermissionsMixin, TimedMixin):
     # Details:
     first_name = models.CharField(max_length=_NAME_LENGTH)
     last_name = models.CharField(max_length=_NAME_LENGTH)
-    date_of_birth = models.DateField(null=True, blank=True)
+    date_of_birth = models.DateField(null=True, blank=False)
     address = models.CharField(max_length=_NAME_LENGTH)
     job_title = models.CharField(max_length=_NAME_LENGTH)
 
@@ -77,6 +77,7 @@ class User(AbstractBaseUser, PermissionsMixin, TimedMixin):
     objects = _UserManager()  # noqa: WPS110
 
     USERNAME_FIELD = 'email'  # noqa: WPS115
+    USER_DATE_OF_BIRTH_FIELD = 'date_of_birth'  # noqa: WPS115
     REQUIRED_FIELDS = [  # noqa: WPS115
         'first_name',
         'last_name',

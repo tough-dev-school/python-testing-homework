@@ -1,0 +1,62 @@
+{
+  "photos": [
+    {
+      "id": 1,
+      "url": "https://via.placeholder.com/600/f66b97"
+    },
+    {
+      "id": 2,
+      "url": "https://via.placeholder.com/600/f66b97"
+    },
+    {
+      "id": 3,
+      "url": "https://via.placeholder.com/600/f66b97"
+    },
+    {
+      "id": 4,
+      "url": "https://via.placeholder.com/600/f66b97"
+    }
+  ],
+  "users": [
+    {
+      "name": "Иоанна",
+      "last_name": "Филкова",
+      "birthday": "20.12.2023",
+      "city_of_birth": "Нарткала",
+      "position": "Шеф-повар",
+      "email": "eight1955@outlook.com",
+      "phone": "+7-(909)-999-24-91",
+      "id": 1
+    },
+    {
+      "name": "Глеб",
+      "last_name": "Герасимова",
+      "birthday": "08.03.2007",
+      "city_of_birth": "Куртамыш",
+      "position": "Стилист",
+      "email": "coaches2018@yahoo.com",
+      "phone": "+7-(999)-536-13-41",
+      "id": 2
+    },
+    {
+      "name": "Геласий",
+      "last_name": "Новиков",
+      "birthday": "11.05.2018",
+      "city_of_birth": "Миньяр",
+      "position": "Биохимик",
+      "email": "wilderness1891@duck.com",
+      "phone": "+7-(966)-084-12-41",
+      "id": 3
+    },
+    {
+      "name": "Денис",
+      "last_name": "Клеопова",
+      "birthday": "27.12.2006",
+      "city_of_birth": "Кировград",
+      "position": "Историк",
+      "email": "creation1877@gmail.com",
+      "phone": "+7-(917)-713-38-74",
+      "id": 4
+    }
+  ]
+}
