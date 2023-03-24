@@ -7,7 +7,10 @@ It may be also used for extending doctest's context:
 """
 
 import pytest
+
 from server.apps.identity.models import User
+from server.apps.pictures.container import container
+from server.common.django.types import Settings
 
 pytest_plugins = [
     # Should be the first custom one:
@@ -17,10 +20,15 @@ pytest_plugins = [
 ]
 
 
-@pytest.fixture
+@pytest.fixture()
 # @pytest.mark.django_db
 def user() -> None:
     user = User(email='aa')
     user.save()
     yield user
     user.delete()
+
+
+@pytest.fixture()
+def settings() -> Settings:
+    return container.resolve(Settings)

@@ -1,0 +1,2 @@
+def xxx():
+    pass
