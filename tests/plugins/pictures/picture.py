@@ -1,13 +1,9 @@
-import datetime as dt
-import random
-from typing import Callable, Protocol, TypedDict, final
+from typing import Protocol, TypedDict, final
 
 import pytest
 from mimesis import Field, Schema
 from mimesis.enums import Locale
-from typing_extensions import TypeAlias, Unpack
-
-from server.apps.identity.models import User
+from typing_extensions import Unpack
 
 
 @final
@@ -58,4 +54,5 @@ def picture_data_factory(
 
 @pytest.fixture()
 def picture_data(picture_data_factory) -> PictureData:
+    """Creates picture data for post queries."""
     return picture_data_factory()
