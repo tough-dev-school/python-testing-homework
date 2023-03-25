@@ -9,16 +9,15 @@ import random
 
 import pytest
 
-
 pytest_plugins = [
     # Should be the first custom one:
-    'plugins.django_settings',
-
+    "plugins.django_settings",
     # TODO: add your own plugins here!
-    'plugins.identity.user',
+    "plugins.identity.user",
 ]
 
 
 @pytest.fixture(scope="session")
 def faker_seed() -> int:
+    """Generates random seed for a fake data"""
     return random.Random().getrandbits(32)

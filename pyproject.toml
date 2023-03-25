@@ -30,6 +30,8 @@ punq = "^0.6"
 mimesis = "^7.0.0"
 django-fakery = "^4.1.0"
 httpretty = "^1.1.4"
+isort = "^5.12.0"
+black = "^23.1.0"
 
 [tool.poetry.group.dev.dependencies]
 django-debug-toolbar = "^3.6"

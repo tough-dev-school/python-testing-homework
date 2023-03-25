@@ -1,14 +1,13 @@
 import datetime
-from typing import Dict, Callable, Protocol, TypedDict, Callable, final
-from typing_extensions import Unpack, TypeAlias
+from typing import Callable, Dict, Protocol, TypedDict, final
 
 import pytest
 from mimesis.schema import Field, Schema
+from typing_extensions import TypeAlias, Unpack
 
 from server.apps.identity.models import User
 
-
-USER_BIRTHDAY_FORMAT = '%Y-%m-%d'
+USER_BIRTHDAY_FORMAT = "%Y-%m-%d"
 
 
 class UserData(TypedDict, total=False):
@@ -17,6 +16,7 @@ class UserData(TypedDict, total=False):
     It does not include ``password``, because it is very special in django.
     Importing this type is only allowed under ``if TYPE_CHECKING`` in tests.
     """
+
     email: str
     first_name: str
     last_name: str
@@ -38,6 +38,7 @@ class RegistrationData(UserData, total=False):
     Represent the registration data that is required to create a new user.
     Importing this type is only allowed under ``if TYPE_CHECKING`` in tests.
     """
+
     password1: str
     password2: str
 
@@ -65,21 +66,24 @@ def registration_data_factory(
     """Returns factory for fake random data for regitration."""
 
     def factory(**fields: Unpack[RegistrationData]) -> RegistrationData:
-        password = mf('password') # by default passwords are equal
-        schema = Schema(schema=lambda: {
-            'email': mf('person.email'),
-            'first_name': mf('person.first_name'),
-            'last_name': mf('person.last_name'),
-            'date_of_birth': mf('datetime.date'),
-            'address': mf('address.city'),
-            'job_title': mf('person.occupation'),
-            'phone': mf('person.telephone'),
-        })
+        password = mf("password")  # by default passwords are equal
+        schema = Schema(
+            schema=lambda: {
+                "email": mf("person.email"),
+                "first_name": mf("person.first_name"),
+                "last_name": mf("person.last_name"),
+                "date_of_birth": mf("datetime.date"),
+                "address": mf("address.city"),
+                "job_title": mf("person.occupation"),
+                "phone": mf("person.telephone"),
+            }
+        )
         return {
-            **schema.create(iterations=1)[0], # type: ignore[misc]
-            **{'password1': password, 'password2': password},
+            **schema.create(iterations=1)[0],  # type: ignore[misc]
+            **{"password1": password, "password2": password},
             **fields,
         }
+
     return factory
 
 
@@ -94,7 +98,7 @@ def registration_data(
 UserAssertion: TypeAlias = Callable[[str, UserData], None]
 
 
-@pytest.fixture(scope='session')
+@pytest.fixture(scope="session")
 def assert_correct_user() -> UserAssertion:
     def factory(email: str, expected: UserData) -> None:
         user = User.objects.get(email=email)
@@ -106,39 +110,40 @@ def assert_correct_user() -> UserAssertion:
         # All other fields:
         for field_name, data_value in expected.items():
             assert getattr(user, field_name) == data_value
+
     return factory
 
 
 @pytest.fixture()
-def user_data(registration_data: 'RegistrationData') -> 'UserData':
+def user_data(registration_data: "RegistrationData") -> "UserData":
     """
     We need to simplify registration data to drop passwords.
     Basically, it is the same as ``registration_data``, but without passwords.
     """
 
-    return { # type: ignore[return-value]
+    return {  # type: ignore[return-value]
         key_name: value_part
         for key_name, value_part in registration_data.items()
-        if not key_name.startswith('password')
+        if not key_name.startswith("password")
     }
 
 
 @pytest.fixture()
 def expected_user_data(
-    registration_data: 'RegistrationData',
-) -> 'UserData':
+    registration_data: "RegistrationData",
+) -> "UserData":
     """Expectd data for a Registrered user."""
     return {  # type: ignore[return-value]
-            key_name: value_part
-            for key_name, value_part in registration_data.items()
-            if not key_name.startswith('password')
-        }
+        key_name: value_part
+        for key_name, value_part in registration_data.items()
+        if not key_name.startswith("password")
+    }
 
 
 @pytest.fixture()
 def signedup_data(registration_data: "RegistrationData") -> "SignedUpData":
-    return { # type: ignore [return-value]
-        ('password' if key_name.startswith("password") else key_name): value_part
+    return {  # type: ignore [return-value]
+        ("password" if key_name.startswith("password") else key_name): value_part
         for key_name, value_part in registration_data.items()
     }
 
@@ -146,22 +151,22 @@ def signedup_data(registration_data: "RegistrationData") -> "SignedUpData":
 @pytest.fixture()
 def signup_user(signedup_data: "SignedUpData") -> Dict[str, str]:
     User.objects.create_user(**signedup_data)
-    return { #type: ignore
-        'username': signedup_data["email"],
-        'password': signedup_data["password"]
+    return {  # type: ignore
+        "username": signedup_data["email"],
+        "password": signedup_data["password"],
     }
 
 
 @pytest.fixture()
 def user_email(mf) -> str:
     """Email of the current user."""
-    return mf('person.email')
+    return mf("person.email")
 
 
 @pytest.fixture()
 def default_password(mf) -> str:
     """Default password for user factory."""
-    return mf('person.password')
+    return mf("person.password")
 
 
 @pytest.fixture()
