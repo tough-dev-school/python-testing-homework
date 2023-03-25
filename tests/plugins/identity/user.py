@@ -84,9 +84,10 @@ def assert_user_was_created() -> UserAssertion:
 
 @pytest.fixture()
 def assert_user_update() -> UserAssertion:
+    """Assert that user was updated with correct data."""
     def factory(user: User, user_data: UserData) -> None:
         user.refresh_from_db()
-        for field in user_data:
+        for field in user_data.keys():
             assert getattr(user, field) == user_data[field]
     return factory
 

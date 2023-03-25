@@ -1,7 +1,6 @@
 from http import HTTPStatus
 
 import pytest
-
 from django.test import Client
 from django.urls import reverse
 
@@ -22,4 +21,3 @@ def test_valid_update(
 
     assert response.status_code == HTTPStatus.FOUND
     assert_user_update(user, user_data)
-
