@@ -67,12 +67,14 @@ MIDDLEWARE: Tuple[str, ...] = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',
 
     # Axes:
     'axes.middleware.AxesMiddleware',
 
     # Django HTTP Referrer Policy:
     'django_http_referrer_policy.middleware.ReferrerPolicyMiddleware',
+
 )
 
 ROOT_URLCONF = 'server.urls'

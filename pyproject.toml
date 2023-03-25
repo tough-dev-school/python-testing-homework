@@ -27,6 +27,9 @@ requests = "^2.28"
 attrs = "^22.1"
 pydantic = "^1.10"
 punq = "^0.6"
+mimesis = "^7.0.0"
+wheel = "^0.40.0"
+pyinstaller = "^5.9.0"
 
 [tool.poetry.group.dev.dependencies]
 django-debug-toolbar = "^3.6"

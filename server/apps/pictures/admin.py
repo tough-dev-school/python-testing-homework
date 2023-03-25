@@ -15,5 +15,5 @@ class FavouritePictureAdmin(
     """This class represents `FavouritePicture` in admin panel."""
 
     list_display = ('id', 'foreign_id', 'url', 'user_id')
-    list_select_related = ('user',)
+    # list_select_related = ('user',)
     raw_id_fields = ('user',)
