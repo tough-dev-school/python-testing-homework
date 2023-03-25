@@ -19,6 +19,7 @@ def test_login_as_user(client: Client, user: User, mock_authenticate):
     )
 
     assert response.status_code == HTTPStatus.FOUND
+    assert response.get('Location') == reverse('pictures:dashboard')
 
 
 @pytest.mark.django_db()

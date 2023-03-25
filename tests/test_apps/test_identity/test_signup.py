@@ -21,6 +21,7 @@ def test_signup(
     )
 
     assert response.status_code == HTTPStatus.FOUND
+    assert response.get('Location') == reverse('identity:login')
     assert_user_was_created(user_credentials, user_data)
 
 
