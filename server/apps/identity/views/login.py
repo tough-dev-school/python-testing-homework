@@ -57,5 +57,6 @@ class RegistrationView(RatelimitMixin, FormView[RegistrationForm]):
         user_create_new = container.instantiate(UserCreateNew)
         with transaction.atomic():
             user = form.save()
+            print(user)
             user_create_new(user)  # does http request, can slow down db
         return super().form_valid(form)
