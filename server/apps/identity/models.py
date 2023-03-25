@@ -80,10 +80,12 @@ class User(AbstractBaseUser, PermissionsMixin, TimedMixin):
     REQUIRED_FIELDS = [  # noqa: WPS115
         'first_name',
         'last_name',
-        'date_of_birth',
         'address',
         'job_title',
         'phone',
+    ]
+    OPTIONAL_FIELDS = [  # noqa: WPS115
+        'date_of_birth',
     ]
 
     if TYPE_CHECKING:  # noqa: WPS604

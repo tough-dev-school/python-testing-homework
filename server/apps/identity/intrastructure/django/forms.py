@@ -16,7 +16,11 @@ class RegistrationForm(UserCreationForm[User]):
 
     class Meta(object):
         model = User
-        fields = [User.USERNAME_FIELD] + User.REQUIRED_FIELDS
+        fields = (
+            [User.USERNAME_FIELD] +
+            User.REQUIRED_FIELDS +
+            User.OPTIONAL_FIELDS
+        )
         widgets = {
             User.USERNAME_FIELD: forms.EmailInput(),
             'date_of_birth': DateWidget(),
@@ -47,7 +51,7 @@ class UserUpdateForm(forms.ModelForm[User]):
 
     class Meta(object):
         model = User
-        fields = User.REQUIRED_FIELDS
+        fields = User.REQUIRED_FIELDS + User.OPTIONAL_FIELDS
         widgets = {
             'date_of_birth': DateWidget(),
         }
