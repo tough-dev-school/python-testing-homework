@@ -19,9 +19,7 @@ def _password_hashers(settings) -> None:
 @pytest.fixture(autouse=True)
 def _auth_backends(settings) -> None:
     """Deactivates security backend from Axes app."""
-    settings.AUTHENTICATION_BACKENDS = (
-        'django.contrib.auth.backends.ModelBackend',
-    )
+    settings.AUTHENTICATION_BACKENDS = ('django.contrib.auth.backends.ModelBackend',)
 
 
 @pytest.fixture(autouse=True)

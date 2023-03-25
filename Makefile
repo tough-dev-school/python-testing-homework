@@ -3,5 +3,13 @@ up-local:
 		docker-compose build
 		docker-compose run --rm web python manage.py migrate
 		docker-compose up
+
 down-local:
 	docker-compose -f docker-compose.yml down -v
+
+format:
+	@echo "> Formatting + style checking..."
+	isort tests
+	black -S tests
+	flake8 tests
+	@echo "> Formatting + style checking... finished.\n"

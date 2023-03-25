@@ -85,6 +85,13 @@ class User(AbstractBaseUser, PermissionsMixin, TimedMixin):
         'job_title',
         'phone',
     ]
+    REQUIRED_REGISTRATION_FIELDS = [  # noqa: WPS115
+        'first_name',
+        'last_name',
+        'address',
+        'job_title',
+        'phone',
+    ]
 
     if TYPE_CHECKING:  # noqa: WPS604
         # Raw password that is stored in the instance before it is saved,
