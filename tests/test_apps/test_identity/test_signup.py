@@ -63,5 +63,6 @@ def test_user_already_exists(
             **{User.USERNAME_FIELD: user.email},
         },
     )
+
     assert response.context['form'].errors
     assert response.status_code == HTTPStatus.OK

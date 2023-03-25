@@ -9,8 +9,8 @@ from django.conf import settings
 from mixer.backend.django import mixer
 from typing_extensions import TypeAlias
 
-from server.apps.identity.intrastructure.services.placeholder import LeadUpdate, _serialize_user
-from server.apps.identity.models import User
+from server.apps.identity.intrastructure.services.placeholder import _serialize_user  # noqa: WPS450, E501, I001
+from server.apps.identity.models import User  # noqa: I005
 
 fake = faker.Faker()
 
@@ -89,10 +89,12 @@ def assert_user_was_created() -> UserAssertion:
 @pytest.fixture()
 def assert_user_update() -> UserAssertion:
     """Assert that user was updated with correct data."""
+
     def factory(user: User, user_data: UserData) -> None:
         user.refresh_from_db()
         for field in user_data.keys():
             assert getattr(user, field) == user_data[field]
+
     return factory
 
 
@@ -117,7 +119,7 @@ def external_api_mock():
         httpretty.register_uri(
             method=httpretty.POST,
             body=json.dumps(response),
-            uri=settings.PLACEHOLDER_API_URL + 'users',
+            uri=f'{settings.PLACEHOLDER_API_URL}users',
         )
         yield response
         assert httpretty.has_request()
@@ -127,10 +129,10 @@ def external_api_mock():
 def external_api_mock_update(user):
     """Mock external API."""
     with httpretty.httprettized():
-        httpretty.register_uri(
+        httpretty.register_uri(  # noqa: WPS428
             method=httpretty.PATCH,
             body=json.dumps(_serialize_user(user)),
-            uri=settings.PLACEHOLDER_API_URL + f'users/{user.lead_id}',
-        ),
+            uri=f'{settings.PLACEHOLDER_API_URL}users/{user.lead_id}',
+        )
         yield user_data
         assert httpretty.has_request()
