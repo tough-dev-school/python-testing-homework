@@ -39,7 +39,7 @@ def test_registration_page_renders(client: Client) -> None:
 
 
 @pytest.mark.django_db()
-def test_valid_registration(
+def test_registration_valid(
     client: Client,
     registration_data: 'RegistrationData',
     expected_user_data: 'UserData',
