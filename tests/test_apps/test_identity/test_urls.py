@@ -12,10 +12,10 @@ urls_answers = [
     ('client', 'identity:registration', HTTPStatus.OK),
     ('client', 'identity:user_update', HTTPStatus.FOUND),
 
-    ('admin_client', 'identity:login', HTTPStatus.FOUND),
-    ('admin_client', 'identity:logout', HTTPStatus.FOUND),
-    ('admin_client', 'identity:registration', HTTPStatus.FOUND),
-    ('admin_client', 'identity:user_update', HTTPStatus.OK),
+    ('admin_client_app', 'identity:login', HTTPStatus.FOUND),
+    ('admin_client_app', 'identity:logout', HTTPStatus.FOUND),
+    ('admin_client_app', 'identity:registration', HTTPStatus.FOUND),
+    ('admin_client_app', 'identity:user_update', HTTPStatus.OK),
 ]
 
 

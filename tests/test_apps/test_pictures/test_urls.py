@@ -10,8 +10,8 @@ urls_answers = [
     ('client', 'pictures:dashboard', HTTPStatus.FOUND),
     ('client', 'pictures:favourites', HTTPStatus.FOUND),
 
-    ('admin_client', 'pictures:dashboard', HTTPStatus.OK),
-    ('admin_client', 'pictures:favourites', HTTPStatus.OK),
+    ('admin_client_app', 'pictures:dashboard', HTTPStatus.OK),
+    ('admin_client_app', 'pictures:favourites', HTTPStatus.OK),
 ]
 
 
