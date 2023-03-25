@@ -5,7 +5,6 @@ import pytest
 from django.test import Client
 from django.urls import reverse
 
-from server.apps.identity.models import User
 
 if TYPE_CHECKING:
     from tests.plugins.identity.user import (
@@ -35,10 +34,9 @@ def test_update_succesful(  # noqa: WPS211
     )
 
     assert response.status_code == HTTPStatus.FOUND
-    assert (
-        response.get("Location")
-        == f"{reverse('identity:login')}?next={reverse('identity:user_update')}"
-    )
+    url = f"{reverse('identity:login')}?next={reverse('identity:user_update')}"
+    assert response.get("Location") == url
+    
     assert_correct_user(
         signup_user["username"],
         expected_user_data,

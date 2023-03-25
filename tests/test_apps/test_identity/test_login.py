@@ -28,7 +28,10 @@ def test_login_valid(signup_user: Dict[str, str], client: Client):
     ],
 )
 def test_login_invalid(
-    signup_user: Dict[str, str], client: Client, invalid_field: str, invalid_value: str
+    signup_user: Dict[str, str],
+    client: Client,
+    invalid_field: str,
+    invalid_value: str,
 ):
     """Test a unregistred user and a user with wring password can not login."""
     post_data = signup_user | {
