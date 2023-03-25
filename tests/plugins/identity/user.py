@@ -1,8 +1,11 @@
+import json
 from typing import Callable, TypedDict
 from unittest.mock import patch
 
 import faker
+import httpretty
 import pytest
+from django.conf import settings
 from mixer.backend.django import mixer
 from typing_extensions import TypeAlias
 
@@ -103,3 +106,17 @@ def mock_authenticate():
     """Mock authenticate method."""
     with patch('server.apps.identity.models.User.check_password') as auth_mock:
         yield auth_mock
+
+
+@pytest.fixture()
+def external_api_mock():
+    """Mock external API."""
+    response = {'id': fake.random_int()}
+    with httpretty.httprettized():
+        httpretty.register_uri(
+            method=httpretty.POST,
+            body=json.dumps(response),
+            uri=settings.PLACEHOLDER_API_URL + "users",
+        )
+        yield response
+        assert httpretty.has_request()

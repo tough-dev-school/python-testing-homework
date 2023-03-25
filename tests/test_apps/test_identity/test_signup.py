@@ -13,6 +13,7 @@ def test_signup(
     user_credentials,
     user_data,
     assert_user_was_created,
+    external_api_mock,
 ):
     """Test user registration."""
     response = client.post(
