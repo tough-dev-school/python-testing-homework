@@ -1,10 +1,10 @@
 from typing import TYPE_CHECKING
 
-from http import HTTPStatus
-
 import pytest
+from http import HTTPStatus
 from django.test import Client
 from django.urls import reverse
+from django.utils.crypto import get_random_string
 
 from server.apps.identity.models import User
 
@@ -15,18 +15,6 @@ if TYPE_CHECKING:
         UserAssertion,
         UserData,
     )
-
-
-@pytest.fixture()
-def expected_user_data(
-    registration_data: 'RegistrationData',
-) -> 'UserData':
-    """Expectd data for a Registrered user."""
-    return {  # type: ignore[return-value]
-            key_name: value_part
-            for key_name, value_part in registration_data.items()
-            if not key_name.startswith('password')
-        }
 
 
 @pytest.mark.django_db()
@@ -80,9 +68,9 @@ def test_registration_missing_required_field(
 @pytest.mark.django_db()
 @pytest.mark.parametrize(
     ('invalid_field', 'invalid_value'), [
-        ('email', 'wrong@email'),
+        ('email', f'{get_random_string(5)}@email'),
         ('date_of_birth', '2000-02-30'),
-        ('date_of_birth', '321123'),
+        ('date_of_birth', f'{get_random_string(5)}'),
     ]
 )
 def test_registration_invalid_field(

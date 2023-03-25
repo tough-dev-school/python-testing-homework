@@ -1,5 +1,5 @@
 import datetime
-from typing import Callable, Protocol, TypedDict, Callable, final
+from typing import Dict, Callable, Protocol, TypedDict, Callable, final
 from typing_extensions import Unpack, TypeAlias
 
 import pytest
@@ -24,6 +24,12 @@ class UserData(TypedDict, total=False):
     address: str
     job_title: str
     phone: str
+
+
+@final
+class SignedUpData(UserData, total=False):
+    # special
+    password: str
 
 
 @final
@@ -114,6 +120,35 @@ def user_data(registration_data: 'RegistrationData') -> 'UserData':
         key_name: value_part
         for key_name, value_part in registration_data.items()
         if not key_name.startswith('password')
+    }
+
+
+@pytest.fixture()
+def expected_user_data(
+    registration_data: 'RegistrationData',
+) -> 'UserData':
+    """Expectd data for a Registrered user."""
+    return {  # type: ignore[return-value]
+            key_name: value_part
+            for key_name, value_part in registration_data.items()
+            if not key_name.startswith('password')
+        }
+
+
+@pytest.fixture()
+def signedup_data(registration_data: "RegistrationData") -> "SignedUpData":
+    return { # type: ignore [return-value]
+        ('password' if key_name.startswith("password") else key_name): value_part
+        for key_name, value_part in registration_data.items()
+    }
+
+
+@pytest.fixture()
+def signup_user(signedup_data: "SignedUpData") -> Dict[str, str]:
+    User.objects.create_user(**signedup_data)
+    return { #type: ignore
+        'username': signedup_data["email"],
+        'password': signedup_data["password"]
     }
 
 
