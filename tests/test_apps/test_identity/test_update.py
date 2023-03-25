@@ -23,7 +23,7 @@ def test_valid_update(
     updated_user_data: 'UpdateUserData',
     assert_user_updated: 'UserUpdatedAssertion',
 ) -> None:
-    """Test that update works with correct user data."""
+    """Test that 'update' works with correct user data."""
     user = User.objects.get(email=db_user['email'])
     client.force_login(user)
     response = client.post(
@@ -51,7 +51,7 @@ def test_update_missing_required_fields(
     update_user_data_factory: 'UpdateUserDataFactory',
     field: str,
 ) -> None:
-    """Test that update works with correct user data."""
+    """Test that update works with missing required fields."""
     user = User.objects.get(email=db_user['email'])
     client.force_login(user)
 
@@ -62,3 +62,27 @@ def test_update_missing_required_fields(
         data=updated_user_data,
     )
     assert response.status_code == HTTPStatus.OK
+
+
+@pytest.mark.django_db()
+def test_empty_birthday(
+    client: Client,
+    db_user: 'UserData',
+    update_user_data_factory: 'UpdateUserDataFactory',
+    assert_user_updated: 'UserUpdatedAssertion',
+) -> None:
+    """Test that missing date of birth will not fail registration"""
+    user = User.objects.get(email=db_user['email'])
+    client.force_login(user)
+
+    post_data = update_user_data_factory(
+        **{'date_of_birth': ''},  # type: ignore[arg-type]
+    )
+
+    response = client.post(
+        reverse('identity:user_update'),
+        data=post_data,
+    )
+    assert response.status_code == HTTPStatus.FOUND
+    user.refresh_from_db()
+    assert user.date_of_birth is None
