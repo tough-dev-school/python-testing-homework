@@ -1438,6 +1438,17 @@ setproctitle = ["setproctitle"]
 tornado = ["tornado (>=0.2)"]
 
 [[package]]
+name = "httpretty"
+version = "1.1.4"
+description = "HTTP client mock for Python"
+category = "main"
+optional = false
+python-versions = ">=3"
+files = [
+    {file = "httpretty-1.1.4.tar.gz", hash = "sha256:20de0e5dd5a18292d36d928cc3d6e52f8b2ac73daec40d41eb62dee154933b68"},
+]
+
+[[package]]
 name = "hypothesis"
 version = "6.68.2"
 description = "A library for property-based testing"
@@ -3300,4 +3311,4 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "2.0"
 python-versions = "3.9.15"
-content-hash = "9d4b6d03e5d19a2d4c7c92e3bbe87903be85d32c9efeb070d60392decf5aa7a7"
+content-hash = "c608dc570f320ab6e2357b36f2b25c6294acf47e4bd7bd8ead01b40edfbce3fb"
