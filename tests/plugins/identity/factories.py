@@ -8,16 +8,15 @@ from protocols.identity.user import UserDict
 from server.apps.identity.models import User
 
 
-@pytest.mark.django_db()
 @pytest.fixture()
-def user_factory():
+def user_factory(data_seed):
     """Data factory for user_create_new UseCase."""
     start_year: int = 1990
     end_year: int = 2000
 
     def factory(seed=None, **fields) -> UserDict:
-        person = Person(locale=Locale.RU, seed=seed or 1)
-        address = Address(seed=seed or 1)
+        person = Person(locale=Locale.RU, seed=seed or data_seed)
+        address = Address(seed=seed or data_seed)
 
         schema = Schema(schema=lambda: {
             'email': person.email(),
@@ -67,9 +66,12 @@ def db_user(user_data) -> User:
 
 
 @pytest.fixture()
-def update_user_data(user_factory, authed_user_data) -> UserDict:
+def update_user_data(data_seed, user_factory, authed_user_data) -> UserDict:
     """New user data for update form for current user."""
-    user_data = user_factory(seed=2, email=authed_user_data.email).items()
+    user_data = user_factory(
+        seed=data_seed, email=authed_user_data.email,
+    ).items()
+
     return {
         field: field_value
         for field, field_value in user_data

@@ -8,7 +8,7 @@ if TYPE_CHECKING:
     from protocols.identity.user import UserDict
 
 
-@pytest.fixture()
+@pytest.fixture(scope='session')
 def assert_correct_user():
     """Assert stmts for user instance."""
     def factory(email: str, expected: 'UserDict'):
@@ -24,7 +24,7 @@ def assert_correct_user():
     return factory
 
 
-@pytest.fixture()
+@pytest.fixture(scope='session')
 def assert_correct_update_user():
     """Assert stmts for updated user instance."""
     def factory(user_before: User, expected: 'UserDict'):
