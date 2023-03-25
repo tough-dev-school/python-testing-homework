@@ -71,7 +71,7 @@ def test_empty_birthday(
     update_user_data_factory: 'UpdateUserDataFactory',
     assert_user_updated: 'UserUpdatedAssertion',
 ) -> None:
-    """Test that missing date of birth will not fail registration"""
+    """Test that missing date of birth will not fail registration."""
     user = User.objects.get(email=db_user['email'])
     client.force_login(user)
 

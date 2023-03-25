@@ -61,7 +61,7 @@ def test_empty_birthday(
     registration_data_factory: 'RegistrationDataFactory',
     assert_correct_user: 'UserAssertion',
 ) -> None:
-    """Test that missing date of birth will not fail registration"""
+    """Test that missing date of birth will not fail registration."""
     post_data = registration_data_factory(
         **{'date_of_birth': ''},  # type: ignore[arg-type]
     )
@@ -81,7 +81,7 @@ def test_not_valid_email(
     registration_data_factory: 'RegistrationDataFactory',
     assert_correct_user: 'UserAssertion',
 ) -> None:
-    """Test that not valid email will not fail registration"""
+    """Test that not valid email will not fail registration."""
     post_data = registration_data_factory(
         **{'email': 'wrong_email'},  # type: ignore[arg-type]
     )
@@ -99,6 +99,7 @@ def test_user_already_exists(
     db_user: 'UserData',
     registration_data_factory: 'RegistrationDataFactory',
 ) -> None:
+    """Test that already existing user will not ruin registration."""
     post_data = registration_data_factory(
         **db_user,
     )

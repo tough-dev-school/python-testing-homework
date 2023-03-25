@@ -13,6 +13,7 @@ from server.apps.identity.models import User
 class UserData(TypedDict, total=False):
     """
     Represent the simplified user data that is required to create a new user.
+
     It does not include ``password``, because it is very special in django.
     Importing this type is only allowed under ``if TYPE_CHECKING`` in tests.
     """
@@ -29,6 +30,7 @@ class UserData(TypedDict, total=False):
 class UpdateUserData(TypedDict, total=False):
     """
     Represent the simplified user update data that is required to update user.
+
     It does not include ``password``, because it is very special in django.
     Importing this type is only allowed under ``if TYPE_CHECKING`` in tests.
     """
@@ -49,6 +51,7 @@ UserUpdatedAssertion: TypeAlias = Callable[[str, UpdateUserData], None]
 class RegistrationData(UserData, total=False):
     """
     Represent the registration data that is required to create a new user.
+
     Importing this type is only allowed under ``if TYPE_CHECKING`` in tests.
     """
 
@@ -60,6 +63,7 @@ class RegistrationData(UserData, total=False):
 class LoginData(TypedDict, total=False):
     """
     Represent the login data that is required to log an existing user.
+
     Importing this type is only allowed under ``if TYPE_CHECKING`` in tests.
     """
 
@@ -69,16 +73,20 @@ class LoginData(TypedDict, total=False):
 
 @final
 class RegistrationDataFactory(Protocol):
+    """Makes registration data."""
+
     def __call__(
         self,
         **fields: Unpack[RegistrationData],
     ) -> RegistrationData:
-        """User data factory protocol."""
+        """Registration data factory protocol."""
         return RegistrationData(**fields)
 
 
 @final
 class LoginDataFactory(Protocol):
+    """Makes login data."""
+
     def __call__(
         self,
         **fields: Unpack[LoginData],
@@ -89,6 +97,8 @@ class LoginDataFactory(Protocol):
 
 @final
 class UpdateUserDataFactory(Protocol):
+    """Makes updated user data."""
+
     def __call__(
         self,
         **fields: Unpack[LoginData],
@@ -99,6 +109,7 @@ class UpdateUserDataFactory(Protocol):
 
 @pytest.fixture()
 def faker_seed():
+    """Generates random seed."""
     return random.seed(10)
 
 
@@ -120,7 +131,7 @@ def registration_data_factory(
                 'address': mf('address.city'),
                 'job_title': mf('person.occupation'),
                 'phone': mf('person.telephone'),
-            }
+            },
         )
         return {
             **schema.create(iterations=1)[0],  # type: ignore[misc]
@@ -143,7 +154,7 @@ def login_data_factory(
             schema=lambda: {
                 'username': mf('person.email'),
                 'password': mf('password'),
-            }
+            },
         )
         return {
             **schema.create(iterations=1)[0],  # type: ignore[misc]
@@ -169,7 +180,7 @@ def update_user_data_factory(
                 'address': mf('address.city'),
                 'job_title': mf('person.occupation'),
                 'phone': mf('person.telephone'),
-            }
+            },
         )
         return {
             **schema.create(iterations=1)[0],  # type: ignore[misc]
@@ -181,6 +192,8 @@ def update_user_data_factory(
 
 @pytest.fixture(scope='session')
 def assert_correct_user() -> UserAssertion:
+    """Checks db user data with expected."""
+
     def factory(email: str, expected: UserData) -> None:
         user = User.objects.get(email=email)
         # Special fields:
@@ -210,14 +223,13 @@ def assert_user_updated() -> UserUpdatedAssertion:
 
 @pytest.fixture()
 def registration_data(registration_data_factory) -> RegistrationData:
+    """Returns fata for registration."""
     return registration_data_factory()
 
 
 @pytest.fixture()
 def user_data(registration_data: 'RegistrationData') -> 'UserData':
-    """
-    typed dist of user data
-    """
+    """Typed dist of user data."""
     return {  # type: ignore[return-value]
         key_name: value_part
         for key_name, value_part in registration_data.items()
@@ -229,14 +241,13 @@ def user_data(registration_data: 'RegistrationData') -> 'UserData':
 def updated_user_data(
     update_user_data_factory: 'UpdateUserDataFactory',
 ) -> 'UpdateUserData':
-    """
-    Typed dist with updated data of user
-    """
+    """Typed dist with updated data of user."""
     return update_user_data_factory()
 
 
 @pytest.fixture()
-def db_user(user_data: 'UserDara') -> 'UserData':
+def db_user(user_data: 'UserData') -> 'UserData':
+    """Inserts User to db and deletes after test."""
     user = User.objects.create(**user_data)
     yield user_data
     user.delete()
@@ -247,4 +258,5 @@ def login_data(
     login_data_factory: LoginDataFactory,
     db_user: UserData,
 ) -> LoginData:
+    """Typed dict with login data."""
     return login_data_factory(**{'username': db_user['email'], 'password': 'password'})
