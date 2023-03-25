@@ -57,6 +57,8 @@ __pycache__/
 
 # Distribution / packaging
 .Python
+.local/
+.tmp/
 env/
 develop-eggs/
 dist/
@@ -70,6 +72,7 @@ var/
 *.egg-info/
 .installed.cfg
 *.egg
+
 
 # PyInstaller
 #  Usually these files are written by a python script from a template
@@ -244,3 +247,8 @@ artifacts/
 
 # ipython:
 .ipython/
+
+# vscode
+.vscode/
+.vscode-server/
+.dotnet/

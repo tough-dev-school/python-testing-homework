@@ -11,7 +11,10 @@
 
 version: "3.8"
 services:
-
+  db:
+    ports:
+      # We only bind ports directly in development:
+      - "5432:5432"
   web:
     ports:
       # We only bind ports directly in development:
@@ -19,6 +22,7 @@ services:
     volumes:
       # We only mount source code in development:
       - .:/code
+      - .tmp:/var/cache/pypoetry/
     build:
       # Needed for fixing permissions of files created by Docker
       args:
