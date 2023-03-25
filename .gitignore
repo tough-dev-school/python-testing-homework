@@ -244,3 +244,6 @@ artifacts/
 
 # ipython:
 .ipython/
+
+# VSCode settings
+.vscode/
