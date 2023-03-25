@@ -33,7 +33,7 @@ def picture_response() -> PictureResponse:
 @pytest.fixture()
 def one_user_favourite(user: User) -> None:
     """Add one favourite picture to user."""
-    pic = FavouritePicture(user=user, foreign_id=1, url='http://bbb')
-    pic.save()
-    yield pic
-    pic.delete()
+    picture = FavouritePicture(user=user, foreign_id=1, url='http://bbb')
+    picture.save()
+    yield picture
+    picture.delete()
