@@ -13,6 +13,7 @@ def test_valid_update(
     user,
     user_data,
     assert_user_update,
+    external_api_mock_update
 ):
     """Test user update."""
     client.force_login(user)
@@ -20,7 +21,7 @@ def test_valid_update(
         reverse('identity:user_update'),
         data=user_data,
     )
-
+    print(user_data)
     assert response.status_code == HTTPStatus.FOUND
     assert_user_update(user, user_data)
 
@@ -32,6 +33,7 @@ def test_invalid_update(
     user,
     user_data,
     field: str,
+
 ):
     """Test user update with invalid data."""
     client.force_login(user)

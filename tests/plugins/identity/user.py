@@ -9,6 +9,7 @@ from django.conf import settings
 from mixer.backend.django import mixer
 from typing_extensions import TypeAlias
 
+from server.apps.identity.intrastructure.services.placeholder import LeadUpdate, _serialize_user
 from server.apps.identity.models import User
 
 fake = faker.Faker()
@@ -119,4 +120,17 @@ def external_api_mock():
             uri=settings.PLACEHOLDER_API_URL + 'users',
         )
         yield response
+        assert httpretty.has_request()
+
+
+@pytest.fixture()
+def external_api_mock_update(user):
+    """Mock external API."""
+    with httpretty.httprettized():
+        httpretty.register_uri(
+            method=httpretty.PATCH,
+            body=json.dumps(_serialize_user(user)),
+            uri=settings.PLACEHOLDER_API_URL + f'users/{user.lead_id}',
+        ),
+        yield user_data
         assert httpretty.has_request()
