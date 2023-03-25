@@ -43,6 +43,22 @@ def test_admin_docs_authorized(admin_client: Client) -> None:
     assert b'docutils' not in response.content
 
 
+def test_index(client: Client) -> None:
+    """This test ensures that index page is accessible."""
+    response = client.get('/')
+
+    assert response.status_code == HTTPStatus.OK
+
+
+@pytest.mark.django_db()
+def test_identity_authorized(client: Client) -> None:
+    """This test ensures that identity is accessible."""
+    response = client.get('/identity')
+
+    assert response.status_code == HTTPStatus.OK
+    assert b'docutils' not in response.content
+
+
 @pytest.mark.parametrize('page', [
     '/robots.txt',
     '/humans.txt',
