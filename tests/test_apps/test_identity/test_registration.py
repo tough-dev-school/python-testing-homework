@@ -76,6 +76,24 @@ def test_empty_birthday(
 
 
 @pytest.mark.django_db()
+def test_not_valid_email(
+    client: Client,
+    registration_data_factory: 'RegistrationDataFactory',
+    assert_correct_user: 'UserAssertion',
+) -> None:
+    """Test that not valid email will not fail registration"""
+    post_data = registration_data_factory(
+        **{'email': 'wrong_email'},  # type: ignore[arg-type]
+    )
+    response = client.post(
+        reverse('identity:registration'),
+        data=post_data,
+    )
+    assert response.context['form'].errors
+    assert response.status_code == HTTPStatus.OK
+
+
+@pytest.mark.django_db()
 def test_user_already_exists(
     client: Client,
     db_user: 'UserData',
