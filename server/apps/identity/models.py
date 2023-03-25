@@ -58,7 +58,7 @@ class User(AbstractBaseUser, PermissionsMixin, TimedMixin):
     # Details:
     first_name = models.CharField(max_length=_NAME_LENGTH)
     last_name = models.CharField(max_length=_NAME_LENGTH)
-    date_of_birth = models.DateField()
+    date_of_birth = models.DateField(null=False)
     address = models.CharField(max_length=_NAME_LENGTH)
     job_title = models.CharField(max_length=_NAME_LENGTH)
 
