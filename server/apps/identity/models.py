@@ -90,3 +90,4 @@ class User(AbstractBaseUser, PermissionsMixin, TimedMixin):
         # Raw password that is stored in the instance before it is saved,
         # it is actually `str | None` in runtime, but `str` in most tests.
         _password: str
+        id: int

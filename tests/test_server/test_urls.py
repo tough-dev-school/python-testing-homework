@@ -4,7 +4,7 @@ import pytest
 from django.test import Client
 
 
-@pytest.mark.django_db()()
+@pytest.mark.django_db()
 def test_health_check(client: Client) -> None:
     """This test ensures that health check is accessible."""
     response = client.get('/health/')
@@ -43,10 +43,13 @@ def test_admin_docs_authorized(admin_client: Client) -> None:
     assert b'docutils' not in response.content
 
 
-@pytest.mark.parametrize('page', [
-    '/robots.txt',
-    '/humans.txt',
-])
+@pytest.mark.parametrize(
+    'page',
+    [
+        '/robots.txt',
+        '/humans.txt',
+    ],
+)
 def test_specials_txt(client: Client, page: str) -> None:
     """This test ensures that special `txt` files are accessible."""
     response = client.get(page)
