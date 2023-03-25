@@ -1,6 +1,6 @@
 import re
 from contextlib import contextmanager
-from typing import Callable, List
+from typing import Callable, Iterator, List
 from urllib.parse import urljoin
 
 import httpretty
@@ -28,7 +28,7 @@ def mock_pictures_fetch_api(
     """Mock placeholder API endpoint."""
 
     @contextmanager
-    def factory(response: List[PictureResponse]) -> None:
+    def factory(response: List[PictureResponse]) -> Iterator[None]:
         mock_response = PictureResponsesList(__root__=response)
         mock_url = urljoin(settings.PLACEHOLDER_API_URL, '.*')
         with httpretty.httprettized():

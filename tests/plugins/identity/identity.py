@@ -12,13 +12,13 @@ from server.common.django.types import Settings
 
 try:
     # Requires Python 3.11
-    from typing import Unpack  # noqa: WPS433
+    from typing import Unpack  # noqa: WPS433 # type: ignore[attr-defined]
 except ImportError:
     from typing_extensions import Unpack  # noqa: WPS433, WPS440
 
 try:
     # Requires Python 3.10
-    from typing import TypeAlias  # noqa: WPS433
+    from typing import TypeAlias  # noqa: WPS433 # type: ignore[attr-defined]
 except ImportError:
     from typing_extensions import TypeAlias  # noqa: WPS433, WPS440
 
@@ -83,7 +83,7 @@ def registration_data_factory(
             'job_title': mfield('person.occupation'),
             'phone': mfield('person.telephone'),
         })
-        return {  # type: ignore[misc]
+        return {
             **schema.create(iterations=1)[0],
             **{'password1': password, 'password2': password},
             **fields,
@@ -130,11 +130,11 @@ MockLeadFetchAPI: TypeAlias = Callable[[str, str], None]
 @pytest.fixture()
 def mock_lead_fetch_api(
     settings: Settings,
-) -> MockLeadFetchAPI:
+) -> Iterator[MockLeadFetchAPI]:
     """Mock lead API endpoint."""
 
     @contextmanager
-    def factory(*, method: str, body: str) -> None:
+    def factory(*, method: str, body: str) -> Iterator[None]:
         mock_url = urljoin(settings.PLACEHOLDER_API_URL, '.*')
         with httpretty.httprettized():
             httpretty.register_uri(
@@ -148,15 +148,18 @@ def mock_lead_fetch_api(
     return factory
 
 
+MockPostLeadFetchAPI: TypeAlias = Callable[[], None]
+
+
 @pytest.fixture()
 def mock_lead_post_user_api(
     mfield: Field,
-    mock_lead_fetch_api: MockLeadFetchAPI,
-) -> Iterator[MockLeadFetchAPI]:
+    mock_lead_fetch_api: MockPostLeadFetchAPI,
+) -> MockPostLeadFetchAPI:
     """Mock POST."""
 
     @contextmanager
-    def factory() -> None:
+    def factory() -> Iterator[None]:
         user_response = UserResponse(id=mfield('numeric.increment'))
         with mock_lead_fetch_api(
             method=httpretty.POST,
@@ -171,7 +174,7 @@ def mock_lead_post_user_api(
 def registered_user(
     client: Client,
     registration_data: 'RegistrationData',
-    expected_user_data: 'UserData',
+    expected_user_data: 'ExpectedUserData',
     assert_correct_user: 'UserAssertion',
     mock_lead_post_user_api: MockLeadFetchAPI,
 ) -> User:
@@ -183,10 +186,10 @@ def registered_user(
         )
 
     assert response.status_code == HTTPStatus.FOUND
-    assert response.url == reverse('identity:login')
+    assert response.url == reverse('identity:login')  # type: ignore[attr-defined]
     return assert_correct_user(
         registration_data['email'],
-        expected_user_data,
+        expected_user_data(registration_data),
     )
 
 
@@ -202,14 +205,19 @@ def signin_user_data(
     )
 
 
+ExpectedUserData: TypeAlias = Callable[[RegistrationData], UserData]
+
+
 @pytest.fixture()
-def expected_user_data(registration_data: RegistrationData) -> UserData:
+def expected_user_data() -> ExpectedUserData:
     """Registration user data without passwords."""
-    return {  # type: ignore[return-value]
-        key_name: value_part
-        for key_name, value_part in registration_data.items()
-        if not key_name.startswith('password')
-    }
+    def factory(registration_data: RegistrationData) -> UserData:
+        return {  # type: ignore[return-value]
+            key_name: value_part
+            for key_name, value_part in registration_data.items()
+            if not key_name.startswith('password')
+        }
+    return factory
 
 
 @pytest.fixture()
@@ -226,6 +234,6 @@ def signedin_user(
     )
 
     assert response.status_code == HTTPStatus.FOUND
-    assert response.url == reverse('pictures:dashboard')
+    assert response.url == reverse('pictures:dashboard')  # type: ignore[attr-defined]
 
     return registered_user

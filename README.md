@@ -58,6 +58,8 @@ cp config/.env.template config/.env
 
 docker compose up --build
 
+# Run tests
+
 docker compose exec web bash -c 'pytest'
 # or faster tests without coverage
 docker compose exec web bash -c 'ptw . --runner ./fast-pytest --now --delay 0.1'

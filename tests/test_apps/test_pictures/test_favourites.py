@@ -1,4 +1,5 @@
 from http import HTTPStatus
+from typing import TYPE_CHECKING
 
 import pytest
 from django.test import Client
@@ -7,6 +8,9 @@ from django.urls import reverse
 from server.apps.identity.models import User
 from server.apps.pictures.logic.usecases.favourites_list import FavouritesList
 from server.apps.pictures.models import FavouritePicture
+
+if TYPE_CHECKING:
+    from tests.plugins.pictures.pictures import FavouritePictureData
 
 
 @pytest.mark.django_db()
@@ -35,7 +39,7 @@ def test_non_auth_redirect(client: Client) -> None:
     response = client.post(reverse('pictures:dashboard'), data={})
 
     assert response.status_code == HTTPStatus.FOUND
-    assert response.url == '/identity/login?next=/pictures/dashboard'
+    assert response.url == '/identity/login?next=/pictures/dashboard'  # type: ignore[attr-defined]
 
 
 @pytest.mark.django_db()
@@ -51,7 +55,7 @@ def test_sign_user_post_one_favourite(
     )
 
     assert response.status_code == HTTPStatus.FOUND
-    assert response.url == reverse('pictures:dashboard')
+    assert response.url == reverse('pictures:dashboard')  # type: ignore[attr-defined]
     fav_items = FavouritesList()(signedin_user.id).all()
     assert len(fav_items) == 1
     assert fav_items[0].foreign_id == favourite_picture_data.foreign_id
@@ -77,7 +81,7 @@ def test_sign_user_post_two_same_favourites(
     )
 
     assert response.status_code == HTTPStatus.FOUND
-    assert response.url == reverse('pictures:dashboard')
+    assert response.url == reverse('pictures:dashboard')  # type: ignore[attr-defined]
     fav_items = FavouritesList()(signedin_user.id).all()
     assert len(fav_items) == 2
     assert fav_items[0].foreign_id == favourite_picture_data.foreign_id
@@ -100,7 +104,7 @@ def test_sign_user_post_multiply_favourites(
             data=favourite_picture_data.dict(),
         )
         assert response.status_code == HTTPStatus.FOUND
-        assert response.url == reverse('pictures:dashboard')
+        assert response.url == reverse('pictures:dashboard')  # type: ignore[attr-defined]
 
     fav_pictures = FavouritesList()(signedin_user.id).all()
     assert len(fav_pictures) == count

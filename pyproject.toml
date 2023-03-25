@@ -69,7 +69,6 @@ pytest-watcher = "^0.2.6"
 httpretty = "^1.1.4"
 mimesis = "^7.0.0"
 django-fakery = "^4.1.0"
-black = "^23.1.0"
 
 [tool.poetry.group.docs]
 optional = true

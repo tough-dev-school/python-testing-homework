@@ -7,10 +7,10 @@ from django.urls import reverse
 
 if TYPE_CHECKING:
     from tests.plugins.identity.pytest_identity import (
+        ExpectedUserData,
         RegistrationData,
         RegistrationDataFactory,
         UserAssertion,
-        UserData,
     )
 
 
@@ -18,7 +18,7 @@ if TYPE_CHECKING:
 def test_valid_registration(
     client: Client,
     registration_data: 'RegistrationData',
-    expected_user_data: 'UserData',
+    expected_user_data: 'ExpectedUserData',
     assert_correct_user: 'UserAssertion',
 ) -> None:
     """Test that registration works with correct user data."""
@@ -28,8 +28,11 @@ def test_valid_registration(
     )
 
     assert response.status_code == HTTPStatus.FOUND
-    assert response.url == reverse('identity:login')
-    assert_correct_user(registration_data['email'], expected_user_data)
+    assert response.url == reverse('identity:login')  # type: ignore[attr-defined]
+    assert_correct_user(
+        registration_data['email'],
+        expected_user_data(registration_data),
+    )
 
 
 @pytest.mark.django_db()

@@ -1,3 +1,4 @@
+from typing import Iterator
 import pytest
 from mimesis.schema import Field
 
@@ -35,7 +36,10 @@ def picture_response(mfield: Field) -> PictureResponse:
 
 
 @pytest.fixture()
-def one_user_favourite(signedin_user: User, mfield: Field) -> None:
+def one_user_favourite(
+    signedin_user: User,
+    mfield: Field,
+) -> Iterator[FavouritePicture]:
     """Add one favourite picture to user."""
     picture = FavouritePicture(
         user=signedin_user,
