@@ -30,7 +30,6 @@ def test_missing_required_fields(
     client: Client,
     user_credentials,
     user_data,
-    assert_user_was_created,
     field: str,
 ):
     """Test user registration with missing required fields."""

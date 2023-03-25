@@ -83,6 +83,15 @@ def assert_user_was_created() -> UserAssertion:
 
 
 @pytest.fixture()
+def assert_user_update() -> UserAssertion:
+    def factory(user: User, user_data: UserData) -> None:
+        user.refresh_from_db()
+        for field in user_data:
+            assert getattr(user, field) == user_data[field]
+    return factory
+
+
+@pytest.fixture()
 def user():
     """Create a user instance."""
     return mixer.blend(User, is_active=True)
