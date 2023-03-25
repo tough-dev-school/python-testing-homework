@@ -116,7 +116,7 @@ def external_api_mock():
         httpretty.register_uri(
             method=httpretty.POST,
             body=json.dumps(response),
-            uri=settings.PLACEHOLDER_API_URL + "users",
+            uri=settings.PLACEHOLDER_API_URL + 'users',
         )
         yield response
         assert httpretty.has_request()
