@@ -39,7 +39,7 @@ def test_invalid_registration_no_email(
 ) -> None:
     """Test invalid registration with no email."""
     user_data = registration_data_factory()
-    del user_data['email']
+    user_data.pop('email')
     response = client.post(
         reverse('identity:registration'),
         data=user_data,

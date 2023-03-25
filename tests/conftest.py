@@ -14,8 +14,8 @@ from server.common.django.types import Settings
 pytest_plugins = [
     'plugins.django_settings',
     'plugins.mimesis_fake',
-    'plugins.identity.pytest_identity',
-    'plugins.pictures.pytest_pictures',
+    'plugins.identity.identity',
+    'plugins.pictures.pictures',
 ]
 
 

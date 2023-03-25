@@ -1,6 +1,14 @@
 import datetime as dt
+import re
+from contextlib import contextmanager
 from http import HTTPStatus
-from typing import Callable, Protocol, TypedDict, final
+from typing import Callable, Iterator, Protocol, TypedDict, final
+from urllib.parse import urljoin
+
+from server.apps.identity.intrastructure.services.placeholder import (
+    UserResponse,
+)
+from server.common.django.types import Settings
 
 try:
     # Requires Python 3.11
@@ -14,6 +22,7 @@ try:
 except ImportError:
     from typing_extensions import TypeAlias  # noqa: WPS433, WPS440
 
+import httpretty
 import pytest
 from django.test import Client
 from django.urls import reverse
@@ -115,6 +124,48 @@ def assert_correct_user() -> UserAssertion:
     return factory
 
 
+MockLeadFetchAPI: TypeAlias = Callable[[str, str], None]
+
+
+@pytest.fixture()
+def mock_lead_fetch_api(
+    settings: Settings,
+) -> MockLeadFetchAPI:
+    """Mock lead API endpoint."""
+
+    @contextmanager
+    def factory(*, method: str, body: str) -> None:
+        mock_url = urljoin(settings.PLACEHOLDER_API_URL, '.*')
+        with httpretty.httprettized():
+            httpretty.register_uri(
+                method,
+                re.compile(mock_url),
+                body=body,
+                content_type='application/json',
+            )
+            yield
+            assert httpretty.has_request()
+    return factory
+
+
+@pytest.fixture()
+def mock_lead_post_user_api(
+    mfield: Field,
+    mock_lead_fetch_api: MockLeadFetchAPI,
+) -> Iterator[MockLeadFetchAPI]:
+    """Mock POST."""
+
+    @contextmanager
+    def factory() -> None:
+        user_response = UserResponse(id=mfield('numeric.increment'))
+        with mock_lead_fetch_api(
+            method=httpretty.POST,
+            body=user_response.json(),
+        ):
+            yield
+    return factory
+
+
 @pytest.fixture()
 @pytest.mark.django_db()
 def registered_user(
@@ -122,12 +173,14 @@ def registered_user(
     registration_data: 'RegistrationData',
     expected_user_data: 'UserData',
     assert_correct_user: 'UserAssertion',
+    mock_lead_post_user_api: MockLeadFetchAPI,
 ) -> User:
     """Test that registration works with correct user data."""
-    response = client.post(
-        reverse('identity:registration'),
-        data=registration_data,
-    )
+    with mock_lead_post_user_api():
+        response = client.post(
+            reverse('identity:registration'),
+            data=registration_data,
+        )
 
     assert response.status_code == HTTPStatus.FOUND
     assert response.url == reverse('identity:login')
