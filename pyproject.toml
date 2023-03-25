@@ -27,6 +27,11 @@ requests = "^2.28"
 attrs = "^22.1"
 pydantic = "^1.10"
 punq = "^0.6"
+mimesis = "^7.0.0"
+black = "^23.1.0"
+
+[tool.black]
+line-length = 80
 
 [tool.poetry.group.dev.dependencies]
 django-debug-toolbar = "^3.6"
