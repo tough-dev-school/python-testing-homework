@@ -58,15 +58,11 @@ cp config/.env.template config/.env
 
 docker compose up --build
 
-docker compose exec -ti web bash
-
-$ pytest
-$ ptw . --runner ./fast-pytest --now --delay 0.1
+docker compose exec web bash -c 'pytest'
+# or faster tests without coverage
+docker compose exec web bash -c 'ptw . --runner ./fast-pytest --now --delay 0.1'
 ```
 
-```bash
-poetry add pytest-watcher httpretty --group dev
-```
 
 ## Documentation
 

@@ -1,4 +1,5 @@
 import pytest
+from mimesis.schema import Field
 
 from server.apps.identity.models import User
 from server.apps.pictures.intrastructure.services.placeholder import (
@@ -16,24 +17,31 @@ class FavouritePictureData(BaseModel):
 
 
 @pytest.fixture()
-def favourite_picture_data() -> FavouritePictureData:
+def favourite_picture_data(mfield: Field) -> FavouritePictureData:
     """Favourite picture example."""
     return FavouritePictureData(
-        foreign_id=1,
-        url='http://abc.dex',
+        foreign_id=mfield('numeric.increment'),
+        url=mfield('internet.uri'),
     )
 
 
 @pytest.fixture()
-def picture_response() -> PictureResponse:
+def picture_response(mfield: Field) -> PictureResponse:
     """Picture service response."""
-    return PictureResponse(id=1, url='http://aaa')
+    return PictureResponse(
+        id=mfield('numeric.increment'),
+        url=mfield('internet.uri'),
+    )
 
 
 @pytest.fixture()
-def one_user_favourite(user: User) -> None:
+def one_user_favourite(signedin_user: User, mfield: Field) -> None:
     """Add one favourite picture to user."""
-    picture = FavouritePicture(user=user, foreign_id=1, url='http://bbb')
+    picture = FavouritePicture(
+        user=signedin_user,
+        foreign_id=mfield('numeric.increment'),
+        url=mfield('internet.uri'),
+    )
     picture.save()
     yield picture
     picture.delete()

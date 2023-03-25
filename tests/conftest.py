@@ -8,25 +8,15 @@ It may be also used for extending doctest's context:
 
 import pytest
 
-from server.apps.identity.models import User
 from server.apps.pictures.container import container
 from server.common.django.types import Settings
 
 pytest_plugins = [
-    # Should be the first custom one:
     'plugins.django_settings',
+    'plugins.mimesis_fake',
     'plugins.identity.pytest_identity',
     'plugins.pictures.pytest_pictures',
 ]
-
-
-@pytest.fixture()
-def user() -> None:
-    """Get random-hardcoded user."""
-    user = User(email='aa')
-    user.save()
-    yield user
-    user.delete()
 
 
 @pytest.fixture()

@@ -17,7 +17,6 @@ except ImportError:
 import pytest
 from django.test import Client
 from django.urls import reverse
-from mimesis.locales import Locale
 from mimesis.schema import Field, Schema
 
 from server.apps.identity.models import User
@@ -61,20 +60,19 @@ class RegistrationDataFactory(Protocol):
 
 @pytest.fixture()
 def registration_data_factory(
-    faker_seed: int,
+    mfield: Field,
 ) -> RegistrationDataFactory:
     """Returns factory for fake random data for regitration."""
     def factory(**fields: Unpack[RegistrationData]) -> RegistrationData:
-        mf = Field(locale=Locale.RU, seed=faker_seed)
-        password = mf('password')  # by default passwords are equal
+        password = mfield('password')  # by default passwords are equal
         schema = Schema(schema=lambda: {
-            'email': mf('person.email'),
-            'first_name': mf('person.first_name'),
-            'last_name': mf('person.last_name'),
-            'date_of_birth': mf('datetime.date'),
-            'address': mf('address.address'),
-            'job_title': mf('person.occupation'),
-            'phone': mf('person.telephone'),
+            'email': mfield('person.email'),
+            'first_name': mfield('person.first_name'),
+            'last_name': mfield('person.last_name'),
+            'date_of_birth': mfield('datetime.date'),
+            'address': mfield('address.address'),
+            'job_title': mfield('person.occupation'),
+            'phone': mfield('person.telephone'),
         })
         return {  # type: ignore[misc]
             **schema.create(iterations=1)[0],

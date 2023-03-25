@@ -10,20 +10,20 @@ from server.apps.pictures.models import FavouritePicture
 
 
 @pytest.mark.django_db()
-def test_fetch_zero_favourites(user: User) -> None:
+def test_fetch_zero_favourites(signedin_user: User) -> None:
     """Test getting zero favourites."""
-    fav_items = FavouritesList()(user.id).all()
+    fav_items = FavouritesList()(signedin_user.id).all()
 
     assert not fav_items
 
 
 @pytest.mark.django_db()
 def test_fetch_one_favourite(
-    user: User,
+    signedin_user: User,
     one_user_favourite: FavouritePicture,
 ) -> None:
     """Test getting one favourite."""
-    fav_items = FavouritesList()(user.id).all()
+    fav_items = FavouritesList()(signedin_user.id).all()
 
     assert len(fav_items) == 1
     assert fav_items[0].id == one_user_favourite.id
@@ -82,6 +82,8 @@ def test_sign_user_post_two_same_favourites(
     assert len(fav_items) == 2
     assert fav_items[0].foreign_id == favourite_picture_data.foreign_id
     assert fav_items[0].url == favourite_picture_data.url
+    assert fav_items[1].foreign_id == favourite_picture_data.foreign_id
+    assert fav_items[1].url == favourite_picture_data.url
 
 
 @pytest.mark.django_db()
