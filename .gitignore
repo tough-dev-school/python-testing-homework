@@ -244,3 +244,5 @@ artifacts/
 
 # ipython:
 .ipython/
+
+.local

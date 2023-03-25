@@ -44,14 +44,14 @@ services:
       environment:
         DJANGO_DATABASE_HOST: db
 
-    command: python -Wd manage.py runserver 0.0.0.0:8000
+    command: python -Wd manage.py runserver 0.0.0.0:8001
     healthcheck:
       # We use `$$` here because:
       # one `$` goes to shell,
       # one `$` goes to `docker-compose.yml` escaping
       test: |
         /usr/bin/test $$(
-          /usr/bin/curl --fail http://localhost:8000/health/?format=json
+          /usr/bin/curl --fail http://localhost:8001/health/?format=json
           --write-out "%{http_code}" --silent --output /dev/null
         ) -eq 200
       interval: 10s
