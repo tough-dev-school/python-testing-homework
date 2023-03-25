@@ -33,14 +33,30 @@ def test_valid_registration(
 
 
 @pytest.mark.django_db()
-def test_invalid_registration(
+def test_invalid_registration_no_email(
     client: Client,
     registration_data_factory: 'RegistrationDataFactory',
 ) -> None:
-    """Test invalid registration."""
+    """Test invalid registration with no email."""
+    user_data = registration_data_factory()
+    del user_data['email']
+    response = client.post(
+        reverse('identity:registration'),
+        data=user_data,
+    )
+
+    assert response.status_code == HTTPStatus.OK  # not HTTPStatus.FOUND
+
+
+@pytest.mark.django_db()
+def test_invalid_registration_invalid_email(
+    client: Client,
+    registration_data_factory: 'RegistrationDataFactory',
+) -> None:
+    """Test invalid registration with invalid email."""
     response = client.post(
         reverse('identity:registration'),
         data=registration_data_factory(email='invalid'),
     )
 
-    assert response.status_code == HTTPStatus.OK
+    assert response.status_code == HTTPStatus.OK  # not HTTPStatus.FOUND
