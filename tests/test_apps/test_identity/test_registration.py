@@ -28,7 +28,7 @@ def faker_seed():
 
 
 @pytest.fixture()
-def registration_data(
+def registration_data_factory(
     faker_seed: int,
 ) -> 'RegistrationDataFactory':
     """Returns factory for fake random data for registration."""
@@ -52,6 +52,14 @@ def registration_data(
         }
 
     return factory
+
+
+@pytest.fixture()
+def registration_data(
+    registration_data_factory: 'RegistrationDataFactory',
+) -> 'RegistrationData':
+    """Default success registration data."""
+    return registration_data_factory()
 
 
 @pytest.fixture(scope='session')
@@ -79,7 +87,6 @@ def expected_user_data(registration_data: 'RegistrationData') -> 'UserData':
 
     Basically, it is the same as ``registration_data``, but without passwords.
     """
-    registration_data = registration_data()
     return {  # type: ignore[return-value]
         key_name: value_part
         for key_name, value_part in registration_data.items()
@@ -95,7 +102,6 @@ def test_valid_registration(
     assert_correct_user: 'UserAssertion',
 ) -> None:
     """Test that registration works with correct user data."""
-    registration_data = registration_data()
     response = client.post(
         reverse('identity:registration'),
         data=registration_data,
