@@ -56,8 +56,7 @@ def registration_data_factory(
             'date_of_birth': mf('datetime.date'),
             'address': mf('address.city'),
             'job_title': mf('person.occupation'),
-            'phone': mf('person.telephone'),
-            'phone_type': mf('choice', items=[1, 2, 3]),
+            'phone': mf('person.telephone')
             })
         return {
             **schema.create(iterations=1)[0], # type: ignore[misc]
@@ -80,7 +79,7 @@ def assert_correct_user() -> UserAssertion:
         assert not user.is_staff
         # All other fields:
         for field_name, data_value in expected.items():
-            if field_name not in ('phone_type', 'password1', 'password2'):
+            if field_name not in ('password1', 'password2'):
                 assert getattr(user, field_name) == data_value
     return factory
 
