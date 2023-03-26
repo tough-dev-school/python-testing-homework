@@ -79,8 +79,7 @@ def assert_correct_user() -> UserAssertion:
         assert not user.is_staff
         # All other fields:
         for field_name, data_value in expected.items():
-            if field_name not in ('password1', 'password2'):
-                assert getattr(user, field_name) == data_value
+            assert getattr(user, field_name) == data_value
     return factory
 
 
@@ -90,11 +89,6 @@ def registration_data(registration_data_factory: RegistrationDataFactory) -> Reg
     We need to simplify registration data to drop passwords.
     Basically, it is the same as ``registration_data``, but without passwords.
     """
-    return registration_data_factory(email='test@email.com')
-
-
-@pytest.fixture()
-def expected_user_data(registration_data_factory: RegistrationDataFactory) -> 'UserData':
     return registration_data_factory(email='test@email.com')
 
 

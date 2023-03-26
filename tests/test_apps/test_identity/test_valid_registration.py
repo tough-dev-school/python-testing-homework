@@ -16,7 +16,7 @@ if TYPE_CHECKING:
 def test_valid_registration(
         client: Client,
         registration_data: 'RegistrationData',
-        expected_user_data: 'UserData',
+        user_data: 'UserData',
         assert_correct_user: 'UserAssertion',
 ) -> None:
     """Test that registration works with correct user data."""
@@ -26,5 +26,5 @@ def test_valid_registration(
     )
     assert response.status_code == HTTPStatus.FOUND
     assert response.get('Location') == reverse('identity:login')
-    assert_correct_user(registration_data['email'], expected_user_data)
+    assert_correct_user(registration_data['email'], user_data)
     assert True
