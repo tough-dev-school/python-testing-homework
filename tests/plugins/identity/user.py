@@ -9,11 +9,11 @@ from datetime import datetime
 from server.apps.identity.models import User
 
 
-@final
-class RegistrationData(TypedDict, total=False):
+class UserData(TypedDict, total=False):
     """
-        Represent the simplified user data that is required to create a new user.
-        Importing this type is only allowed under ``if TYPE_CHECKING`` in tests.
+    Represent the simplified user data that is required to create a new user.
+    It does not include ``password``, because it is very special in django.
+    Importing this type is only allowed under ``if TYPE_CHECKING`` in tests.
     """
     email: str
     first_name: str
@@ -23,7 +23,14 @@ class RegistrationData(TypedDict, total=False):
     job_title: str
     phone: str
     phone_type: int
-    # Special:
+
+
+@final
+class RegistrationData(UserData, total=False):
+    """
+    Represent the registration data that is required to create a new user.
+    Importing this type is only allowed under ``if TYPE_CHECKING`` in tests.
+    """
     password1: str
     password2: str
 
@@ -36,9 +43,10 @@ class RegistrationDataFactory(Protocol):
     ) -> RegistrationData:
         """User data factory protocol."""
 
+
 @pytest.fixture()
 def faker_seed() -> int:
-    return random.randint(0, 10)
+    return random.Random().getrandbits(32)
 
 
 @pytest.fixture()
@@ -98,34 +106,8 @@ def user_data(registration_data: 'RegistrationData') -> 'UserData':
     We need to simplify registration data to drop passwords.
     Basically, it is the same as ``registration_data``, but without passwords.
     """
-    return { # type: ignore[return-value]
+    return {  # type: ignore[return-value]
         key_name: value_part
         for key_name, value_part in registration_data.items()
         if not key_name.startswith('password')
     }
-
-
-class UserData(TypedDict, total=False):
-    """
-    Represent the simplified user data that is required to create a new user.
-    It does not include ``password``, because it is very special in django.
-    Importing this type is only allowed under ``if TYPE_CHECKING`` in tests.
-    """
-    email: str
-    first_name: str
-    last_name: str
-    date_of_birth: datetime
-    address: str
-    job_title: str
-    phone: str
-    phone_type: int
-
-
-@final
-class RegistrationData(UserData, total=False):
-    """
-    Represent the registration data that is required to create a new user.
-    Importing this type is only allowed under ``if TYPE_CHECKING`` in tests.
-    """
-    password1: str
-    password2: str
