@@ -4,13 +4,12 @@ from typing import Callable, Iterator
 import httpretty
 import pytest
 from django.test import Client
-from pydantic import BaseModel
 
 from server.apps.identity.intrastructure.services.placeholder import (
     UserResponse,
 )
 from server.apps.identity.models import User
-from tests.plugins.identity.users import RegistrationData, UserData
+from tests.plugins.identity.users import RegistrationData
 from tests.utils import mock_external_endpoint
 
 UserAssertion = Callable[[str, int], None]
@@ -39,16 +38,6 @@ def create_lead_mock(user_id_response: UserResponse) -> Iterator[UserResponse]:
         yield user_id_response
 
 
-@pytest.fixture()
-def _update_lead_mock() -> Iterator[None]:
-    """Mock external `/user/register` calls."""
-    endpoint = '/users'
-    method = httpretty.PATCH
-
-    with mock_external_endpoint(method, endpoint, BaseModel()):
-        yield
-
-
 @pytest.mark.django_db()
 def test_valid_registration(
     client: Client,
@@ -64,14 +53,3 @@ def test_valid_registration(
 
     assert response.status_code == HTTPStatus.FOUND
     assert_regular_user_exists(registration_data['email'], create_lead_mock.id)
-
-
-@pytest.mark.django_db()
-def test_user_update(
-    user_client: Client,
-    user_data: UserData,
-) -> None:
-    """Test that registration works with correct user data."""
-    response = user_client.post('/identity/update', data=user_data)
-
-    assert response.status_code == HTTPStatus.FOUND
