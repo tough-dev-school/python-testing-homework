@@ -34,7 +34,7 @@ class RegistrationData(UserData, total=False):
 
 
 @final
-class RegistrationDataFactory(Protocol):
+class RegistrationDataFactory(Protocol):  # type: ignore[misc]
     """User data factory protocol."""
 
     def __call__(
