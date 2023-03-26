@@ -32,7 +32,7 @@ def test_valid_registration(
 
 
 @pytest.mark.django_db()
-@pytest.mark.parametrize('field', User.REQUIRED_FIELDS)
+@pytest.mark.parametrize('field', User.REQUIRED_FIELDS + [User.USERNAME_FIELD])
 def test_registration_missing_required_field(
     client: Client,
     registration_data_factory: 'RegistrationDataFactory',
