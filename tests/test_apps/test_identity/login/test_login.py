@@ -30,13 +30,13 @@ def test_no_password(
 
 
 @pytest.mark.django_db()
-def test_no_email(
+def test_no_username(
     client: Client,
     login_data_factory: LoginDataFactory,
     assert_field_missing: FieldMissingAssertion,
 ) -> None:
-    """Login fails if email is not provided."""
-    login_data = login_data_factory(email='')
+    """Login fails if username is not provided."""
+    login_data = login_data_factory(username='')
     response = client.post(path=reverse('identity:login'), data=login_data)
     assert response.status_code == HTTPStatus.OK
     assert_field_missing(response.content)

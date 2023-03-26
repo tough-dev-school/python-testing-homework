@@ -50,12 +50,8 @@ def user_data_empty_birth_date(
     registration_data_empty_birth_date: RegistrationData,
 ) -> UserData:
     """User data with empty date of birth."""
-    return UserData(
-        email=registration_data_empty_birth_date['email'],
-        first_name=registration_data_empty_birth_date['first_name'],
-        last_name=registration_data_empty_birth_date['last_name'],
-        date_of_birth=None,
-        address=registration_data_empty_birth_date['address'],
-        job_title=registration_data_empty_birth_date['job_title'],
-        phone=registration_data_empty_birth_date['phone'],
-    )
+    return {  # type: ignore[return-value]
+        key_name: value_part
+        for key_name, value_part in registration_data_empty_birth_date.items()
+        if not key_name.startswith('password')
+    }

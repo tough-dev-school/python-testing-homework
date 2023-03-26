@@ -1,4 +1,4 @@
-from typing import Any, Callable
+from typing import Any, Callable, Generator
 
 import pytest
 from typing_extensions import TypeAlias
@@ -9,8 +9,9 @@ from tests.plugins.identity.registration import (
     RegistrationDataFactory,
     UserData,
 )
+from tests.plugins.identity.user_update import UserUpdateData
 
-UserAssertion: TypeAlias = Callable[[str, UserData], None]
+UserAssertion: TypeAlias = Callable[[str, UserUpdateData], None]
 FieldMissingAssertion: TypeAlias = Callable[[Any], None]
 
 
@@ -37,7 +38,7 @@ def user_data(registration_data: RegistrationData) -> UserData:
 
 
 @pytest.fixture()
-def db_user(user_data: UserData) -> User:
+def db_user(user_data: UserData) -> Generator[User, None, None]:
     """Created user model in database."""
     user = User.objects.create(**user_data)
     yield user
@@ -48,7 +49,7 @@ def db_user(user_data: UserData) -> User:
 def assert_correct_user() -> UserAssertion:
     """Assert that db user data is the same as expected one."""
 
-    def factory(email: str, expected: UserData) -> None:
+    def factory(email: str, expected: UserUpdateData) -> None:
         user = User.objects.get(email=email)
         # Special fields:
         assert user.id
@@ -57,6 +58,9 @@ def assert_correct_user() -> UserAssertion:
         assert not user.is_staff
         # All other fields:
         for field_name, data_value in expected.items():
+            # Date_of_birth is None in User DB model
+            if field_name == User.DATE_OF_BIRTH_FIELD and not data_value:
+                data_value = None  # noqa: WPS 440
             assert getattr(user, field_name) == data_value
 
     return factory

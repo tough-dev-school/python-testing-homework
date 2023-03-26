@@ -1,3 +1,5 @@
+from typing import Generator
+
 import pytest
 from django.test import Client
 
@@ -17,7 +19,10 @@ USER_UPDATE_REQUIRED_FIELD = (
 
 
 @pytest.fixture()
-def client_logined(client: Client, db_user: User) -> Client:
+def client_logined(
+    client: Client,
+    db_user: User,
+) -> Generator[Client, None, None]:
     """Client with simulated user login."""
     client.force_login(user=db_user)
     yield client

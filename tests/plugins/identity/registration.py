@@ -1,12 +1,13 @@
-from datetime import datetime
-from typing import Protocol, TypedDict, final
+from typing import Protocol, final
 
 import pytest
 from mimesis.schema import Field, Schema
 from typing_extensions import Unpack
 
+from tests.plugins.identity.user_update import UserUpdateData
 
-class UserData(TypedDict, total=False):
+
+class UserData(UserUpdateData, total=False):
     """
     Simplified user data that is required to create a new user.
 
@@ -15,12 +16,6 @@ class UserData(TypedDict, total=False):
     """
 
     email: str
-    first_name: str
-    last_name: str
-    date_of_birth: datetime
-    address: str
-    job_title: str
-    phone: str
 
 
 @final
@@ -35,7 +30,6 @@ class RegistrationData(UserData, total=False):
     password2: str
 
 
-@final
 class RegistrationDataFactory(Protocol):
     """User data factory protocol."""
 

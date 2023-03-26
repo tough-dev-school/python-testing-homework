@@ -1,3 +1,5 @@
+from typing import Generator
+
 import pytest
 
 from server.apps.identity.models import User
@@ -15,7 +17,9 @@ def login_data(
 
 
 @pytest.fixture()
-def _mock_check_pwd(monkeypatch: pytest.MonkeyPatch) -> None:
+def _mock_check_pwd(
+    monkeypatch: pytest.MonkeyPatch,
+) -> Generator[None, None, None]:
     """
     Mock password checking logic for the user.
 

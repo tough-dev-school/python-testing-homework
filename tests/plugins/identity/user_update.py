@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Protocol, TypedDict, final
+from typing import Protocol, TypedDict, Union
 
 import pytest
 from mimesis.schema import Field, Schema
@@ -11,13 +11,12 @@ class UserUpdateData(TypedDict, total=False):
 
     first_name: str
     last_name: str
-    date_of_birth: datetime
+    date_of_birth: Union[datetime, str]
     address: str
     job_title: str
     phone: str
 
 
-@final
 class UserUpdateDataFactory(Protocol):
     """User update data factory protocol."""
 

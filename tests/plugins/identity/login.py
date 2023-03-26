@@ -8,7 +8,7 @@ from typing_extensions import Unpack
 class LoginData(TypedDict, total=False):
     """User data that is required to login to the app."""
 
-    email: str
+    username: str
     password: str
 
 
