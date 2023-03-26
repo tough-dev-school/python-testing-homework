@@ -89,7 +89,7 @@ def registration_data(registration_data_factory: RegistrationDataFactory) -> Reg
     We need to simplify registration data to drop passwords.
     Basically, it is the same as ``registration_data``, but without passwords.
     """
-    return registration_data_factory(email='test@email.com')
+    return registration_data_factory()
 
 
 @pytest.fixture()

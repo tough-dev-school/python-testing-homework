@@ -48,3 +48,21 @@ def test_registration_missing_required_field(
     )
     assert response.status_code == HTTPStatus.OK
     assert not User.objects.filter(email=post_data['email']).exists()
+
+
+@pytest.mark.django_db()
+@pytest.mark.parametrize('field', User.REQUIRED_FIELDS + [User.USERNAME_FIELD])
+def test_registration_forgotten_required_field(
+    client: Client,
+    registration_data: 'RegistrationData',
+    field: str,
+) -> None:
+    """Test that missing required will fail the registration."""
+    registration_data.pop(field)
+    response = client.post(
+        reverse('identity:registration'),
+        data=registration_data,
+    )
+    assert response.status_code == HTTPStatus.OK
+    if field != 'email':
+        assert not User.objects.filter(email=registration_data['email']).exists()
