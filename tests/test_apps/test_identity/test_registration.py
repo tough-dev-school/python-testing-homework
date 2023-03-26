@@ -1,16 +1,17 @@
+import random
 from http import HTTPStatus
+from typing import TYPE_CHECKING
 
 import pytest
-import random
-from typing import TYPE_CHECKING
-from typing_extensions import Unpack
-from mimesis.locales import Locale
-from mimesis.schema import Field, Schema
 from django.contrib.auth import get_user_model
 from django.test import Client
 from django.urls import reverse
+from mimesis.locales import Locale
+from mimesis.schema import Field, Schema
+from typing_extensions import Unpack
 
 if TYPE_CHECKING:
+
     from tests.plugins.identity.user import (
         RegistrationData,
         RegistrationDataFactory,
