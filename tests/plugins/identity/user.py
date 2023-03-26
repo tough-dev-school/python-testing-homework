@@ -4,7 +4,7 @@ from typing import Callable
 from mimesis.locales import Locale
 from mimesis.schema import Field, Schema
 from typing import final, TypedDict, Protocol
-from typing_extensions import Unpack
+from typing_extensions import Unpack, TypeAlias
 from datetime import datetime
 from server.apps.identity.models import User
 
@@ -74,7 +74,7 @@ def registration_data_factory(
     return factory
 
 
-UserAssertion = Callable[[str, 'UserData'], None]
+UserAssertion: TypeAlias = Callable[[str, 'UserData'], None]
 
 @pytest.fixture(scope='session')
 def assert_correct_user() -> UserAssertion:
