@@ -1,4 +1,3 @@
-import random
 from http import HTTPStatus
 from typing import TYPE_CHECKING
 
@@ -18,13 +17,6 @@ if TYPE_CHECKING:
         UserAssertion,
         UserData,
     )
-
-
-@pytest.fixture()
-def faker_seed():
-    """Returns int for fake random seed for registration."""
-    bits = 32
-    return random.Random().getrandbits(bits)
 
 
 @pytest.fixture()
