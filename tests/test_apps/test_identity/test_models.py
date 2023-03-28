@@ -1,36 +1,10 @@
 """Test User model."""
-from datetime import date, timedelta
-
 import pytest
 from django.db.utils import IntegrityError
-from mimesis import Address, Person
 
 from server.apps.identity.models import User
 
-person = Person()
-address = Address()
-
 pytestmark = pytest.mark.django_db
-
-DAYS_IN_YEAR = 365
-
-
-@pytest.fixture()
-def user_data() -> dict[str, object]:
-    """Generate random user data fixture."""
-    age = person.age()
-    birthdate = date.today() - timedelta(days=age * DAYS_IN_YEAR)
-
-    return {
-        'email': person.email(),
-        'password': person.password(),
-        'first_name': person.first_name(),
-        'last_name': person.last_name(),
-        'date_of_birth': birthdate,
-        'address': address.address(),
-        'job_title': person.occupation(),
-        'phone': person.telephone(),
-    }
 
 
 def test_create_user(user_data) -> None:
