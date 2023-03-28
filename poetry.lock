@@ -739,23 +739,6 @@ dev = ["Django", "black", "django-stubs", "djangorestframework", "djangorestfram
 test = ["pytest", "pytest-cov", "pytest-django"]
 
 [[package]]
-name = "django-fakery"
-version = "4.1.0"
-description = "A model instances generator for Django"
-category = "dev"
-optional = false
-python-versions = ">=3.8"
-files = [
-    {file = "django-fakery-4.1.0.tar.gz", hash = "sha256:6a4831efd0fb871c58d555c97a652c03470a89521a4c4f85f61d94bf620228fa"},
-    {file = "django_fakery-4.1.0-py2.py3-none-any.whl", hash = "sha256:7d7e95c223ec2b35a0a3ae7b3d325afa9d5e37b61a12e99959c21914dbb6b51c"},
-]
-
-[package.dependencies]
-Django = ">=3.2"
-Faker = ">=10.0,<11.0"
-six = ">=1.10.1"
-
-[[package]]
 name = "django-health-check"
 version = "3.17.0"
 description = "Run checks on services like databases, queue servers, celery processes, etc."
@@ -1072,22 +1055,6 @@ files = [
 
 [package.extras]
 tests = ["asttokens", "littleutils", "pytest", "rich"]
-
-[[package]]
-name = "faker"
-version = "10.0.0"
-description = "Faker is a Python package that generates fake data for you."
-category = "dev"
-optional = false
-python-versions = ">=3.6"
-files = [
-    {file = "Faker-10.0.0-py3-none-any.whl", hash = "sha256:3163c84866cf118ac5329a802e046b0f729528ce62ebb2806b626e0badbb6ff3"},
-    {file = "Faker-10.0.0.tar.gz", hash = "sha256:530690ad12a2a054071af95fc8a354c5fd57b5e7707053a9662f40f14a87b68e"},
-]
-
-[package.dependencies]
-python-dateutil = ">=2.4"
-text-unidecode = "1.3"
 
 [[package]]
 name = "flake8"
@@ -1454,6 +1421,17 @@ eventlet = ["eventlet (>=0.24.1)"]
 gevent = ["gevent (>=1.4.0)"]
 setproctitle = ["setproctitle"]
 tornado = ["tornado (>=0.2)"]
+
+[[package]]
+name = "httpretty"
+version = "1.1.4"
+description = "HTTP client mock for Python"
+category = "dev"
+optional = false
+python-versions = ">=3"
+files = [
+    {file = "httpretty-1.1.4.tar.gz", hash = "sha256:20de0e5dd5a18292d36d928cc3d6e52f8b2ac73daec40d41eb62dee154933b68"},
+]
 
 [[package]]
 name = "hypothesis"
@@ -2503,21 +2481,6 @@ files = [
 pytest = ">=5.0.0"
 
 [[package]]
-name = "python-dateutil"
-version = "2.8.2"
-description = "Extensions to the standard Python datetime module"
-category = "dev"
-optional = false
-python-versions = "!=3.0.*,!=3.1.*,!=3.2.*,>=2.7"
-files = [
-    {file = "python-dateutil-2.8.2.tar.gz", hash = "sha256:0123cacc1627ae19ddf3c27a5de5bd67ee4586fbdd6440d9748f8abb483d3e86"},
-    {file = "python_dateutil-2.8.2-py2.py3-none-any.whl", hash = "sha256:961d03dc3453ebbc59dbdea9e4e11c5651520a876d0f4db161e8674aae935da9"},
-]
-
-[package.dependencies]
-six = ">=1.5"
-
-[[package]]
 name = "python-decouple"
 version = "3.7"
 description = "Strict separation of settings from code."
@@ -3318,4 +3281,4 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "2.0"
 python-versions = "3.9.15"
-content-hash = "adb28c96f71365d829f60fbdea39bc3fda02b91f024ecc1f1d95842dfe3ae194"
+content-hash = "b0d07872111b25ada1223531e3ad75148b0580652467c10e9c1c574ff83a552e"
