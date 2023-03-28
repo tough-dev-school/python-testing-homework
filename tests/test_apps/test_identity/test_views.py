@@ -31,7 +31,7 @@ def test_login_view_post(client: Client, user_data: dict[str, str]) -> None:
     )
 
     assert response.status_code == HTTPStatus.FOUND
-    assert response.url == reverse('pictures:dashboard') # type: ignore[attr-defined]
+    assert response.get('Location', '') == reverse('pictures:dashboard')
 
 
 def test_registration_view_get(client: Client) -> None:
@@ -55,5 +55,5 @@ def test_registration_view_post(
     response = client.post(url, registration_data)
 
     assert response.status_code == HTTPStatus.FOUND
-    assert response.url == reverse('identity:login') # type: ignore[attr-defined]
+    assert response.get('Location', '') == reverse('identity:login')
     assert User.objects.filter(email=user_data['email']).exists()
