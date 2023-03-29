@@ -7,9 +7,13 @@ It may be also used for extending doctest's context:
 """
 
 from datetime import date, timedelta
+from typing import Any
 
 import pytest
+from django.test import Client
 from mimesis import Address, Person
+
+from server.apps.identity.models import User
 
 person = Person()
 address = Address()
@@ -28,7 +32,7 @@ pytest_plugins = [
 
 
 @pytest.fixture()
-def user_data() -> dict[str, object]:
+def user_data() -> dict[str, Any]:
     """Generate random user data fixture."""
     age = person.age()
     birthdate = date.today() - timedelta(days=age * DAYS_IN_YEAR)
@@ -43,3 +47,11 @@ def user_data() -> dict[str, object]:
         'job_title': person.occupation(),
         'phone': person.telephone(),
     }
+
+
+@pytest.fixture()
+def authenticated_client(client: Client, user_data: dict[str, Any]) -> Client:
+    """Create an authenticated client for testing."""
+    user = User.objects.create_user(**user_data)
+    client.force_login(user)
+    return client
