@@ -4,6 +4,7 @@ from typing import TYPE_CHECKING
 import pytest
 from django.test import Client
 from django.urls import reverse
+from server.settings.components.identity import LOGIN_REDIRECT_URL
 
 from server.apps.identity.models import User
 
@@ -25,6 +26,10 @@ def test_valid_login(
             data=login_data,
         )
     assert response.status_code == HTTPStatus.FOUND
+
+    response.url.startswith(str(LOGIN_REDIRECT_URL))
+    response = client.get(response.url)
+    assert response.status_code == HTTPStatus.OK
 
 
 @pytest.mark.django_db()

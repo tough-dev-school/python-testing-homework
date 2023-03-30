@@ -110,7 +110,7 @@ class UpdateUserDataFactory(Protocol):
 @pytest.fixture()
 def faker_seed():
     """Generates random seed."""
-    return random.seed(10)
+    return random.Random().getrandbits(32)
 
 
 @pytest.fixture()
