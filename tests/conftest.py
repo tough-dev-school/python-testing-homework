@@ -6,7 +6,7 @@ It may be also used for extending doctest's context:
 2. https://docs.pytest.org/en/latest/doctest.html
 """
 import random
-from typing import TYPE_CHECKING, Unpack
+from typing_extensions import TYPE_CHECKING, Unpack
 
 import pytest
 from mimesis.locales import Locale
