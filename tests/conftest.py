@@ -16,9 +16,9 @@ from server.apps.identity.models import User
 
 if TYPE_CHECKING:
     from plugins.identity.user import (
-        RegisteredData,
-        RegistrationData,
         RegistrationDataFactory,
+        RegistrationData,
+        LoginData,
         UserData,
     )
 
@@ -52,9 +52,9 @@ def registration_data_factory(
                 "phone": mf("person.telephone"),
             },
         )
-        return {
-            **schema.create(iterations=1)[0],  # type: ignore[misc]
-            **{"password1": password, "password2": password},
+        return { # type: ignore[misc]
+            **schema.create(iterations=1)[0],
+            **{"password": password, "password1": password, "password2": password},
             **fields,
         }
 
@@ -80,17 +80,14 @@ def user_data(registration_data: "RegistrationData") -> "UserData":
 def expected_user_data(user_data: "RegistrationData"):
     return user_data
 
-@pytest.fixture()
-def registered_data(registration_data: "RegistrationData") -> "RegisteredData":
-    return { # type: ignore [return-value]
-        ('password' if key_name.startswith("password") else key_name): value_part
-        for key_name, value_part in registration_data.items()
-    }
 
 @pytest.fixture()
-def register_user(registered_data: "RegisteredData") -> dict[str, str]:
-    User.objects.create_user(**registered_data)
+def register_user(registration_data: "RegistrationData") -> "LoginData":
+    registration_data.pop('password1')
+    registration_data.pop('password2')
+    User.objects.create_user(**registration_data)
+
     return { #type: ignore
-        'username': registered_data["email"],
-        'password': registered_data["password"]
+        'username': registration_data["email"],
+        'password': registration_data["password"]
     }

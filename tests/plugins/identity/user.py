@@ -16,12 +16,14 @@ class UserData(TypedDict, total=False):
 @final
 class RegistrationData(UserData, total=False):
     # special
+    password: str
     password1: str
     password2: str
 
+
 @final
-class RegisteredData(UserData, total=False):
-    # special
+class LoginData(TypedDict, total=False):
+    username: str
     password: str
 
 
@@ -32,6 +34,7 @@ class RegistrationDataFactory(Protocol):
         **fields: Unpack[RegistrationData],
     ) -> RegistrationData:
         ...
+
 
 
 UserAssertion: TypeAlias = Callable[[str, UserData], None]
