@@ -6,9 +6,11 @@ It may be also used for extending doctest's context:
 2. https://docs.pytest.org/en/latest/doctest.html
 """
 
+
 pytest_plugins = [
     # Should be the first custom one:
     'plugins.django_settings',
-
+    'plugins.identity.user',
+    'plugins.assertions.user'
     # TODO: add your own plugins here!
 ]
