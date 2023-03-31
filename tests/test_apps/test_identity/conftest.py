@@ -1,10 +1,7 @@
-import random
-
 import pytest
 
 
 @pytest.fixture(autouse=True)
-def faker_seed():
+def seed(request):
     """Returns int for fake random seed for registration."""
-    bits = 32
-    return random.Random().getrandbits(bits)
+    return request.config.getoption('randomly_seed')

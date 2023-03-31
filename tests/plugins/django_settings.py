@@ -47,3 +47,11 @@ def cache(settings) -> BaseCache:
     # Clearing cache:
     caches[test_cache].clear()
     return caches[test_cache]
+
+
+@pytest.fixture(autouse=True)
+def _debug(settings) -> None:
+    """Sets proper DEBUG and TEMPLATE debug mode for coverage."""
+    settings.DEBUG = True
+    for template in settings.TEMPLATES:
+        template['OPTIONS']['debug'] = True

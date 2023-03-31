@@ -21,12 +21,12 @@ if TYPE_CHECKING:
 
 @pytest.fixture()
 def registration_data_factory(
-    faker_seed: int,
+    seed: int,
 ) -> 'RegistrationDataFactory':
     """Returns factory for fake random data for registration."""
 
     def factory(**fields: Unpack['RegistrationData']) -> 'RegistrationData':
-        mf = Field(locale=Locale.RU, seed=faker_seed)
+        mf = Field(locale=Locale.RU, seed=seed)
         password = mf('password')  # by default passwords are equal
         schema = Schema(schema=lambda: {
             'email': mf('person.email'),
