@@ -12,6 +12,5 @@ pytest_plugins = [
     'tests.plugins.identity.user',
     'tests.plugins.pictures.pictures',
     'tests.plugins.common.admin_client_app',
-
-    # TODO: add your own plugins here!
+    'tests.plugins.common.json_server',
 ]

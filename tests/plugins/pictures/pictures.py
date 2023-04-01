@@ -1,17 +1,17 @@
 import json
 from typing import Protocol, TypedDict, final, Callable, Generator
-from typing_extensions import Unpack
 
-import pytest
 import httpretty
-from mimesis import Field, Schema
-from mimesis.enums import Locale
+import pytest
 from django.conf import settings
 from django.test import Client
+from mimesis import Field, Schema
+from mimesis.enums import Locale
+from typing_extensions import Unpack
 
 from server.apps.identity.models import User
 from server.apps.pictures.models import FavouritePicture
-from tests.plugins.constants import URL_HTTPRETTY_FINAL, URL_JSON_SERVER_FINAL
+from tests.plugins.constants import URL_HTTPRETTY_FINAL
 
 
 @final
@@ -99,12 +99,3 @@ def mock_pictures_service() -> Callable[[any], None]:
         )
 
     return factory
-
-
-@pytest.fixture()
-def _mock_pictures_service_server() -> Generator[None, None, None]:
-    """Mock DJANGO_PLACEHOLDER_API_URL using json_server."""
-    previous_setting = settings.PLACEHOLDER_API_URL
-    settings.PLACEHOLDER_API_URL = URL_JSON_SERVER_FINAL
-    yield
-    settings.PLACEHOLDER_API_URL = previous_setting

@@ -72,7 +72,7 @@ def test_placeholder_external_service(
 
 @pytest.mark.django_db()
 @pytest.mark.timeout(4)
-@pytest.mark.usefixtures('_mock_pictures_service_server')
+@pytest.mark.usefixtures('_apply_json_server')
 def test_external_service(
     client: Client,
     picture_data: 'PictureData',

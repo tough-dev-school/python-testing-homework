@@ -6,6 +6,7 @@ from django.test import Client
 from django.urls import reverse
 
 from server.apps.identity.models import User
+from tests.plugins.constants import EXPECTED_LEAD_ID_FINAL
 
 if TYPE_CHECKING:
     from tests.plugins.identity.user import RegistrationDataFactory
@@ -47,3 +48,23 @@ def test_success_registration(
 
     assert response.status_code == HTTPStatus.FOUND
     assert User.objects.filter(email=post_data['email'])
+
+
+@pytest.mark.django_db()
+@pytest.mark.timeout(4)
+@pytest.mark.usefixtures('_apply_json_server')
+def test_external_service(
+    client: Client,
+    registration_data_factory: 'RegistrationDataFactory',
+) -> None:
+    """Test pictures placeholder with json-server."""
+    post_data = registration_data_factory()
+
+    response = client.post(
+        reverse('identity:registration'),
+        data=post_data,
+    )
+    user = User.objects.get(email=post_data['email'])
+
+    assert response.status_code == HTTPStatus.FOUND
+    assert user.lead_id == EXPECTED_LEAD_ID_FINAL
