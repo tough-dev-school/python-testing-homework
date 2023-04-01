@@ -1,5 +1,6 @@
 import datetime as dt
 from typing import Callable, Protocol, TypedDict, final
+
 from typing_extensions import TypeAlias, Unpack
 
 

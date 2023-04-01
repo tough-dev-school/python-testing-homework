@@ -1,8 +1,8 @@
+import random
 from http import HTTPStatus
 from typing import TYPE_CHECKING, List
 
 import pytest
-import random
 from django.contrib import auth
 from django.test import Client
 from django.urls import reverse
@@ -12,9 +12,7 @@ from mimesis.schema import Field
 from server.apps.identity.models import User
 
 if TYPE_CHECKING:
-    from plugins.identity.user import (
-        LoginData
-    )
+    from plugins.identity.user import LoginData
 
 
 @pytest.mark.django_db()
