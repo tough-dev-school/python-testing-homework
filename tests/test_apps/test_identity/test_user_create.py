@@ -31,7 +31,6 @@ def assert_correct_user() -> "UserAssertion":
     return factory
 
 
-# test user can be created with valid data
 @pytest.mark.django_db()
 def test_create_user_with_valid_data(
     client: Client,
@@ -49,7 +48,6 @@ def test_create_user_with_valid_data(
     assert_correct_user(registration_data["email"], expected_user_data)
 
 
-# test user can not be created with any empty field
 @pytest.mark.django_db()
 @pytest.mark.parametrize("field", User.REQUIRED_FIELDS + [User.USERNAME_FIELD])
 def test_create_user_empty_field(
@@ -76,6 +74,3 @@ def test_create_user_no_email(
 
     with pytest.raises(TypeError):
         User.objects.create_user(**post_data)
-
-
-        #assert response.status_code == HTTPStatus.OK
