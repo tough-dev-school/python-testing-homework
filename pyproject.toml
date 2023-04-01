@@ -29,6 +29,8 @@ pydantic = "^1.10"
 punq = "^0.6"
 mimesis = "^7.0.0"
 black = "^23.1.0"
+httpretty = "^1.1.4"
+python-dotenv = "^1.0.0"
 
 [tool.black]
 line-length = 80
