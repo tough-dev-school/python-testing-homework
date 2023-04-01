@@ -22,7 +22,7 @@ class RegistrationData(UserData, total=False):
 
 
 @final
-class LoginData(TypedDict, total=False):
+class LoginData(TypedDict):
     username: str
     password: str
 
