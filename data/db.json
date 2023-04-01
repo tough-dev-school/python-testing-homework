@@ -1,24 +1,40 @@
 {
-    "users": [
-        {
-            "id": 1
-        }
-    ],
-    "posts": [
-        {
-            "id": 1,
-            "title": "json-server",
-            "author": "typicode"
-        }
-    ],
-    "comments": [
-        {
-            "id": 1,
-            "body": "some comment",
-            "postId": 1
-        }
-    ],
-    "profile": {
-        "name": "typicode"
+  "users": [
+    {
+      "id": 1,
+      "email": "test@example.com",
+      "passwrod": "TestPassword"
     }
+  ],
+  "photos": [
+    {
+      "id": 1,
+      "url": "https://thumb.tildacdn.com/tild3231-6635-4930-b335-343534336338/-/resize/380x/-/format/webp/photo.png"
+    },
+    {
+      "id": 2,
+      "url": "https://thumb.tildacdn.com/tild3335-6639-4862-a364-363266653865/-/resize/380x/-/format/webp/_-4.png"
+    },
+    {
+      "id": 3,
+      "url": "https://thumb.tildacdn.com/tild3937-3633-4135-b266-643031653735/-/resize/380x/-/format/webp/_-3.png"
+    }
+  ],
+  "posts": [
+    {
+      "id": 1,
+      "title": "json-server",
+      "author": "typicode"
+    }
+  ],
+  "comments": [
+    {
+      "id": 1,
+      "body": "some comment",
+      "postId": 1
+    }
+  ],
+  "profile": {
+    "name": "typicode"
+  }
 }
