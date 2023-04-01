@@ -1,14 +1,15 @@
 from http import HTTPStatus
-from typing import TYPE_CHECKING
+from typing import TYPE_CHECKING, Tuple
 
 import pytest
+from django.http import HttpResponse
 from django.test import Client
 from django.urls import reverse
 
 from server.apps.identity.models import User
 
 if TYPE_CHECKING:
-    from tests.plugins.identity.user import RegistrationDataFactory
+    from tests.plugins.identity.user import RegistrationDataFactory, UserData
 
 
 @pytest.mark.django_db()
@@ -28,3 +29,13 @@ def test_registration_missing_required_field(
     )
     assert response.status_code == HTTPStatus.OK
     assert not User.objects.filter(email=post_data['email'])
+
+
+@pytest.mark.django_db()
+def test_success_registration(
+    user_registration: Tuple['UserData', HttpResponse],
+) -> None:
+    """Test that missing required will fail the registration."""
+    post_data, response = user_registration
+    assert response.status_code == HTTPStatus.FOUND
+    assert User.objects.filter(email=post_data['email'])

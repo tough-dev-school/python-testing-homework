@@ -25,3 +25,11 @@ def test_views_available_user(user, view, expected_status, request) -> None:
     actual_status = response.status_code
 
     assert actual_status == expected_status
+
+
+@pytest.mark.django_db()()
+def test_pictures_index_success_render(request) -> None:
+    """Accessibility of picture index view."""
+    client: Client = request.getfixturevalue('client')
+    response = client.get('/')
+    assert response.status_code == HTTPStatus.OK

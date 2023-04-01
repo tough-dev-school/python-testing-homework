@@ -1,10 +1,15 @@
 import datetime as dt
-from typing import (Callable, final, Protocol, TypedDict)
-from typing_extensions import Unpack, TypeAlias
+from typing import (Callable, final, Protocol, TypedDict, Generator, Tuple)
 
 import pytest
+from django.http import HttpResponse
+from django.test import Client
+from django.urls import reverse
+from typing_extensions import Unpack, TypeAlias
 from mimesis.locales import Locale
 from mimesis.schema import Field, Schema
+
+from server.apps.identity.models import User
 
 
 class UserData(TypedDict, total=False):
@@ -87,3 +92,19 @@ def user_data(registration_data: 'RegistrationData') -> 'UserData':
 
 
 UserAssertion: TypeAlias = Callable[[str, UserData], None]
+
+
+@pytest.mark.django_db()
+@pytest.fixture()
+def user_registration(
+    client: Client,
+    registration_data_factory: 'RegistrationDataFactory',
+) -> Generator[Tuple['UserData', HttpResponse], None, None]:
+    """User registration fixture."""
+    post_data = registration_data_factory()
+    response = client.post(
+        reverse('identity:registration'),
+        data=post_data,
+    )
+    yield post_data, response
+    User.objects.filter(email=post_data['email']).delete()
