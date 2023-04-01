@@ -27,7 +27,7 @@ class PicturesFetch(http.BaseFetcher):
         *,
         limit: int,
     ) -> List[PictureResponse]:
-        """Create remote user and return assigned ids."""
+        """Get user pictures IDs and URLs."""
         response = requests.get(
             self.url_path(),
             params={'_limit': limit},

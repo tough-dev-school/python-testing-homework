@@ -6,13 +6,15 @@ from django.urls import reverse
 
 from server.apps.identity.models import User
 from tests.plugins.identity.login import LoginData, LoginDataFactory
-from tests.test_apps.test_identity.conftest import FieldMissingAssertion
+from tests.test_apps.conftest import FieldMissingAssertion
+
+URL_PATH = reverse('identity:login')
 
 
 @pytest.mark.django_db()
 def test_page_renders(client: Client) -> None:
     """Basic `get` method works."""
-    response = client.get(path=reverse('identity:login'))
+    response = client.get(path=URL_PATH)
     assert response.status_code == HTTPStatus.OK
 
 
@@ -24,7 +26,7 @@ def test_no_password(
 ) -> None:
     """Login fails if password is not provided."""
     login_data = login_data_factory(password='')  # noqa: S106
-    response = client.post(path=reverse('identity:login'), data=login_data)
+    response = client.post(path=URL_PATH, data=login_data)
     assert response.status_code == HTTPStatus.OK
     assert_field_missing(response.content)
 
@@ -37,7 +39,7 @@ def test_no_username(
 ) -> None:
     """Login fails if username is not provided."""
     login_data = login_data_factory(username='')
-    response = client.post(path=reverse('identity:login'), data=login_data)
+    response = client.post(path=URL_PATH, data=login_data)
     assert response.status_code == HTTPStatus.OK
     assert_field_missing(response.content)
 
@@ -48,7 +50,7 @@ def test_user_not_registered(
     login_data: LoginData,
 ) -> None:
     """Login fails if there is no registered user for provided data."""
-    response = client.post(path=reverse('identity:login'), data=login_data)
+    response = client.post(path=URL_PATH, data=login_data)
     assert response.status_code == HTTPStatus.OK
 
 
@@ -60,5 +62,5 @@ def test_user_registered(
     db_user: User,
 ) -> None:
     """Login is successful for registered user."""
-    response = client.post(path=reverse('identity:login'), data=login_data)
+    response = client.post(path=URL_PATH, data=login_data)
     assert response.status_code == HTTPStatus.FOUND

@@ -18,6 +18,12 @@ class UserData(UserUpdateData, total=False):
     email: str
 
 
+class ExternalAPIUserData(UserData, total=False):
+    """User data in external JSON Server."""
+
+    id: int
+
+
 @final
 class RegistrationData(UserData, total=False):
     """

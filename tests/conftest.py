@@ -18,6 +18,7 @@ pytest_plugins = [
     'tests.plugins.identity.login',
     'tests.plugins.identity.registration',
     'tests.plugins.identity.user_update',
+    'tests.plugins.pictures.picture',
 ]
 
 

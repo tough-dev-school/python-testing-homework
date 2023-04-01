@@ -1,9 +1,5 @@
-from typing import Generator
-
 import pytest
-from django.test import Client
 
-from server.apps.identity.models import User
 from tests.plugins.identity.user_update import (
     UserUpdateData,
     UserUpdateDataFactory,
@@ -16,17 +12,6 @@ USER_UPDATE_REQUIRED_FIELD = (
     'job_title',
     'phone',
 )
-
-
-@pytest.fixture()
-def client_logined(
-    client: Client,
-    db_user: User,
-) -> Generator[Client, None, None]:
-    """Client with simulated user login."""
-    client.force_login(user=db_user)
-    yield client
-    client.logout()
 
 
 @pytest.fixture()
