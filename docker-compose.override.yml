@@ -24,6 +24,8 @@ services:
       args:
         - UID=${UID:-1000}
         - GID=${GID:-1000}
+    environment:
+      DJANGO_PLACEHOLDER_API_URL: http://json-server:3000
 
 networks:
   # Fake API network:
