@@ -9,6 +9,17 @@
 
 version: "3.8"
 services:
+  json-server:
+    image: "vimagick/json-server"
+    command: -H 0.0.0.0 -p 3000 -w db.json --middlewares delay.middleware.js
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./data:/data
+    restart: always
+    networks:
+      - webnet
+
   db:
     image: "postgres:13-alpine"
     volumes:
@@ -37,6 +48,7 @@ services:
         - django-static:/var/www/django/static
       depends_on:
         - db
+        - json-server
       networks:
         - webnet
         - postgresnet
@@ -71,5 +83,6 @@ networks:
   postgresnet:
 
 volumes:
+  data:
   pgdata:
   django-static:

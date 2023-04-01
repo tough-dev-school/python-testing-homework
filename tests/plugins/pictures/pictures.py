@@ -1,9 +1,17 @@
-from typing import Protocol, TypedDict, final
+import json
+from typing import Protocol, TypedDict, final, Callable, Generator
+from typing_extensions import Unpack
 
 import pytest
+import httpretty
 from mimesis import Field, Schema
 from mimesis.enums import Locale
-from typing_extensions import Unpack
+from django.conf import settings
+from django.test import Client
+
+from server.apps.identity.models import User
+from server.apps.pictures.models import FavouritePicture
+from tests.plugins.constants import URL_HTTPRETTY_FINAL, URL_JSON_SERVER_FINAL
 
 
 @final
@@ -55,3 +63,48 @@ def picture_data_factory(
 def picture_data(picture_data_factory) -> PictureData:
     """Creates picture data for post queries."""
     return picture_data_factory()
+
+
+@pytest.mark.django_db()
+@pytest.fixture()
+def picture_creation(
+    client: Client,
+    picture_data: 'PictureData',
+    user_registration: User,
+) -> Generator[FavouritePicture, None, None]:
+    """Picture creation fixture."""
+    favourite_picture_data = {
+        **picture_data,
+        **{'user': user_registration},
+    }
+    favourite_picture: FavouritePicture = FavouritePicture.objects. \
+        create(**favourite_picture_data)
+
+    yield favourite_picture
+
+    FavouritePicture.objects. \
+        filter(foreign_id=favourite_picture.foreign_id).delete()
+
+
+@pytest.fixture()
+def mock_pictures_service() -> Callable[[any], None]:
+    """Mock external pictures service using httpretty."""
+
+    def factory(body_object: any) -> None:
+        settings.PLACEHOLDER_API_URL = URL_HTTPRETTY_FINAL
+        httpretty.register_uri(
+            httpretty.GET,
+            '{0}photos'.format(URL_HTTPRETTY_FINAL),
+            body=json.dumps(body_object),
+        )
+
+    return factory
+
+
+@pytest.fixture()
+def _mock_pictures_service_server() -> Generator[None, None, None]:
+    """Mock DJANGO_PLACEHOLDER_API_URL using json_server."""
+    previous_setting = settings.PLACEHOLDER_API_URL
+    settings.PLACEHOLDER_API_URL = URL_JSON_SERVER_FINAL
+    yield
+    settings.PLACEHOLDER_API_URL = previous_setting

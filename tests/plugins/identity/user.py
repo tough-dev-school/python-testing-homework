@@ -1,15 +1,17 @@
 import datetime as dt
-from typing import (Callable, final, Protocol, TypedDict, Generator, Tuple)
+import json
+from typing import (Callable, final, Protocol, TypedDict, Generator)
 
+import httpretty
 import pytest
-from django.http import HttpResponse
+from django.conf import settings
 from django.test import Client
-from django.urls import reverse
-from typing_extensions import Unpack, TypeAlias
 from mimesis.locales import Locale
 from mimesis.schema import Field, Schema
+from typing_extensions import Unpack, TypeAlias
 
 from server.apps.identity.models import User
+from tests.plugins.constants import URL_HTTPRETTY_FINAL
 
 
 class UserData(TypedDict, total=False):
@@ -27,7 +29,6 @@ class UserData(TypedDict, total=False):
     address: str
     job_title: str
     phone: str
-    phone_type: int
 
 
 @final
@@ -70,7 +71,6 @@ def registration_data_factory(
             'address': mf('address.city'),
             'job_title': mf('person.occupation'),
             'phone': mf('person.telephone'),
-            'phone_type': mf('choice', items=[1, 2, 3]),
         })
         return {
             **schema.create(iterations=1)[0],  # type: ignore[misc]
@@ -82,13 +82,18 @@ def registration_data_factory(
 
 
 @pytest.fixture()
-def user_data(registration_data: 'RegistrationData') -> 'UserData':
+def user_data(
+    registration_data_factory: 'RegistrationDataFactory',
+) -> 'UserData':
     """Fixture for getting user data."""
-    return {  # type: ignore[return-value]
+    registration_data = registration_data_factory()
+    user_registration_data = {  # type: ignore[return-value]
         key_name: value_part
         for key_name, value_part in registration_data.items()
         if not key_name.startswith('password')
     }
+    user_registration_data['password'] = registration_data['password1']
+    return user_registration_data
 
 
 UserAssertion: TypeAlias = Callable[[str, UserData], None]
@@ -98,13 +103,28 @@ UserAssertion: TypeAlias = Callable[[str, UserData], None]
 @pytest.fixture()
 def user_registration(
     client: Client,
-    registration_data_factory: 'RegistrationDataFactory',
-) -> Generator[Tuple['UserData', HttpResponse], None, None]:
+    user_data: 'UserData',
+) -> Generator[User, None, None]:
     """User registration fixture."""
-    post_data = registration_data_factory()
-    response = client.post(
-        reverse('identity:registration'),
-        data=post_data,
-    )
-    yield post_data, response
-    User.objects.filter(email=post_data['email']).delete()
+    user = User.objects.create(**user_data)
+    client.force_login(user)
+    yield user
+    User.objects.filter(email=user.email).delete()
+
+
+@httpretty.activate
+@pytest.fixture()
+def mock_user_service() -> None:
+    """Mock DJANGO_PLACEHOLDER_API_URL using httpretty."""
+
+    def factory(body_object: any) -> None:
+        settings.PLACEHOLDER_API_URL = URL_HTTPRETTY_FINAL
+        httpretty.register_uri(
+            httpretty.GET,
+            '{0}users'.format(URL_HTTPRETTY_FINAL),
+            body=json.dumps(body_object),
+        )
+
+    httpretty.enable(verbose=True, allow_net_connect=False)
+    yield factory, 1
+    httpretty.reset()

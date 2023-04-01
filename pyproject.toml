@@ -65,6 +65,7 @@ ipython = "^8.4"
 import-linter = "^1.6"
 mimesis = "7.0.0"
 django-fakery = "^4.1.0"
+httpretty = "^1.1.4"
 
 [tool.poetry.group.docs]
 optional = true
