@@ -4,9 +4,9 @@ from typing import TYPE_CHECKING
 import pytest
 from django.test import Client
 from django.urls import reverse
-from server.settings.components.identity import LOGIN_REDIRECT_URL
 
 from server.apps.identity.models import User
+from server.settings.components.identity import LOGIN_REDIRECT_URL
 
 if TYPE_CHECKING:
     from tests.plugins.identity.user import LoginData, LoginDataFactory

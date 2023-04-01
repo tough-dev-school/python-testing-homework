@@ -13,3 +13,6 @@ format:
 	black -S tests
 	flake8 tests
 	@echo "> Formatting + style checking... finished.\n"
+
+test:
+	DJANGO_PLACEHOLDER_API_URL=https://jsonplaceholder.typicode.com/ JSON_SERVER_NAME=localhost:3000 pytest -s -vv

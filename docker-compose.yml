@@ -18,6 +18,19 @@ services:
       - postgresnet
     env_file: ./config/.env
 
+  json_server:
+    <<: &json_server
+      # Image name is changed in production:
+      container_name: json_server
+      image: vimagick/json-server
+      volumes:
+        - ./docker/jsonserver:/data
+      networks:
+        - webnet
+      ports:
+        - 3000:80
+      command: -H 0.0.0.0 -p 80 -w db.json -r routes.json --delay 2000
+
   web:
     <<: &web
       # Image name is changed in production:
@@ -37,6 +50,7 @@ services:
         - django-static:/var/www/django/static
       depends_on:
         - db
+        - json_server
       networks:
         - webnet
         - postgresnet

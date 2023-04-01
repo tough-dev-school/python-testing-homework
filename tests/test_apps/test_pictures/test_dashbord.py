@@ -59,4 +59,3 @@ def test_valid_dashboard_with_2_favourites(
     assert db_pictures[1].foreign_id == picture_data["foreign_id"]
     assert db_pictures[1].url == picture_data["url"]
     assert response.url == reverse('pictures:dashboard')
-
