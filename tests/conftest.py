@@ -5,20 +5,22 @@ It may be also used for extending doctest's context:
 1. https://docs.python.org/3/library/doctest.html
 2. https://docs.pytest.org/en/latest/doctest.html
 """
+
 import random
-from typing_extensions import TYPE_CHECKING, Unpack
 
 import pytest
+from django.test import Client
 from mimesis.locales import Locale
 from mimesis.schema import Field, Schema
+from typing_extensions import TYPE_CHECKING, Unpack
 
 from server.apps.identity.models import User
 
 if TYPE_CHECKING:
     from plugins.identity.user import (
-        RegistrationDataFactory,
-        RegistrationData,
         LoginData,
+        RegistrationData,
+        RegistrationDataFactory,
         UserData,
     )
 
@@ -33,13 +35,15 @@ pytest_plugins = [
 def faker_seed():
     return random.Random().getrandbits(32)
 
+@pytest.fixture
+def mf(faker_seed: int):
+    return Field(locale=Locale.RU, seed=faker_seed)
 
 @pytest.fixture()
 def registration_data_factory(
-    faker_seed: int,
+    mf: Field
 ) -> "RegistrationDataFactory":
     def factory(**fields: Unpack["RegistrationData"]) -> "RegistrationData":
-        mf = Field(locale=Locale.RU, seed=faker_seed)
         password = mf("password")
         schema = Schema(
             schema=lambda: {
@@ -91,3 +95,10 @@ def register_user(registration_data: "RegistrationData") -> "LoginData":
         'username': registration_data["email"],
         'password': registration_data["password"]
     }
+
+@pytest.fixture()
+def logged_client() -> Client:
+    user = User.objects.create_user(email="test@example.com", password="TestPassword") #type: ignore
+    client = Client()
+    client.force_login(user)
+    return client
