@@ -5,3 +5,5 @@ LIMIT_EXTERNAL_ITEMS_FINAL = 10
 
 # See /data/delay.middleware.js
 EXPECTED_LEAD_ID_FINAL = 584
+
+SEED_LENGTH_IN_BITS = 32

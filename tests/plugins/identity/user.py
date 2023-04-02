@@ -1,5 +1,6 @@
 import datetime as dt
 import json
+import random
 from typing import (Callable, final, Protocol, TypedDict, Generator)
 
 import httpretty
@@ -11,7 +12,12 @@ from mimesis.schema import Field, Schema
 from typing_extensions import Unpack, TypeAlias
 
 from server.apps.identity.models import User
-from tests.plugins.constants import URL_HTTPRETTY_FINAL
+from tests.plugins.constants import URL_HTTPRETTY_FINAL, SEED_LENGTH_IN_BITS
+
+
+def faker_random_seed() -> int:
+    """Generate random number."""
+    return random.Random().getrandbits(SEED_LENGTH_IN_BITS)
 
 
 class UserData(TypedDict, total=False):
@@ -54,12 +60,9 @@ class RegistrationDataFactory(Protocol):
         """User data factory protocol."""
 
 
-@pytest.fixture()
-def registration_data_factory(
-    faker_seed: int,
-) -> RegistrationDataFactory:
-    """Return factory for creating mimesis schema."""
-
+def _factory(
+    faker_seed: Callable[[None], int],
+) -> Callable[[Unpack[RegistrationData]], RegistrationData]:
     def factory(**fields: Unpack[RegistrationData]) -> RegistrationData:
         mf = Field(locale=Locale.RU, seed=faker_seed)
         password = mf('password')  # by default passwords are equal
@@ -79,6 +82,21 @@ def registration_data_factory(
         }
 
     return factory
+
+
+@pytest.fixture()
+def registration_random_data_factory(
+) -> RegistrationDataFactory:
+    """Return factory for creating random mimesis schema."""
+    return _factory(faker_random_seed)
+
+
+@pytest.fixture()
+def registration_data_factory(
+    faker_seed: int,
+) -> RegistrationDataFactory:
+    """Return factory for creating mimesis schema."""
+    return _factory(faker_seed)
 
 
 @pytest.fixture()
