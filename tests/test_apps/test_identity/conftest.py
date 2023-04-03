@@ -1,20 +1,34 @@
 import random
-import datetime as dt
+from typing import Callable, Dict, Protocol, final
+from django.test import Client
 
 import pytest
+from typing_extensions import Unpack, TypeAlias
 from mimesis.locales import Locale
 from mimesis.schema import Field, Schema
 from django.urls import reverse
 
 
+CreateUserFactory: TypeAlias = Callable[[], Dict[str, str]]
+
+
+@final
+class RegistrationDataFactory(Protocol):
+    def __call__(
+        self,
+        **fields: Unpack["RegistrationData"],
+    ) -> "RegistrationData":
+        pass
+
+
 @pytest.fixture(scope="session")
-def faker_seed():
-    return random.randint(1, 10)
+def faker_seed() -> int:
+    return random.Random().getrandbits(32)
 
 
 @pytest.fixture()
-def registration_data_factory(faker_seed):
-    def factory(**fields):
+def registration_data_factory(faker_seed: int) -> RegistrationDataFactory:
+    def factory(**fields: Unpack["RegistrationData"]) -> "RegistrationData":
         mf = Field(locale=Locale.RU, seed=faker_seed)
         password = mf("password")
         schema = Schema(
@@ -38,12 +52,14 @@ def registration_data_factory(faker_seed):
 
 
 @pytest.fixture()
-def registration_data(registration_data_factory):
+def registration_data(
+    registration_data_factory: RegistrationDataFactory,
+) -> "RegistrationData":
     return registration_data_factory()
 
 
 @pytest.fixture()
-def user_data(registration_data):
+def user_data(registration_data: "RegistrationData") -> "UserData":
     return {
         key_name: value_part
         for key_name, value_part in registration_data.items()
@@ -52,19 +68,24 @@ def user_data(registration_data):
 
 
 @pytest.fixture()
-def register_user_factory(client, registration_data_factory):
-    def factory():
+def create_new_user_factory(
+    client: Client, registration_data_factory: RegistrationDataFactory
+) -> CreateUserFactory:
+    def factory() -> Dict[str, str]:
         user_data = registration_data_factory()
         client.post(reverse("identity:registration"), data=user_data)
-        return (user_data["email"], user_data["password1"])
+        return {"email": user_data["email"], "password": user_data["password1"]}
 
     return factory
 
 
 @pytest.fixture()
-def signup_user(client, register_user_factory):
-    user_email, password = register_user_factory()
+def signup_user(
+    client: Client, create_new_user_factory: CreateUserFactory
+) -> Dict[str, str]:
+    user_info = create_new_user_factory()
     client.post(
-        reverse("identity:login"), data={"username": user_email, "password": password}
+        reverse("identity:login"),
+        data={"username": user_info["email"], "password": user_info["password"]},
     )
-    return {"email": user_email, "password": password}
+    return user_info

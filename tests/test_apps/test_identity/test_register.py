@@ -9,7 +9,10 @@ from server.apps.identity.models import User
 
 @pytest.mark.django_db()
 def test_valid_registration(
-    client: Client, registration_data, user_data, assert_correct_user
+    client: Client,
+    registration_data: "RegistrationData",
+    user_data: "UserData",
+    assert_correct_user: "UserAssertion",
 ) -> None:
     response = client.post(reverse("identity:registration"), data=registration_data)
     assert response.status_code == HTTPStatus.FOUND
@@ -20,8 +23,11 @@ def test_valid_registration(
 @pytest.mark.django_db()
 @pytest.mark.parametrize("field", User.REQUIRED_FIELDS + [User.USERNAME_FIELD])
 def test_registration_missing_required_field(
-    client, registration_data_factory, field, assert_user_not_registered
-):
+    client: Client,
+    registration_data_factory: "RegistrationDataFactory",
+    field: str,
+    assert_user_not_registered: "UserAssertionNegative",
+) -> None:
     user_data = registration_data_factory(**{field: ""})
     response = client.post(reverse("identity:registration"), data=user_data)
     assert_user_not_registered(response.status_code, user_data["email"])
@@ -29,7 +35,9 @@ def test_registration_missing_required_field(
 
 @pytest.mark.django_db
 def test_invalid_password_confirmation(
-    client, registration_data, assert_user_not_registered
+    client: Client,
+    registration_data: "RegistrationData",
+    assert_user_not_registered: "UserAssertionNegative",
 ):
     user_data = registration_data
     user_data["password1"] = "some_pass"

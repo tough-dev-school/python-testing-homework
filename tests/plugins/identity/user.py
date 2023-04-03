@@ -2,7 +2,6 @@ import datetime as dt
 from typing import TypedDict, final
 
 
-@final
 class UserData(TypedDict, total=False):
     first_name: str
     last_name: str
@@ -14,6 +13,6 @@ class UserData(TypedDict, total=False):
 
 
 @final
-class RegistrationData(TypedDict, total=False):
+class RegistrationData(UserData, total=False):
     password1: str
     password2: str

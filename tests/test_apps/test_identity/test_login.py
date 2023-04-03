@@ -8,26 +8,24 @@ from django.urls import reverse
 
 
 @pytest.mark.django_db()
-def test_login_user_positive(client, register_user_factory):
-    user_email, user_pass = register_user_factory()
+def test_login_user_positive(
+    client: Client, create_new_user_factory: "CreateUserFactory"
+) -> None:
+    user_info = create_new_user_factory()
     response = client.post(
         reverse("identity:login"),
-        data={
-            "username": user_email,
-            "password": user_pass
-        }
+        data={"username": user_info["email"], "password": user_info["password"]},
     )
     assert response.status_code == HTTPStatus.FOUND
 
 
 @pytest.mark.django_db()
-def test_login_user_negative(client, register_user_factory):
-    user_email, _ = register_user_factory()
+def test_login_user_negative(
+    client, create_new_user_factory: "CreateUserFactory"
+) -> None:
+    user_info = create_new_user_factory()
     response = client.post(
         reverse("identity:login"),
-        data={
-            "username": user_email,
-            "password": "some_invalid_pass"
-        }
+        data={"username": user_info["email"], "password": "some_invalid_pass"},
     )
     assert response.status_code == HTTPStatus.OK
