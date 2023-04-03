@@ -9,35 +9,30 @@ from server.apps.identity.models import User
 
 @pytest.mark.django_db()
 def test_valid_registration(
-    client: Client,
-    registration_data_factory,
-    expected_user_data
+    client: Client, registration_data, user_data, assert_correct_user
 ) -> None:
-    response = client.post(
-        reverse("identity:registration"),
-        data={
-            "email": "some_email@email.ru",
-            "first_name": "some_name"
-        }
-    )
+    response = client.post(reverse("identity:registration"), data=registration_data)
     assert response.status_code == HTTPStatus.FOUND
     assert response.get("Location") == reverse("identity:login")
-    assert_correct_user(registration_data_factory["email"], expected_user_data)
+    assert_correct_user(registration_data["email"], user_data)
+
+
+@pytest.mark.django_db()
+@pytest.mark.parametrize("field", User.REQUIRED_FIELDS + [User.USERNAME_FIELD])
+def test_registration_missing_required_field(
+    client, registration_data_factory, field, assert_user_not_registered
+):
+    user_data = registration_data_factory(**{field: ""})
+    response = client.post(reverse("identity:registration"), data=user_data)
+    assert_user_not_registered(response.status_code, user_data["email"])
 
 
 @pytest.mark.django_db
-@pytest.mark.parametrize("field", User.REQUIRED_FIELDS + [User.USERNAME_FIELD])
-def test_registration_missing_required_field(
-    client,
-    registration_data_factory,
-    field
+def test_invalid_password_confirmation(
+    client, registration_data, assert_user_not_registered
 ):
-    user_data = registration_data_factory(
-        **{field: ""}
-    )
-    response = client.post(
-        reverse("identity:registration"),
-        data=user_data
-    )
-    assert response.status_code == HTTPStatus.OK
-    assert not User.objects.filter(email=user_data["email"])
+    user_data = registration_data
+    user_data["password1"] = "some_pass"
+    user_data["password2"] = "invalid_pass"
+    response = client.post(reverse("identity:registration"), data=user_data)
+    assert_user_not_registered(response.status_code, user_data["email"])

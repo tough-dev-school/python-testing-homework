@@ -1,19 +1,19 @@
-from datetime import datetime
+import datetime as dt
 from typing import TypedDict, final
 
 
 @final
-class UserData(TypedDict):
+class UserData(TypedDict, total=False):
     first_name: str
     last_name: str
-    date_of_birth: datetime
+    date_of_birth: dt.datetime
     address: str
     job_title: str
     phone: str
     phone_type: int
 
 
-class RegistrationData(TypedDict):
-    email: str
+@final
+class RegistrationData(TypedDict, total=False):
     password1: str
     password2: str

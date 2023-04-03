@@ -8,9 +8,7 @@ It may be also used for extending doctest's context:
 
 
 pytest_plugins = [
-    # Should be the first custom one:
     'plugins.django_settings',
     'plugins.identity.user',
     'plugins.assertions.user'
-    # TODO: add your own plugins here!
 ]
