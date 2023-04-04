@@ -10,5 +10,6 @@ It may be also used for extending doctest's context:
 pytest_plugins = [
     'plugins.django_settings',
     'plugins.identity.user',
-    'plugins.assertions.user'
+    'plugins.assertions.user',
+    'plugins.pictures.pictures'
 ]
