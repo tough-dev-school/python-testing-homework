@@ -1,10 +1,12 @@
-from typing import Dict
 from http import HTTPStatus
+from typing import Dict
 
 import pytest
-
 from django.test import Client
 from django.urls import reverse
+
+from tests.plugins.assertions.user import UserAssertion
+from tests.plugins.identity.user import RegistrationData, UserData
 
 
 @pytest.mark.django_db()
@@ -17,7 +19,9 @@ def test_user_data_updated(
 ) -> None:
     user_info = signup_user
     update_user_data = registration_data_factory(email=user_info["email"])
-    response = client.post(reverse("identity:user_update"), data=update_user_data)
+    response = client.post(
+        reverse("identity:user_update"), data=update_user_data
+    )
 
     assert response.status_code == HTTPStatus.FOUND
     assert_correct_user(user_info["email"], user_data)

@@ -8,7 +8,7 @@ It may be also used for extending doctest's context:
 
 
 pytest_plugins = [
-    'plugins.django_settings',
-    'plugins.identity.user',
-    'plugins.assertions.user'
+    "tests.plugins.django_settings",
+    "tests.plugins.identity.user",
+    "tests.plugins.assertions.user",
 ]

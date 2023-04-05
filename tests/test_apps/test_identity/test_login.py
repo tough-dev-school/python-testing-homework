@@ -4,6 +4,8 @@ import pytest
 from django.test import Client
 from django.urls import reverse
 
+from tests.plugins.identity.user import CreateUserFactory
+
 
 @pytest.mark.django_db()
 def test_login_user_positive(

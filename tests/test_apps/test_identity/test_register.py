@@ -5,6 +5,12 @@ from django.test import Client
 from django.urls import reverse
 
 from server.apps.identity.models import User
+from tests.plugins.assertions.user import UserAssertion, UserAssertionNegative
+from tests.plugins.identity.user import (
+    RegistrationData,
+    RegistrationDataFactory,
+    UserData,
+)
 
 
 @pytest.mark.django_db()
@@ -14,7 +20,9 @@ def test_valid_registration(
     user_data: "UserData",
     assert_correct_user: "UserAssertion",
 ) -> None:
-    response = client.post(reverse("identity:registration"), data=registration_data)
+    response = client.post(
+        reverse("identity:registration"), data=registration_data
+    )
     assert response.status_code == HTTPStatus.FOUND
     assert response.get("Location") == reverse("identity:login")
     assert_correct_user(registration_data["email"], user_data)
