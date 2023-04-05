@@ -20,7 +20,8 @@ def test_user_data_updated(
     user_info = signup_user
     update_user_data = registration_data_factory(email=user_info["email"])
     response = client.post(
-        reverse("identity:user_update"), data=update_user_data
+        reverse("identity:user_update"),
+        data=update_user_data,
     )
 
     assert response.status_code == HTTPStatus.FOUND

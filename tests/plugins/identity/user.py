@@ -59,7 +59,7 @@ def registration_data_factory(faker_seed: int) -> RegistrationDataFactory:
                 "address": mf("address.city"),
                 "job_title": mf("person.occupation"),
                 "phone": mf("person.telephone"),
-            }
+            },
         )
         return {
             **schema.create(iterations=1)[0],
@@ -88,7 +88,8 @@ def user_data(registration_data: "RegistrationData") -> "UserData":
 
 @pytest.fixture()
 def create_new_user_factory(
-    client: Client, registration_data_factory: RegistrationDataFactory
+    client: Client,
+    registration_data_factory: RegistrationDataFactory,
 ) -> CreateUserFactory:
     def factory() -> Dict[str, str]:
         user_data = registration_data_factory()
@@ -100,7 +101,8 @@ def create_new_user_factory(
 
 @pytest.fixture()
 def signup_user(
-    client: Client, create_new_user_factory: CreateUserFactory
+    client: Client,
+    create_new_user_factory: CreateUserFactory,
 ) -> Dict[str, str]:
     user_info = create_new_user_factory()
     client.post(

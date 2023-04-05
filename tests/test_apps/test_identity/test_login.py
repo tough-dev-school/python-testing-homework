@@ -9,7 +9,8 @@ from tests.plugins.identity.user import CreateUserFactory
 
 @pytest.mark.django_db()
 def test_login_user_positive(
-    client: Client, create_new_user_factory: "CreateUserFactory"
+    client: Client,
+    create_new_user_factory: "CreateUserFactory",
 ) -> None:
     user_info = create_new_user_factory()
     response = client.post(
@@ -24,7 +25,8 @@ def test_login_user_positive(
 
 @pytest.mark.django_db()
 def test_login_user_negative(
-    client, create_new_user_factory: "CreateUserFactory"
+    client,
+    create_new_user_factory: "CreateUserFactory",
 ) -> None:
     user_info = create_new_user_factory()
     response = client.post(

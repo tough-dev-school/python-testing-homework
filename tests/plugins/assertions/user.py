@@ -1,11 +1,11 @@
-from typing import Callable
 from http import HTTPStatus
+from typing import Callable
 
 import pytest
 from typing_extensions import TypeAlias
 
 from server.apps.identity.models import User
-
+from tests.plugins.identity.user import UserData
 
 UserAssertion: TypeAlias = Callable[[str, "UserData"], None]
 UserAssertionNegative: TypeAlias = Callable[[HTTPStatus, str], None]
