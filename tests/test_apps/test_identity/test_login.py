@@ -1,8 +1,6 @@
 from http import HTTPStatus
 
 import pytest
-
-from server.apps.identity.models import User
 from django.test import Client
 from django.urls import reverse
 
@@ -14,7 +12,10 @@ def test_login_user_positive(
     user_info = create_new_user_factory()
     response = client.post(
         reverse("identity:login"),
-        data={"username": user_info["email"], "password": user_info["password"]},
+        data={
+            "username": user_info["email"],
+            "password": user_info["password"],
+        },
     )
     assert response.status_code == HTTPStatus.FOUND
 
