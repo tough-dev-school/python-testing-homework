@@ -14,18 +14,18 @@ _NAME_LENGTH: Final = 254
 
 
 @final
-class _UserManager(BaseUserManager['User']):
+class _UserManager(BaseUserManager["User"]):
     def create_user(
         self,
         email: str,
         password: str,
         **extra_fields,
-    ) -> 'User':
+    ) -> "User":
         """Create user: regular registration process."""
         if not email:
             # We double check it here,
             # but validation should make this unreachable.
-            raise ValueError('Users must have an email address')
+            raise ValueError("Users must have an email address")
 
         user = User(email=self.normalize_email(email), **extra_fields)
         user.set_password(password)
@@ -37,14 +37,14 @@ class _UserManager(BaseUserManager['User']):
         email: str,
         password: str,
         **extra_fields,
-    ) -> 'User':
+    ) -> "User":
         """Create super user."""
         user = self.create_user(email, password, **extra_fields)
         user.is_superuser = True
         user.is_staff = True
         # Technically this is not transaction safe, but who cares.
         # It is only used in CLI / tests:
-        user.save(using=self._db, update_fields=['is_superuser', 'is_staff'])
+        user.save(using=self._db, update_fields=["is_superuser", "is_staff"])
         return user
 
 
@@ -58,7 +58,7 @@ class User(AbstractBaseUser, PermissionsMixin, TimedMixin):
     # Details:
     first_name = models.CharField(max_length=_NAME_LENGTH)
     last_name = models.CharField(max_length=_NAME_LENGTH)
-    date_of_birth = models.DateField(null=True, blank=True)
+    date_of_birth = models.DateField()
     address = models.CharField(max_length=_NAME_LENGTH)
     job_title = models.CharField(max_length=_NAME_LENGTH)
 
@@ -76,14 +76,14 @@ class User(AbstractBaseUser, PermissionsMixin, TimedMixin):
     # Mechanics:
     objects = _UserManager()  # noqa: WPS110
 
-    USERNAME_FIELD = 'email'  # noqa: WPS115
+    USERNAME_FIELD = "email"  # noqa: WPS115
     REQUIRED_FIELDS = [  # noqa: WPS115
-        'first_name',
-        'last_name',
-        'date_of_birth',
-        'address',
-        'job_title',
-        'phone',
+        "first_name",
+        "last_name",
+        "date_of_birth",
+        "address",
+        "job_title",
+        "phone",
     ]
 
     if TYPE_CHECKING:  # noqa: WPS604

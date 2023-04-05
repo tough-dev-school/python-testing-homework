@@ -14,7 +14,9 @@ def test_valid_registration(
     user_data: "UserData",
     assert_correct_user: "UserAssertion",
 ) -> None:
-    response = client.post(reverse("identity:registration"), data=registration_data)
+    response = client.post(
+        reverse("identity:registration"), data=registration_data
+    )
     assert response.status_code == HTTPStatus.FOUND
     assert response.get("Location") == reverse("identity:login")
     assert_correct_user(registration_data["email"], user_data)
@@ -33,7 +35,7 @@ def test_registration_missing_required_field(
     assert_user_not_registered(response.status_code, user_data["email"])
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 def test_invalid_password_confirmation(
     client: Client,
     registration_data: "RegistrationData",

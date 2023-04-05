@@ -8,10 +8,10 @@ from server.apps.pictures.logic.usecases.favourites_list import FavouritesList
 
 @pytest.mark.django_db()
 def test_add_favourite_picture(
-    get_user_object, add_favourite_picture, picture_data_factory, signup_user
+    get_user_object, add_favourite_picture, valid_new_picture, signup_user
 ):
     user = get_user_object(signup_user["email"])
-    picture = picture_data_factory()
+    picture = valid_new_picture
     add_favourite_picture(picture)
     user_favourite = FavouritesList()(user.id).first()
     assert user_favourite.foreign_id == picture["foreign_id"]
@@ -49,5 +49,7 @@ def test_add_favourite_same_picture(
     for _ in range(2):
         add_favourite_picture(picture)
     user_favourite = FavouritesList()(user.id).all()
-    assert all([picture["foreign_id"] == fav_pic.foreign_id for fav_pic in user_favourite])
+    assert all(
+        [picture["foreign_id"] == fav_pic.foreign_id for fav_pic in user_favourite]
+    )
     assert all([picture["url"] == fav_pic.url for fav_pic in user_favourite])

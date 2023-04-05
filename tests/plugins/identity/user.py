@@ -1,13 +1,14 @@
 import datetime as dt
-from typing import TypedDict, final
 import random
-from typing import Callable, Dict, Protocol, final
-from django.test import Client
+from typing import Callable, Dict, Protocol, TypedDict, final
+
 import pytest
-from typing_extensions import Unpack, TypeAlias
+from django.test import Client
+from django.urls import reverse
 from mimesis.locales import Locale
 from mimesis.schema import Field, Schema
-from django.urls import reverse
+from typing_extensions import TypeAlias, Unpack
+
 from server.apps.identity.models import User
 
 
@@ -33,15 +34,10 @@ class RegistrationDataFactory(Protocol):
         self,
         **fields: Unpack["RegistrationData"],
     ) -> "RegistrationData":
-        pass
+        ...
 
 
 CreateUserFactory: TypeAlias = Callable[[], Dict[str, str]]
-
-
-@pytest.fixture(scope="session")
-def faker_seed() -> int:
-    return random.Random().getrandbits(32)
 
 
 @pytest.fixture()
@@ -104,7 +100,10 @@ def signup_user(
     user_info = create_new_user_factory()
     client.post(
         reverse("identity:login"),
-        data={"username": user_info["email"], "password": user_info["password"]},
+        data={
+            "username": user_info["email"],
+            "password": user_info["password"],
+        },
     )
     assert User.objects.get(email=user_info["email"]).is_authenticated
     return user_info
