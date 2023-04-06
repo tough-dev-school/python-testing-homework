@@ -1,11 +1,11 @@
 from http import HTTPStatus
 from typing import Callable, Iterator
-from django.conf import settings
 
 import httpretty
 import pytest
-from django.test import Client
 import requests
+from django.conf import settings
+from django.test import Client
 
 from server.apps.identity.intrastructure.services.placeholder import (
     UserResponse,
@@ -29,20 +29,22 @@ def assert_regular_user_exists() -> UserAssertion:
 
     return factory
 
+
 @pytest.fixture()
 def assert_lead_on_server(json_server: str) -> LeadAssertion:
     def factory(email: str) -> None:
         leads = requests.get(f'{json_server}/users').json()
-        assert email in map(lambda x: x['email'], leads)
+        assert email in {lead['email'] for lead in leads}
 
     return factory
 
+
 @pytest.fixture()
 def json_server() -> Iterator[str]:
-    JSON_SERVER_URL = 'http://localhost:3000'
+    json_server_url = 'http://localhost:3000'
     previous = settings.PLACEHOLDER_API_URL
-    settings.PLACEHOLDER_API_URL = JSON_SERVER_URL
-    yield JSON_SERVER_URL
+    settings.PLACEHOLDER_API_URL = json_server_url
+    yield json_server_url
     settings.PLACEHOLDER_API_URL = previous
 
 
@@ -89,4 +91,3 @@ def test_lead_saved(
 
     assert response.status_code == HTTPStatus.FOUND
     assert_lead_on_server(registration_data['email'])
-

@@ -1,0 +1,74 @@
+{
+  "users": [
+    {
+      "name": "Lane",
+      "last_name": "O'brien",
+      "birthday": "04.02.2000",
+      "city_of_birth": "Arnold",
+      "position": "Welder",
+      "email": "bulgaria2087@duck.com",
+      "phone": "968.842.4500",
+      "id": 1
+    },
+    {
+      "name": "Nelia",
+      "last_name": "Franks",
+      "birthday": "11.09.2010",
+      "city_of_birth": "Westbrook",
+      "position": "Shop Keeper",
+      "email": "timing2020@outlook.com",
+      "phone": "893.291.2672",
+      "id": 2
+    },
+    {
+      "name": "Fredrick",
+      "last_name": "Horton",
+      "birthday": "10.02.2005",
+      "city_of_birth": "Darien",
+      "position": "Medical Secretary",
+      "email": "cleveland1956@yandex.com",
+      "phone": "894.385.9521",
+      "id": 3
+    },
+    {
+      "name": "Hiedi",
+      "last_name": "Robertson",
+      "birthday": "16.03.2022",
+      "city_of_birth": "Searcy",
+      "position": "Project Leader",
+      "email": "statute1897@yandex.com",
+      "phone": "(373) 837-4859",
+      "id": 4
+    },
+    {
+      "name": "Bo",
+      "last_name": "Kelley",
+      "birthday": "28.04.2010",
+      "city_of_birth": "Houston",
+      "position": "Transport Clerk",
+      "email": "expensive1882@outlook.com",
+      "phone": "610-538-1175",
+      "id": 5
+    },
+    {
+      "name": "Hugh",
+      "last_name": "Howard",
+      "birthday": "27.09.2008",
+      "city_of_birth": "Gardena",
+      "position": "Welfare Rights Officer",
+      "email": "usr1908@live.com",
+      "phone": "469-450-0091",
+      "id": 6
+    },
+    {
+      "name": "Jaime",
+      "last_name": "Mcintyre",
+      "birthday": "05.07.2023",
+      "city_of_birth": "St. Matthews",
+      "position": "Psychiatrist",
+      "email": "designers2067@protonmail.com",
+      "phone": "573.219.3893",
+      "id": 7
+    }
+  ]
+}
