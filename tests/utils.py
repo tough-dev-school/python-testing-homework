@@ -20,3 +20,4 @@ def mock_external_endpoint(
         )
         yield
         assert httpretty.has_request()
+        httpretty.reset()
