@@ -1,15 +1,19 @@
 import pytest
+from django.conf import LazySettings
 from django.core.cache import BaseCache, caches
 
 
 @pytest.fixture(autouse=True)
-def _media_root(settings, tmpdir_factory) -> None:
+def _media_root(
+    settings: LazySettings,
+    tmpdir_factory: pytest.TempPathFactory,
+) -> None:
     """Forces django to save media files into temp folder."""
     settings.MEDIA_ROOT = tmpdir_factory.mktemp('media', numbered=True)
 
 
 @pytest.fixture(autouse=True)
-def _password_hashers(settings) -> None:
+def _password_hashers(settings: LazySettings) -> None:
     """Forces django to use fast password hashers for tests."""
     settings.PASSWORD_HASHERS = [
         'django.contrib.auth.hashers.MD5PasswordHasher',
@@ -17,7 +21,7 @@ def _password_hashers(settings) -> None:
 
 
 @pytest.fixture(autouse=True)
-def _auth_backends(settings) -> None:
+def _auth_backends(settings: LazySettings) -> None:
     """Deactivates security backend from Axes app."""
     settings.AUTHENTICATION_BACKENDS = (
         'django.contrib.auth.backends.ModelBackend',
@@ -25,7 +29,7 @@ def _auth_backends(settings) -> None:
 
 
 @pytest.fixture(autouse=True)
-def _debug(settings) -> None:
+def _debug(settings: LazySettings) -> None:
     """Sets proper DEBUG and TEMPLATE debug mode for coverage."""
     settings.DEBUG = False
     for template in settings.TEMPLATES:
@@ -33,7 +37,7 @@ def _debug(settings) -> None:
 
 
 @pytest.fixture(autouse=True)
-def cache(settings) -> BaseCache:
+def cache(settings: LazySettings) -> BaseCache:
     """Modifies how cache is used in Django tests."""
     test_cache = 'test'
 

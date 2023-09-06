@@ -1,4 +1,4 @@
-from typing import Dict, final
+from typing import final
 
 import requests
 
@@ -56,7 +56,7 @@ class LeadUpdate(http.BaseFetcher):
         response.raise_for_status()
 
 
-def _serialize_user(user: User) -> Dict[str, str]:
+def _serialize_user(user: User) -> dict[str, str]:
     if user.date_of_birth is not None:
         date_of_birth = user.date_of_birth.strftime('%d.%m.%Y')
     else:

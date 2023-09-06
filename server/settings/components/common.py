@@ -2,26 +2,24 @@
 Django settings for server project.
 
 For more information on this file, see
-https://docs.djangoproject.com/en/3.2/topics/settings/
+https://docs.djangoproject.com/en/4.2/topics/settings/
 
 For the full list of settings and their config, see
-https://docs.djangoproject.com/en/3.2/ref/settings/
+https://docs.djangoproject.com/en/4.2/ref/settings/
 """
-
-from typing import Dict, List, Tuple, Union
 
 from django.utils.translation import gettext_lazy as _
 
 from server.settings.components import BASE_DIR, config
 
 # Quick-start development settings - unsuitable for production
-# See https://docs.djangoproject.com/en/3.2/howto/deployment/checklist/
+# See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 SECRET_KEY = config('DJANGO_SECRET_KEY')
 
 # Application definition:
 
-INSTALLED_APPS: Tuple[str, ...] = (
+INSTALLED_APPS: tuple[str, ...] = (
     # Your apps go here:
     'server.apps.pictures',
     'server.apps.identity',
@@ -49,7 +47,7 @@ INSTALLED_APPS: Tuple[str, ...] = (
     'health_check.storage',
 )
 
-MIDDLEWARE: Tuple[str, ...] = (
+MIDDLEWARE: tuple[str, ...] = (
     # Logging:
     'server.settings.components.logging.LoggingContextVarsMiddleware',
 
@@ -81,7 +79,7 @@ WSGI_APPLICATION = 'server.wsgi.application'
 
 
 # Database
-# https://docs.djangoproject.com/en/3.2/ref/settings/#databases
+# https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
 DATABASES = {
     'default': {
@@ -101,7 +99,7 @@ DATABASES = {
 
 
 # Internationalization
-# https://docs.djangoproject.com/en/3.2/topics/i18n/
+# https://docs.djangoproject.com/en/4.2/topics/i18n/
 
 LANGUAGE_CODE = 'ru'
 
@@ -121,13 +119,13 @@ TIME_ZONE = 'UTC'
 
 
 # Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/3.2/howto/static-files/
+# https://docs.djangoproject.com/en/4.2/howto/static-files/
 
 STATIC_URL = 'static/'
 
 
 # Templates
-# https://docs.djangoproject.com/en/3.2/ref/templates/api
+# https://docs.djangoproject.com/en/4.2/ref/templates/api
 
 TEMPLATES = [{
     'APP_DIRS': True,
@@ -153,14 +151,14 @@ TEMPLATES = [{
 # Media files
 # Media root dir is commonly changed in production
 # (see development.py and production.py).
-# https://docs.djangoproject.com/en/3.2/topics/files/
+# https://docs.djangoproject.com/en/4.2/topics/files/
 
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR.joinpath('media')
 
 
 # Security
-# https://docs.djangoproject.com/en/3.2/topics/security/
+# https://docs.djangoproject.com/en/4.2/topics/security/
 
 SESSION_COOKIE_HTTPONLY = True
 CSRF_COOKIE_HTTPONLY = True
@@ -174,9 +172,9 @@ X_FRAME_OPTIONS = 'DENY'
 REFERRER_POLICY = 'same-origin'
 
 # https://github.com/adamchainz/django-permissions-policy#setting
-PERMISSIONS_POLICY: Dict[str, Union[str, List[str]]] = {}  # noqa: WPS234
+PERMISSIONS_POLICY: dict[str, str | list[str]] = {}  # noqa: WPS234
 
 
 # Default primary key field type
-# https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
+# https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 DEFAULT_AUTO_FIELD = 'django.db.models.AutoField'

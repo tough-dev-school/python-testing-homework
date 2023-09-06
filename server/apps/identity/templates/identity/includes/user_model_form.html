@@ -1,32 +1,19 @@
-<form
-  action="{{ action }}"
-  method="POST"
-  autocomplete="off"
->
+<form action="{{ action }}" method="post" autocomplete="off">
   {% csrf_token %}
-
   <h3>Личные данные</h3>
-
   {% if form.email %}
     {% include 'common/includes/field.html' with field=form.email field_label='Электронная почта' %}
   {% endif %}
-
   {% include 'common/includes/field.html' with field=form.last_name field_label='Фамилия' %}
   {% include 'common/includes/field.html' with field=form.first_name field_label='Имя' %}
   {% include 'common/includes/field.html' with field=form.date_of_birth field_label='Дата рождения' %}
   {% include 'common/includes/field.html' with field=form.address field_label='Страна, город проживания' %}
   {% include 'common/includes/field.html' with field=form.job_title field_label='Должность' %}
-
   {% include 'common/includes/field.html' with field=form.phone field_label='Номер телефона' %}
-
   {% if form.password1 and form.password2 %}
-  <h3 >Безопасность</h3>
-  {% include 'common/includes/field.html' with field=form.password1 field_label='Пароль' %}
-
-  {% include 'common/includes/field.html' with field=form.password2 field_label='Подтвердите пароль' %}
+    <h3>Безопасность</h3>
+    {% include 'common/includes/field.html' with field=form.password1 field_label='Пароль' %}
+    {% include 'common/includes/field.html' with field=form.password2 field_label='Подтвердите пароль' %}
   {% endif %}
-
-  <button type="submit">
-    {{ button }}
-  </button>
+  <button type="submit">{{ button }}</button>
 </form>

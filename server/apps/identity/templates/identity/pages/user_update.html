@@ -1,25 +1,20 @@
 {% extends 'common/_base.html' %}
+
 {% load static %}
 
-{% block title %}Редактировать профиль{% endblock %}
-
+{% block title %}
+  Редактировать профиль
+{% endblock title %}
 {% block content %}
-<main>
-  <div>
-    <h1>Редактировать профиль</h1>
-
+  <main>
     <div>
+      <h1>Редактировать профиль</h1>
       <div>
-        {% include 'common/includes/messages.html' with messages=messages %}
+        <div>{% include 'common/includes/messages.html' with messages=messages %}</div>
+        <div>{{ form.non_field_errors }}</div>
       </div>
-
-      <div>
-        {{ form.non_field_errors }}
-      </div>
+      {% url 'identity:user_update' as action %}
+      {% include 'identity/includes/user_model_form.html' with form=form action=action button='Сохранить' %}
     </div>
-
-    {% url 'identity:user_update' as action %}
-    {% include 'identity/includes/user_model_form.html' with form=form action=action button='Сохранить' %}
-  </div>
-</main>
-{% endblock %}
+  </main>
+{% endblock content %}

@@ -53,7 +53,7 @@ That's how this check is executed:
 
 .. code:: bash
 
-  python manage.py lintmigrations --exclude-apps=axes
+  python manage.py lintmigrations
 
 Important note: you might want to exclude some packages with broken migrations.
 Sometimes, there's nothing we can do about it.
@@ -68,6 +68,18 @@ See `yamllint <https://github.com/adrienverge/yamllint>`_ docs.
 .. code:: bash
 
   yamllint -d '{"extends": "default", "ignore": ".venv"}' -s .
+
+
+djlint
+------
+
+Is used to lint and format your ``html`` files.
+See `djlint <https://djlint.com/>`_ docs.
+
+.. code:: bash
+
+  djlint --check server
+  djlint --lint server
 
 
 dotenv-linter

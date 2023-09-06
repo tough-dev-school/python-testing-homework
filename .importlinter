@@ -1,4 +1,4 @@
-# See https://github.com/seddonym/import-linter
+# Docs: https://github.com/seddonym/import-linter
 
 [importlinter]
 root_package = server
@@ -10,14 +10,11 @@ name = Layered architecture of our project
 type = layers
 
 containers =
-  server.apps.main
+  server.apps.pictures
   server.apps.identity
 
-# Techincally `admin` and `urls` are on the same level, but it is not supported.
-# Techincally `container` and `models` are on the same lowest level
 layers =
-  (urls)
-  (admin)
+  (urls) | (admin)
   (views)
   (infrastructure)
   (logic)

@@ -2,7 +2,7 @@
 # This Dockerfile uses multi-stage build to customize DEV and PROD images:
 # https://docs.docker.com/develop/develop-images/multistage-build/
 
-FROM python:3.9.15-slim-buster AS development_build
+FROM python:3.11.5-slim-bookworm AS development_build
 
 LABEL maintainer="myapp.com"
 LABEL vendor="myapp.com"
@@ -23,10 +23,11 @@ ENV DJANGO_ENV=${DJANGO_ENV} \
   PIP_NO_CACHE_DIR=1 \
   PIP_DISABLE_PIP_VERSION_CHECK=1 \
   PIP_DEFAULT_TIMEOUT=100 \
+  PIP_ROOT_USER_ACTION=ignore \
   # tini:
   TINI_VERSION=v0.19.0 \
   # poetry:
-  POETRY_VERSION=1.3.2 \
+  POETRY_VERSION=1.6.1 \
   POETRY_NO_INTERACTION=1 \
   POETRY_VIRTUALENVS_CREATE=false \
   POETRY_CACHE_DIR='/var/cache/pypoetry' \
@@ -89,7 +90,9 @@ RUN --mount=type=cache,target="$POETRY_CACHE_DIR" \
 COPY ./docker/django/entrypoint.sh /docker-entrypoint.sh
 
 # Setting up proper permissions:
-RUN chmod +x '/docker-entrypoint.sh'
+RUN chmod +x '/docker-entrypoint.sh' \
+  # Replacing line separator CRLF with LF for Windows users:
+  && sed -i 's/\r$//g' '/docker-entrypoint.sh'
 
 # Running as non-root user:
 USER web

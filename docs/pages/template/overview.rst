@@ -52,14 +52,14 @@ root project
 - ``setup.cfg`` - configuration file, that is used by all tools in this project
 - ``locale/`` - helper folder, that is used to store locale data,
   empty by default
-- ``sql/`` - helper folder, that contains ``sql`` script for database setup
+- ``scripts/`` - helper folder, that contains various development scripts
   and teardown for local development
 
 server
 ~~~~~~
 
 - ``server/__init__.py`` - package definition, empty file
-- ``server/urls.py`` - ``django`` `urls definition <https://docs.djangoproject.com/en/3.2/topics/http/urls/>`_
+- ``server/urls.py`` - ``django`` `urls definition <https://docs.djangoproject.com/en/4.2/topics/http/urls/>`_
 - ``server/wsgi.py`` - ``django`` `wsgi definition <https://en.wikipedia.org/wiki/Web_Server_Gateway_Interface>`_
 - ``server/asgi.py`` - ``django`` `asgi definition <https://en.wikipedia.org/wiki/Asynchronous_Server_Gateway_Interface>`_
 - ``server/apps/`` - place to put all your apps into

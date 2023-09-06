@@ -1,4 +1,4 @@
-from typing import Optional, final
+from typing import final
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -33,7 +33,7 @@ class UserUpdateView(RatelimitMixin, UpdateView[User, UserUpdateForm]):
     ratelimit_block = True
     retelimit_method = ['POST', 'PUT']  # GET is safe
 
-    def get_object(self, queryset: Optional[QuerySet[User]] = None) -> User:
+    def get_object(self, queryset: QuerySet[User] | None = None) -> User:
         """We only work with the current user."""
         assert self.request.user.is_authenticated  # more for mypy  # noqa: S101
         return self.request.user

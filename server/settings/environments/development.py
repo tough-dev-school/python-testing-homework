@@ -6,6 +6,7 @@ SECURITY WARNING: don't run with debug turned on in production!
 
 import logging
 import socket
+from typing import TYPE_CHECKING
 
 from server.settings.components import config
 from server.settings.components.common import (
@@ -18,6 +19,9 @@ from server.settings.components.csp import (
     CSP_IMG_SRC,
     CSP_SCRIPT_SRC,
 )
+
+if TYPE_CHECKING:
+    from django.http import HttpRequest
 
 # Setting the development status:
 
@@ -79,7 +83,7 @@ except socket.error:  # pragma: no cover
 INTERNAL_IPS += ['127.0.0.1', '10.0.2.2']
 
 
-def _custom_show_toolbar(request) -> bool:
+def _custom_show_toolbar(request: 'HttpRequest') -> bool:
     """Only show the debug toolbar to users with the superuser flag."""
     return DEBUG and request.user.is_superuser
 
@@ -122,6 +126,15 @@ DTM_IGNORED_MIGRATIONS = frozenset((
 ))
 
 
+# django-migration-linter
+# https://github.com/3YOURMIND/django-migration-linter
+
+MIGRATION_LINTER_OPTIONS = {
+    'exclude_apps': ['axes'],
+    'exclude_migration_tests': ['CREATE_INDEX', 'CREATE_INDEX_EXCLUSIVE'],
+}
+
+
 # django-extra-checks
 # https://github.com/kalekseev/django-extra-checks
 
@@ -137,8 +150,6 @@ EXTRA_CHECKS = {
         'field-file-upload-to',
         # Text fields shouldn't use `null=True`:
         'field-text-null',
-        # Prefer using BooleanField(null=True) instead of NullBooleanField:
-        'field-boolean-null',
         # Don't pass `null=False` to model fields (this is django default)
         'field-null',
         # ForeignKey fields must specify db_index explicitly if used in
@@ -154,5 +165,5 @@ EXTRA_CHECKS = {
 }
 
 # Disable persistent DB connections
-# https://docs.djangoproject.com/en/3.2/ref/databases/#caveats
+# https://docs.djangoproject.com/en/4.2/ref/databases/#caveats
 DATABASES['default']['CONN_MAX_AGE'] = 0

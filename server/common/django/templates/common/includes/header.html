@@ -2,37 +2,25 @@
   <nav>
     <ul>
       <li>
-        <a href="{% url 'index' %}">
-          Главная
-        </a>
+        <a href="{% url 'index' %}">Главная</a>
       </li>
       {% if user.is_authenticated %}
-      <li>
-        <a href="{% url 'pictures:dashboard' %}">
-          Личный кабинет
-        </a>
-      </li>
-      <li>
-        <a href="{% url 'pictures:favourites' %}">
-          Любимые картинки
-        </a>
-      </li>
-      <li>
-        <a href="{% url 'identity:logout' %}">
-          Выход
-        </a>
-      </li>
+        <li>
+          <a href="{% url 'pictures:dashboard' %}">Личный кабинет</a>
+        </li>
+        <li>
+          <a href="{% url 'pictures:favourites' %}">Любимые картинки</a>
+        </li>
+        <li>
+          <a href="{% url 'identity:logout' %}">Выход</a>
+        </li>
       {% else %}
-      <li>
-        <a href="{% url 'identity:login' %}">
-          Войти
-        </a>
-      </li>
-      <li>
-        <a href="{% url 'identity:registration' %}">
-          Регистрация
-        </a>
-      </li>
+        <li>
+          <a href="{% url 'identity:login' %}">Войти</a>
+        </li>
+        <li>
+          <a href="{% url 'identity:registration' %}">Регистрация</a>
+        </li>
       {% endif %}
     </ul>
   </nav>
