@@ -68,5 +68,8 @@ docker/docker-compose.prod.yml
 # JetBrains
 .idea/
 
+# import-linter
+.import_linter_cache/
+
 # Release script:
 release.config.js

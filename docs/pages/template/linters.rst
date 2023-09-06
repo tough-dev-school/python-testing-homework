@@ -53,7 +53,7 @@ That's how this check is executed:
 
 .. code:: bash
 
-  python manage.py lintmigrations --exclude-apps=axes
+  python manage.py lintmigrations
 
 Important note: you might want to exclude some packages with broken migrations.
 Sometimes, there's nothing we can do about it.
