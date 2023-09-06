@@ -35,7 +35,7 @@ RATELIMIT_ENABLE = True
 # django-axes
 # https://django-axes.readthedocs.io/
 
-AXES_LOCKOUT_PARAMETERS = ["username", "user_agent"]
+AXES_LOCKOUT_PARAMETERS = ['username', 'user_agent']
 AXES_RESET_ON_SUCCESS = True
 AXES_FAILURE_LIMIT = 5
 
