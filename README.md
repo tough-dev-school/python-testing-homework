@@ -59,8 +59,8 @@ Run tests with:
 1. `docker compose run --rm web pytest`
 
 To start the whole project:
-5. Run `docker compose run --rm web python manage.py migrate` (only once)
-6. `docker compose up`
+1. Run `docker compose run --rm web python manage.py migrate` (only once)
+2. `docker compose up`
 
 
 ## Documentation
