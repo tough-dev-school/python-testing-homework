@@ -34,4 +34,8 @@ class PicturesFetch(http.BaseFetcher):
             timeout=self._api_timeout,
         )
         response.raise_for_status()
-        return pydantic.parse_raw_as(list[PictureResponse], response.text)
+        return pydantic.TypeAdapter(
+            list[PictureResponse],
+        ).validate_json(
+            response.text,
+        )
