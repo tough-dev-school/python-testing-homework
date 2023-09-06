@@ -70,6 +70,3 @@ docker/docker-compose.prod.yml
 
 # Release script:
 release.config.js
-
-# Frontend machinery:
-frontend/

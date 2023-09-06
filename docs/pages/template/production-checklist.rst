@@ -143,7 +143,7 @@ Here's it would look like:
 
 .. code:: bash
 
-  docker-compose -f docker-compose.yml -f docker/docker-compose.prod.yml
+  docker compose-f docker-compose.yml -f docker/docker-compose.prod.yml
   run --rm caddy -validate
 
 This check is not included in the pipeline by default,
@@ -155,7 +155,7 @@ Disabling HTTPS
 You would need to `disable <https://caddyserver.com/docs/tls>`_
 ``https`` inside ``Caddy`` and in production settings for Django.
 Because Django itself also redirects to ``https``.
-See `docs <https://docs.djangoproject.com/en/3.2/ref/settings/#secure-ssl-redirect>`_.
+See `docs <https://docs.djangoproject.com/en/4.2/ref/settings/#secure-ssl-redirect>`_.
 
 You would also need to disable ``manage.py check``
 in ``docker/ci.sh``.

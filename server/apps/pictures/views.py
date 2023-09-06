@@ -1,4 +1,4 @@
-from typing import Any, Dict, final
+from typing import Any, final
 
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -42,7 +42,7 @@ class DashboardView(CreateView[FavouritePicture, FavouritesForm]):
     template_name = 'pictures/pages/dashboard.html'
     success_url = reverse_lazy('pictures:dashboard')
 
-    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:
+    def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         """Innject extra context to template rendering."""
         fetch_puctures = container.instantiate(PicturesFetch)
 

@@ -1,4 +1,4 @@
-from typing import List, final
+from typing import final
 
 import pydantic
 import requests
@@ -26,7 +26,7 @@ class PicturesFetch(http.BaseFetcher):
         self,
         *,
         limit: int,
-    ) -> List[PictureResponse]:
+    ) -> list[PictureResponse]:
         """Create remote user and return assigned ids."""
         response = requests.get(
             self.url_path(),

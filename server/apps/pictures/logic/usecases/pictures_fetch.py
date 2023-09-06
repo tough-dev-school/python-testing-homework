@@ -1,4 +1,4 @@
-from typing import List, final
+from typing import final
 
 import attr
 
@@ -13,11 +13,11 @@ class PicturesFetch(object):
 
     _settings: Settings
 
-    def __call__(self, limit: int = 10) -> List[placeholder.PictureResponse]:
+    def __call__(self, limit: int = 10) -> list[placeholder.PictureResponse]:
         """Update existing user in the remote api."""
         return self._fetch_pictures(limit)
 
-    def _fetch_pictures(self, limit: int) -> List[placeholder.PictureResponse]:
+    def _fetch_pictures(self, limit: int) -> list[placeholder.PictureResponse]:
         return placeholder.PicturesFetch(
             api_url=self._settings.PLACEHOLDER_API_URL,
             api_timeout=self._settings.PLACEHOLDER_API_TIMEOUT,

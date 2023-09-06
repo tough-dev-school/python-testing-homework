@@ -34,7 +34,7 @@ jobs:
 
       - name: Test
         run: |
-          docker-compose run \
+          docker composerun \
             -e DJANGO_SECRET_KEY --user=root --rm web ./docker/django/ci.sh
         env:
           # This must not be public and must be stored as a secret value.

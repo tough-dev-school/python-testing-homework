@@ -16,7 +16,8 @@ fi
 pyclean () {
   # Cleaning cache:
   find . \
-    | grep -E '(__pycache__|\.hypothesis|\.perm|\.cache|\.static|\.py[cod]$)' \
+    | grep -E \
+      '(__pycache__|\.(mypy_)?cache|\.hypothesis|\.perm|\.static|\.py[cod]$)' \
     | xargs rm -rf \
   || true
 }
@@ -35,6 +36,10 @@ run_ci () {
 
   # Running linting for all python files in the project:
   flake8 .
+
+  # Check HTML formatting:
+  djlint --check server
+  djlint --lint server
 
   # Running type checking, see https://github.com/typeddjango/django-stubs
   mypy manage.py server

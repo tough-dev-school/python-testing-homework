@@ -1,7 +1,7 @@
 from django.urls import reverse_lazy
 
 # Django authentication system
-# https://docs.djangoproject.com/en/3.2/topics/auth/
+# https://docs.djangoproject.com/en/4.2/topics/auth/
 
 AUTH_USER_MODEL = 'identity.User'
 
@@ -19,7 +19,7 @@ PASSWORD_HASHERS = [
 
 
 # Login settings
-# https://docs.djangoproject.com/en/3.2/ref/settings/
+# https://docs.djangoproject.com/en/4.2/ref/settings/
 
 LOGIN_URL = reverse_lazy('identity:login')
 LOGIN_REDIRECT_URL = reverse_lazy('pictures:dashboard')
