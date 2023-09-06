@@ -73,5 +73,5 @@ containers.
 Further reading
 ---------------
 
-- Production with `docker compose<https://docs.docker.com/compose/production>`_
+- Production with `docker compose <https://docs.docker.com/compose/production>`_
 - `Full tutorial <https://docs.docker.com/get-started>`_
