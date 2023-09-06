@@ -1,4 +1,4 @@
-from typing import TYPE_CHECKING, Final, final
+from typing import TYPE_CHECKING, Any, Final, final
 
 from django.contrib.auth.models import (
     AbstractBaseUser,
@@ -19,7 +19,7 @@ class _UserManager(BaseUserManager['User']):
         self,
         email: str,
         password: str,
-        **extra_fields,
+        **extra_fields: Any,
     ) -> 'User':
         """Create user: regular registration process."""
         if not email:
@@ -36,7 +36,7 @@ class _UserManager(BaseUserManager['User']):
         self,
         email: str,
         password: str,
-        **extra_fields,
+        **extra_fields: Any,
     ) -> 'User':
         """Create super user."""
         user = self.create_user(email, password, **extra_fields)
