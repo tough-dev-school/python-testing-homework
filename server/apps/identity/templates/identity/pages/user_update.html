@@ -2,7 +2,7 @@
 
 {% load static %}
 
-{% block title %}Редактировать профиль{% endblock %}
+{% block title %}Редактировать профиль{% endblock title %}
 {% block content %}
   <main>
     <div>
@@ -15,4 +15,4 @@
       {% include 'identity/includes/user_model_form.html' with form=form action=action button='Сохранить' %}
     </div>
   </main>
-{% endblock %}
+{% endblock content %}

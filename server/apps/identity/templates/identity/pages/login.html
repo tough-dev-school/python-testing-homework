@@ -2,7 +2,7 @@
 
 {% load static %}
 
-{% block title %}Регистрация{% endblock %}
+{% block title %}Регистрация{% endblock title %}
 {% block content %}
   <main>
     <div>
@@ -12,7 +12,7 @@
         <a href="{% url 'identity:registration' %}">Зарегистрироваться</a>
       </div>
       <div>{{ form.non_field_errors }}</div>
-      <form action="{% url 'identity:login' %}" method="POST">
+      <form action="{% url 'identity:login' %}" method="post">
         {% csrf_token %}
         {% include 'common/includes/field.html' with field=form.username field_label='Электронная почта' %}
         {% include 'common/includes/field.html' with field=form.password field_label='Пароль' %}
@@ -20,4 +20,4 @@
       </form>
     </div>
   </main>
-{% endblock %}
+{% endblock content %}

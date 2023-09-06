@@ -2,7 +2,7 @@
 
 {% load static %}
 
-{% block title %}Testing Homework{% endblock %}
+{% block title %}Testing Homework{% endblock title %}
 {% block content %}
   <main>
     <article>
@@ -42,16 +42,16 @@
       </div>
       {% for picture in pictures %}
         <div data-test-id="picture-fecthed-item">
-          <img src="{{ picture.url }}" />
-          <form method="POST" action="{% url 'pictures:dashboard' %}">
+          <img alt="Картинка {{ picture.id }}" src="{{ picture.url }}" />
+          <form method="post" action="{% url 'pictures:dashboard' %}">
             {% csrf_token %}
             <input type="hidden" name="foreign_id" value="{{ picture.id }}" />
             <input type="hidden" name="url" value="{{ picture.url }}" />
             <button type="submit">Добавить в избранное</button>
           </form>
         </div>
-        <hr>
+        <hr />
       {% endfor %}
     </article>
   </main>
-{% endblock %}
+{% endblock content %}

@@ -2,15 +2,15 @@
 
 {% load static %}
 
-{% block title %}Запись на консультацию с основателем{% endblock %}
+{% block title %}Запись на консультацию с основателем{% endblock title %}
 {% block content %}
   <main>
     <h1>Список любимых картинок</h1>
     {% for picture in object_list %}
       <div data-test-id="favourites-picture-db">
         <p>Номер {{ picture.foreign_id }}</p>
-        <img src="{{ picture.url }}" />
+        <img alt="Картинка {{ picture.foreign_id }}" src="{{ picture.url }}" />
       </div>
     {% endfor %}
   </main>
-{% endblock %}
+{% endblock content %}
