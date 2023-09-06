@@ -7,7 +7,7 @@
 # This file is ignored in production, but
 # it is automatically picked up in development with:
 #
-#  $ docker composeup
+#  $ docker compose up
 
 version: "3.8"
 services:
