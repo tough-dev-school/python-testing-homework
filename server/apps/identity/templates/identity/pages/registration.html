@@ -1,25 +1,19 @@
 {% extends 'common/_base.html' %}
+
 {% load static %}
 
 {% block title %}Регистрация{% endblock %}
-
 {% block content %}
-<main>
-  <div>
-    <h1>Регистрация</h1>
-
+  <main>
     <div>
-      <p>Уже есть личный кабинет?</p>
-      <a href="{% url 'identity:login' %}">Войти</a>
+      <h1>Регистрация</h1>
+      <div>
+        <p>Уже есть личный кабинет?</p>
+        <a href="{% url 'identity:login' %}">Войти</a>
+      </div>
+      <div>{{ form.non_field_errors }}</div>
+      {% url 'identity:registration' as action %}
+      {% include 'identity/includes/user_model_form.html' with form=form action=action button='Зарегистрироваться' show_confidential=True %}
     </div>
-
-    <div>
-      {{ form.non_field_errors }}
-    </div>
-
-    {% url 'identity:registration' as action %}
-    {% include 'identity/includes/user_model_form.html' with form=form action=action button='Зарегистрироваться' show_confidential=True %}
-
-  </div>
-</main>
+  </main>
 {% endblock %}

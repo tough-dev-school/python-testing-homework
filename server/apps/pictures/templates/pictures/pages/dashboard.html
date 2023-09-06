@@ -1,65 +1,57 @@
 {% extends 'common/_base.html' %}
+
 {% load static %}
 
 {% block title %}Testing Homework{% endblock %}
-
 {% block content %}
-<main>
-  <article>
-    <h3>Профиль</h3>
-
-    <ul>
-      <li>
-        <span>ФИО:</span>
-        <span>{{ user.first_name }} {{ user.last_name }}</span>
-      </li>
-      <li>
-        <span>Дата рождения:</span>
-        <span>{{ user.date_of_birth|stringformat:'s' }}</span>
-      </li>
-      <li>
-        <span>Страна, город:</span>
-        <span>{{ user.address }}</span>
-      </li>
-      <li>
-        <span>Должность:</span>
-        <span>{{ user.job_title }}</span>
-      </li>
-      <li>
-        <span>Телефон:</span>
-        <span>{{ user.phone }}</span>
-      </li>
-      <li>
-        <span>Электронная почта: </span>
-        <span>{{ user.email }}</span>
-      </li>
-    </ul>
-
-    <a href="{% url 'identity:user_update' %}">
-      Изменить
-    </a>
-  </article>
-
-  <article>
-    <div>
-      {% include 'common/includes/messages.html' with messages=messages %}
-
-      {{ form.errors }}
-    </div>
-
-    {% for picture in pictures %}
-      <div data-test-id="picture-fecthed-item">
-        <img src="{{ picture.url }}" />
-        <form method="POST" action="{% url 'pictures:dashboard' %}">
-          {% csrf_token %}
-          <input type="hidden" name="foreign_id" value="{{ picture.id }}" />
-          <input type="hidden" name="url" value="{{ picture.url }}" />
-          <button type="submit">Добавить в избранное</button>
-        </form>
+  <main>
+    <article>
+      <h3>Профиль</h3>
+      <ul>
+        <li>
+          <span>ФИО:</span>
+          <span>{{ user.first_name }} {{ user.last_name }}</span>
+        </li>
+        <li>
+          <span>Дата рождения:</span>
+          <span>{{ user.date_of_birth|stringformat:'s' }}</span>
+        </li>
+        <li>
+          <span>Страна, город:</span>
+          <span>{{ user.address }}</span>
+        </li>
+        <li>
+          <span>Должность:</span>
+          <span>{{ user.job_title }}</span>
+        </li>
+        <li>
+          <span>Телефон:</span>
+          <span>{{ user.phone }}</span>
+        </li>
+        <li>
+          <span>Электронная почта:</span>
+          <span>{{ user.email }}</span>
+        </li>
+      </ul>
+      <a href="{% url 'identity:user_update' %}">Изменить</a>
+    </article>
+    <article>
+      <div>
+        {% include 'common/includes/messages.html' with messages=messages %}
+        {{ form.errors }}
       </div>
-
-      <hr>
-    {% endfor %}
-  </article>
-</main>
+      {% for picture in pictures %}
+        <div data-test-id="picture-fecthed-item">
+          <img src="{{ picture.url }}" />
+          <form method="POST" action="{% url 'pictures:dashboard' %}">
+            {% csrf_token %}
+            <input type="hidden" name="foreign_id" value="{{ picture.id }}" />
+            <input type="hidden" name="url" value="{{ picture.url }}" />
+            <button type="submit">Добавить в избранное</button>
+          </form>
+        </div>
+        <hr>
+      {% endfor %}
+    </article>
+  </main>
 {% endblock %}
