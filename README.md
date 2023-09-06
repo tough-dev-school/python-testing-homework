@@ -9,7 +9,8 @@ This project was generated with [`wemake-django-template`](https://github.com/we
 
 ## What does this app do?
 
-This app surves one main purpose: show pictures and save your favoirutes ones.
+This app serves just one main purpose:
+showing pictures and saving your favoirutes ones.
 
 To do that we also have supporting features, like:
 - User registration and login / logout mechanics
@@ -45,6 +46,21 @@ When developing locally, we use:
 - [`editorconfig`](http://editorconfig.org/) plugin (**required**)
 - [`poetry`](https://github.com/python-poetry/poetry) (**required**)
 - [`pyenv`](https://github.com/pyenv/pyenv)
+
+
+## 🚀 Quickstart
+
+One time setup:
+1. `git clone tough-dev-school/python-testing-homework`
+2. `cd python-testing-homework`
+3. Create your own `config/.env` file: `cp config/.env.template config/.env` and then update it with your own value
+
+Run tests with:
+1. `docker compose run --rm web pytest`
+
+To start the whole project:
+5. Run `docker compose run --rm web python manage.py migrate` (only once)
+6. `docker compose up`
 
 
 ## Documentation
