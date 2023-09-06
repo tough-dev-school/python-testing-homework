@@ -19,7 +19,7 @@ SECRET_KEY = config('DJANGO_SECRET_KEY')
 
 # Application definition:
 
-INSTALLED_APPS: Tuple[str, ...] = (
+INSTALLED_APPS: tuple[str, ...] = (
     # Your apps go here:
     'server.apps.pictures',
     'server.apps.identity',
@@ -47,7 +47,7 @@ INSTALLED_APPS: Tuple[str, ...] = (
     'health_check.storage',
 )
 
-MIDDLEWARE: Tuple[str, ...] = (
+MIDDLEWARE: tuple[str, ...] = (
     # Logging:
     'server.settings.components.logging.LoggingContextVarsMiddleware',
 

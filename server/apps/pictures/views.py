@@ -5,14 +5,11 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import QuerySet
 from django.http import HttpResponse
 from django.urls import reverse_lazy
-from django.views.generic import TemplateView
-from django.views.generic.edit import CreateView
-from django.views.generic.list import ListView
+from django.views.generic import CreateView, ListView, TemplateView
 
 from server.apps.pictures.container import container
 from server.apps.pictures.intrastructure.django.forms import FavouritesForm
-from server.apps.pictures.logic.usecases.favourites_list import FavouritesList
-from server.apps.pictures.logic.usecases.pictures_fetch import PicturesFetch
+from server.apps.pictures.logic.usecases import favourites_list, pictures_fetch
 from server.apps.pictures.models import FavouritePicture
 from server.common.django.decorators import dispatch_decorator
 
@@ -44,13 +41,13 @@ class DashboardView(CreateView[FavouritePicture, FavouritesForm]):
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
         """Innject extra context to template rendering."""
-        fetch_puctures = container.instantiate(PicturesFetch)
+        fetch_puctures = container.instantiate(pictures_fetch.PicturesFetch)
 
         context = super().get_context_data(**kwargs)
         context['pictures'] = fetch_puctures()  # sync http call, may hang
         return context
 
-    def get_form_kwargs(self) -> Dict[str, Any]:
+    def get_form_kwargs(self) -> dict[str, Any]:
         """Add current user to the context."""
         base_kwargs = super().get_form_kwargs()
         base_kwargs['user'] = self.request.user
@@ -71,5 +68,5 @@ class FavouritePicturesView(ListView[FavouritePicture]):
 
     def get_queryset(self) -> QuerySet[FavouritePicture]:
         """Return matching pictures."""
-        list_favourites = container.instantiate(FavouritesList)
+        list_favourites = container.instantiate(favourites_list.FavouritesList)
         return list_favourites(self.request.user.id)

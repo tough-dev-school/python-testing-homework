@@ -804,13 +804,13 @@ files = [
 
 [[package]]
 name = "django-ratelimit"
-version = "4.1.0"
+version = "3.0.1"
 description = "Cache-based rate-limiting for Django."
 optional = false
-python-versions = ">=3.7"
+python-versions = ">=3.4"
 files = [
-    {file = "django-ratelimit-4.1.0.tar.gz", hash = "sha256:555943b283045b917ad59f196829530d63be2a39adb72788d985b90c81ba808b"},
-    {file = "django_ratelimit-4.1.0-py2.py3-none-any.whl", hash = "sha256:d047a31cf94d83ef1465d7543ca66c6fc16695559b5f8d814d1b51df15110b92"},
+    {file = "django-ratelimit-3.0.1.tar.gz", hash = "sha256:73223d860abd5c5d7b9a807fabb39a6220068129b514be8d78044b52607ab154"},
+    {file = "django_ratelimit-3.0.1-py2.py3-none-any.whl", hash = "sha256:857e797f23de948b204a31dba9d88aea3ce731b7a5d926d0240c772e19b5486f"},
 ]
 
 [[package]]
@@ -3442,4 +3442,4 @@ dev = ["doc8", "flake8", "flake8-import-order", "rstcheck[sphinx]", "sphinx"]
 [metadata]
 lock-version = "2.0"
 python-versions = "3.11.5"
-content-hash = "ead85a674fad127aad49779a8113ba7f025ed1f863730a98e54ef64da130500e"
+content-hash = "e008788fdb487911486d84d2d948fb327ce55008176fc416600f91d088346bd5"

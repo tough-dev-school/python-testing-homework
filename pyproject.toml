@@ -20,7 +20,7 @@ django-health-check = "^3.16"
 django-http-referrer-policy = "^1.1"
 django-permissions-policy = "^4.17"
 django-stubs-ext = "^4.2"
-django-ratelimit = "^4.1"
+django-ratelimit = "3.0.1"  # API change in `^4.x`
 
 psycopg2-binary = "^2.9"
 gunicorn = "^21.2"
