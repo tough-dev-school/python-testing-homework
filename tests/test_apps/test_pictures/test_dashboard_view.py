@@ -7,16 +7,16 @@ from server.apps.pictures.views import DashboardView
 
 pytestmark = [pytest.mark.django_db]
 
+url = reverse('pictures:dashboard')
+
 
 def test_pictures_in_context_data(authorized_client: Client):
-    url = reverse('pictures:dashboard')
-    response = authorized_client.post(url)
+    response = authorized_client.get(url)
     assert "pictures" in response.context
 
 
 def test_user_in_form_kwargs(user: User, request_factory: RequestFactory):
-    url = reverse('pictures:dashboard')
-    request = request_factory.post(url)
+    request = request_factory.get(url)
     request.user = user
 
     view = DashboardView()
