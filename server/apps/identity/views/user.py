@@ -10,7 +10,7 @@ from django.views.generic import UpdateView
 from ratelimit.mixins import RatelimitMixin
 
 from server.apps.identity.container import container
-from server.apps.identity.intrastructure.django.forms import UserUpdateForm
+from server.apps.identity.infrastructure.django.forms import UserUpdateForm
 from server.apps.identity.logic.usecases.user_update import UserUpdate
 from server.apps.identity.models import User
 from server.common.django.decorators import dispatch_decorator
