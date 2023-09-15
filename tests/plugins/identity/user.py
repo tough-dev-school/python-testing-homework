@@ -6,6 +6,6 @@ import pytest
 
 @pytest.fixture
 def user() -> User:
-    user = mixer.blend(User)
+    user = mixer.blend(User, date_of_birth=mixer.RANDOM)
     yield user
     user.delete()

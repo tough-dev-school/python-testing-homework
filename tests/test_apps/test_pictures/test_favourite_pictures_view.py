@@ -28,3 +28,5 @@ def test_favorite_pictures_has_expected_user(user: User, favorites_pictures, req
     assert len(queryset) == len(favorites_pictures)
     for picture in queryset:
         assert picture.user == user
+
+
