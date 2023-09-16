@@ -17,27 +17,27 @@ from server.apps.identity.models import User
 @pytest.fixture()
 def registration_data_factory() -> RegistrationDataFactory:
     def factory(**fields: Unpack[RegistrationData]) -> RegistrationData:
-        field = Field(locale=Locale.RU, seed=fields.pop("seed"))
-        password = field("password")
+        field = Field(locale=Locale.RU, seed=fields.pop('seed'))
+        password = field('password')
         schema = Schema(schema=lambda: {
-            "email": field("person.email"),
-            "first_name": field("person.first_name"),
-            "last_name": field("person.last_name"),
-            "date_of_birth": field("datetime.date"),
-            "address": field("address.city"),
-            "job_title": field("person.occupation"),
-            "phone": field("person.telephone"),
+            'email': field('person.email'),
+            'first_name': field('person.first_name'),
+            'last_name': field('person.last_name'),
+            'date_of_birth': field('datetime.date'),
+            'address': field('address.city'),
+            'job_title': field('person.occupation'),
+            'phone': field('person.telephone'),
         })
         return {
             **schema.create()[0],
-            **{"password_first": password, "password_second": password},
+            **{'password_first': password, 'password_second': password},
             **fields,
         }
 
     return factory
 
 
-@pytest.fixture(scope="session")
+@pytest.fixture(scope='session')
 def assert_correct_user() -> UserAssertion:
     def factory(email: str, expected: UserData) -> None:
         user = User.objects.get(email=email)
@@ -59,20 +59,20 @@ def reg_data(registration_data_factory) -> RegistrationData:
 @pytest.fixture()
 def expected_user_data(reg_data: RegistrationData) -> dict[str, Any]:
     yield {
-        key: value for key, value in reg_data.items() if not key.startswith("password")
+        key: value for key, value in reg_data.items() if not key.startswith('password')
     }
 
 
 @pytest.fixture()
 def expected_serialized_user(reg_data: RegistrationData) -> dict[str, Any]:
     yield {
-        "name": reg_data["first_name"],
-        "last_name": reg_data["last_name"],
-        "birthday": reg_data["date_of_birth"].strftime('%d.%m.%Y'),
-        "city_of_birth": reg_data["address"],
-        "position": reg_data["job_title"],
-        "email": reg_data["email"],
-        "phone": reg_data["phone"],
+        'name': reg_data['first_name'],
+        'last_name': reg_data['last_name'],
+        'birthday': reg_data['date_of_birth'].strftime('%d.%m.%Y'),
+        'city_of_birth': reg_data['address'],
+        'position': reg_data['job_title'],
+        'email': reg_data['email'],
+        'phone': reg_data['phone'],
     }
 
 

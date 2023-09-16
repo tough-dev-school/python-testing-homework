@@ -21,7 +21,7 @@ def test_success_lead_create(
     assert_correct_user,
     settings: Settings,
 ) -> None:
-    assert_correct_user(reg_data["email"], expected_user_data)
+    assert_correct_user(reg_data['email'], expected_user_data)
     actual_id = UserResponse(id=11)
     expected_id = LeadCreate(
         api_timeout=settings.PLACEHOLDER_API_TIMEOUT,
@@ -38,7 +38,7 @@ def test_success_lead_update(
     assert_correct_user,
     settings: Settings,
 ) -> None:
-    assert_correct_user(reg_data["email"], expected_user_data)
+    assert_correct_user(reg_data['email'], expected_user_data)
     LeadUpdate(
         api_timeout=settings.PLACEHOLDER_API_TIMEOUT,
         api_url=settings.PLACEHOLDER_API_URL,
@@ -47,14 +47,14 @@ def test_success_lead_update(
 
 def test_success_validate_user_response() -> None:
     expected_id = 1
-    actual_id = UserResponse.model_validate({"id": 1}).id
+    actual_id = UserResponse.model_validate({'id': 1}).id
     assert actual_id == expected_id
 
 
 def test_failed_validate_user_response() -> None:
     with pytest.raises(ValidationError) as exc:
-        UserResponse.model_validate({"TEST": 1}).id
-    assert exc.typename == "ValidationError"
+        UserResponse.model_validate({'TEST': 1}).id
+    assert exc.typename == 'ValidationError'
 
 
 @pytest.mark.django_db

@@ -16,12 +16,12 @@ class TestUserCreateNew:
         reg_data,
         expected_user_data,
     ) -> None:
-        not_lead_user = User.objects.get(email=reg_data["email"])
+        not_lead_user = User.objects.get(email=reg_data['email'])
         assert not_lead_user.lead_id is None
-        assert_correct_user(reg_data["email"], expected_user_data)
+        assert_correct_user(reg_data['email'], expected_user_data)
 
         UserCreateNew(settings=settings)(user=user)
-        lead_user = User.objects.get(email=reg_data["email"])
+        lead_user = User.objects.get(email=reg_data['email'])
         expected_lead_id = 11
         assert lead_user.lead_id == expected_lead_id
 
@@ -34,8 +34,8 @@ class TestUserCreateNew:
         reg_data,
         expected_user_data,
     ) -> None:
-        assert_correct_user(reg_data["email"], expected_user_data)
+        assert_correct_user(reg_data['email'], expected_user_data)
         response = UserResponse(id=100)
         UserCreateNew(settings=settings)._update_user_ids(user=user, response=response)
-        actual_user = User.objects.get(email=reg_data["email"])
+        actual_user = User.objects.get(email=reg_data['email'])
         assert actual_user.lead_id == response.id
