@@ -1,5 +1,4 @@
 import json
-import re
 from http import HTTPStatus
 from typing import TYPE_CHECKING
 from urllib.parse import urljoin
@@ -7,10 +6,8 @@ from urllib.parse import urljoin
 import httpretty
 import pytest
 from django_fakery.faker_factory import Factory
-from faker import Faker
 from mimesis import Field, Locale
 
-from server.apps.identity.models import User
 from server.apps.pictures.models import FavouritePicture
 
 if TYPE_CHECKING:
@@ -23,8 +20,9 @@ def user_fav_factory(
     fakery: Factory[FavouritePicture],
     user_factory,
 ):
+    """Mock user fav."""
     def decorator(**fields) -> FavouritePicture:
-        fields.setdefault("user", user_factory())
+        fields.setdefault('user', user_factory())
         return fakery.m(
             FavouritePicture,
         )(
@@ -38,8 +36,9 @@ def user_fav_factory(
 def user_favs_factory(
     user_fav_factory,
 ):
-    def decorator(n: int = 1, **fields) -> FavouritePicture:
-        return [user_fav_factory(**fields) for _ in range(n)]
+    """Mock user favs."""
+    def decorator(nfavs: int = 1, **fields) -> FavouritePicture:
+        return [user_fav_factory(**fields) for _ in range(nfavs)]
 
     return decorator
 
@@ -49,18 +48,20 @@ def picture_response():
     """Mock PictureFetch response."""
     def factory(limit=1):
         mf = Field(locale=Locale.RU, seed=DEFAULT_SEED)
-        return [{
-            'id': str(mf("numeric.increment")),
-            'url': mf("internet.uri"),
-        } for _ in range(limit)]
+        return [
+            {
+                'id': str(mf('numeric.increment')),
+                'url': mf('internet.uri'),
+            } for _ in range(limit)
+        ]
     return factory
 
 
 @pytest.fixture()
-def mock_picture_fetch(request, settings: "Settings", picture_response):
+def mock_picture_fetch(request, settings: 'Settings', picture_response):
     """Mock PictureFetch call."""
     limit = 1
-    marker = request.node.get_closest_marker("picture_fetch_limit_data")
+    marker = request.node.get_closest_marker('picture_fetch_limit_data')
     if marker:
         limit = marker.args[0]
     resp = picture_response(limit=limit)
@@ -69,7 +70,7 @@ def mock_picture_fetch(request, settings: "Settings", picture_response):
             httpretty.GET,
             urljoin(
                 settings.PLACEHOLDER_API_URL,
-                "photos",
+                'photos',
             ),
             status=HTTPStatus.OK,
             body=json.dumps(resp),

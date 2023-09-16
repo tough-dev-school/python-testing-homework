@@ -16,7 +16,7 @@ def test_create_user(user_factory):
 
 @pytest.mark.django_db()
 def test_create_new_user(user_factory, mock_lead_create):
-    """Test create new user with lead"""
+    """Test create new user with lead."""
     user_create_new = container.instantiate(UserCreateNew)
     user = user_factory()
 
@@ -28,9 +28,10 @@ def test_create_new_user(user_factory, mock_lead_create):
 
 @pytest.mark.django_db()
 def test_update_user_lead(user_factory, mock_lead_update):
-    LEAD_ID = '2'
+    """Test update user lead."""
+    lead_id = '2'
     user_update = container.instantiate(UserUpdate)
-    user = user_factory(lead_id=int(LEAD_ID))
+    user = user_factory(lead_id=int(lead_id))
 
     user_update(user)
-    assert mock_lead_update.last_request().url.endswith(LEAD_ID)
+    assert mock_lead_update.last_request().url.endswith(lead_id)

@@ -15,12 +15,12 @@ def user_factory(fakery: Factory[User], faker: Faker):
         return user
 
     def decorator(**fields) -> User:
-        password = fields.setdefault("password", faker.password())
+        password = fields.setdefault('password', faker.password())
         return fakery.m(
             User,
             post_save=[lambda user: factory(user, password)],
         )(
-            **{"is_active": True, **fields},
+            **{'is_active': True, **fields},
         )
 
     return decorator
