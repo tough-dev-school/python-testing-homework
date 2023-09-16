@@ -17,7 +17,8 @@ services:
       - webnet
       - postgresnet
     env_file: ./config/.env
-
+    ports:
+      - "5432:5432"
   web:
     <<: &web
       # Image name is changed in production:
