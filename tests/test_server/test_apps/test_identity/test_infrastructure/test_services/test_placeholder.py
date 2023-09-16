@@ -4,8 +4,8 @@ import pytest
 from pydantic import ValidationError
 
 from server.apps.identity.intrastructure.services.placeholder import (
-    UserResponse,
     LeadCreate,
+    UserResponse,
     LeadUpdate,
     _serialize_user,
 )
@@ -15,6 +15,8 @@ from tests.plugins.identity.user import RegistrationData, UserAssertion
 
 
 class TestLeadCreate:
+    """Test class for testing LeadCreate service."""
+
     @pytest.mark.django_db()
     def test_success_lead_create(
         self,
@@ -24,6 +26,7 @@ class TestLeadCreate:
         assert_correct_user: UserAssertion,
         settings: Settings,
     ) -> None:
+        """Testing service that create lead user."""
         assert_correct_user(reg_data['email'], expected_user_data)
         actual_id = UserResponse(id=11)
         expected_id = LeadCreate(
@@ -33,8 +36,8 @@ class TestLeadCreate:
         assert actual_id == expected_id
 
     def test_success_url_path(self, settings: Settings) -> None:
-        """test method for the request."""
-        expected_url_path = "https://jsonplaceholder.typicode.com/users"
+        """Testing method that create URL path for the request."""
+        expected_url_path = 'https://jsonplaceholder.typicode.com/users'
         fetcher = LeadCreate(
             api_timeout=settings.PLACEHOLDER_API_TIMEOUT,
             api_url=settings.PLACEHOLDER_API_URL,
@@ -51,6 +54,7 @@ def test_success_lead_update(
     assert_correct_user: UserAssertion,
     settings: Settings,
 ) -> None:
+    """Testing service that update lead user."""
     assert_correct_user(reg_data['email'], expected_user_data)
     LeadUpdate(
         api_timeout=settings.PLACEHOLDER_API_TIMEOUT,
@@ -59,12 +63,14 @@ def test_success_lead_update(
 
 
 def test_success_validate_user_response() -> None:
+    """Testing UserResponse model, success case."""
     expected_id = 1
     actual_id = UserResponse.model_validate({'id': 1}).id
     assert actual_id == expected_id
 
 
 def test_failed_validate_user_response() -> None:
+    """Testing UserResponse model, failed case."""
     with pytest.raises(ValidationError) as exc:
         UserResponse.model_validate({'TEST': 1}).id
     assert exc.typename == 'ValidationError'
@@ -75,5 +81,6 @@ def test_success_serialize_user(
     user: User,
     expected_serialized_user: dict[str, Any]
 ) -> None:
+    """Testing _serialize_user function."""
     actial_serialization = _serialize_user(user=user)
     assert actial_serialization == expected_serialized_user

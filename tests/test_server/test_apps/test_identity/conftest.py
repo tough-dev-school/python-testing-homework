@@ -5,7 +5,7 @@ from mimesis import Field, Schema
 from mimesis.locales import Locale
 
 from server.apps.identity.models import User
-from tests.plugins.identity.user import RegistrationDataFactory, RegistrationData, UserAssertion, UserData
+from tests.plugins.identity.user import RegistrationData, RegistrationDataFactory, UserAssertion, UserData
 
 
 @pytest.fixture()
@@ -53,13 +53,16 @@ def reg_data(registration_data_factory) -> RegistrationData:
 @pytest.fixture()
 def expected_user_data(reg_data: RegistrationData) -> dict[str, Any]:
     yield {
-        key: value for key, value in reg_data.items() if not key.startswith('password')
+        key: value_name for key, value_name
+        in reg_data.items()
+        if not key.startswith('password')
     }
 
 
 @pytest.fixture()
 def expected_serialized_user(reg_data: RegistrationData) -> dict[str, Any]:
-    yield {
+    """Serialized user's key-values that expected in test."""
+    return {
         'name': reg_data['first_name'],
         'last_name': reg_data['last_name'],
         'birthday': reg_data['date_of_birth'].strftime('%d.%m.%Y'),
@@ -74,4 +77,5 @@ def expected_serialized_user(reg_data: RegistrationData) -> dict[str, Any]:
 def user(
     expected_user_data: RegistrationData,
 ) -> User:
-    yield User.objects.create(**expected_user_data)
+    """Return created user in database."""
+    return User.objects.create(**expected_user_data)
