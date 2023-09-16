@@ -17,7 +17,7 @@ class UserResponse(pydantic_model.BaseModel):
 # TODO: use redis-based caching
 @final
 class LeadCreate(http.BaseFetcher):
-    """Service around creating new users and fething their :term:`lead_id`."""
+    """Service around creating new users and fetching their :term:`lead_id`."""
 
     _url_path = '/users'
 
@@ -33,7 +33,7 @@ class LeadCreate(http.BaseFetcher):
             timeout=self._api_timeout,
         )
         response.raise_for_status()
-        return UserResponse.parse_raw(response.text)
+        return UserResponse.model_validate_json(response.text)
 
 
 @final
