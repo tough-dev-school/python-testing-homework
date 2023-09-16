@@ -79,3 +79,17 @@ def test_bad_format_email_required_field(
     )
     assert response.status_code == HTTPStatus.OK
     assert not User.objects.filter(email=post_data['email'])
+
+
+@pytest.mark.django_db()
+def test_user_manager_create_error(random_string):
+    """If email is missing, error is called."""
+    random_user = {
+        'email': None,
+        'password': random_string(),
+        'first_name': random_string(),
+        'last_name': random_string(),
+        'phone': random_string(),
+    }
+    with pytest.raises(ValueError, match='Users must have an email address'):
+        User.objects.create_user(**random_user)

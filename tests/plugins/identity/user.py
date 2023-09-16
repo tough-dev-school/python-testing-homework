@@ -1,13 +1,18 @@
 import datetime as dt
-from typing import Callable, Protocol, TypeAlias, TypedDict, Unpack, cast, final
+from collections.abc import Callable
+from random import SystemRandom
+from typing import Protocol, TypeAlias, TypedDict, Unpack, cast, final
 
 import pytest
+from django.utils.crypto import RANDOM_STRING_CHARS, get_random_string
 from mimesis import BaseProvider, Field, Locale
 from mimesis.schema import Schema
 
 from server.apps.identity.models import User
 
 UserAssertion: TypeAlias = Callable[[str, 'UserData'], None]
+
+min_len, max_len = 10, 20
 
 
 class FakeProvider(BaseProvider):
@@ -43,6 +48,20 @@ class FakeProvider(BaseProvider):
             **{'password1': password, 'password2': password},
             **fields,
         }
+
+    def random_string(
+        self,
+        min_default_len: int = min_len,
+        max_default_len: int = max_len,
+    ) -> str:
+        """Create a random string."""
+        return get_random_string(
+            length=SystemRandom().randrange(
+                start=min_default_len,
+                stop=max_default_len,
+            ),
+            allowed_chars=RANDOM_STRING_CHARS,
+        )
 
 
 class UserData(TypedDict, total=False):
@@ -134,3 +153,9 @@ def assert_correct_user() -> UserAssertion:
             assert getattr(user, field_name) == data_value
 
     return factory
+
+
+@pytest.fixture()
+def random_string() -> Callable[..., str]:
+    """Give a fixture that can generate a string of a given length."""
+    return FakeProvider().random_string
