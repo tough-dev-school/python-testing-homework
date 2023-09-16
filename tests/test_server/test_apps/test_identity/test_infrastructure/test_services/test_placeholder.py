@@ -8,7 +8,7 @@ from server.apps.identity.intrastructure.services.placeholder import (
     LeadCreate,
     LeadUpdate,
     UserResponse,
-    _serialize_user,
+    _serialize_user,  #noqa: WPS450
 )
 from server.apps.identity.models import User
 from server.common.django.types import Settings
