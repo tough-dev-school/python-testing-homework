@@ -3,8 +3,6 @@ from typing import Any
 import pytest
 from pydantic import ValidationError
 
-from conftest import user
-from protocols import UserAssertion, RegistrationData
 from server.apps.identity.intrastructure.services.placeholder import (
     UserResponse,
     LeadCreate,
@@ -12,33 +10,39 @@ from server.apps.identity.intrastructure.services.placeholder import (
     _serialize_user,
 )
 from server.apps.identity.models import User
-
-API_URL = "https://jsonplaceholder.typicode.com/"
-API_TIMEOUT = 3
+from server.common.django.types import Settings
 
 
 @pytest.mark.django_db
 def test_success_lead_create(
     user: User,
-    reg_data: RegistrationData,
+    reg_data,
     expected_user_data: dict[str, Any],
-    assert_correct_user: UserAssertion,
+    assert_correct_user,
+    settings: Settings,
 ) -> None:
     assert_correct_user(reg_data["email"], expected_user_data)
     actual_id = UserResponse(id=11)
-    expected_id = LeadCreate(api_timeout=API_TIMEOUT, api_url=API_URL)(user=user)
+    expected_id = LeadCreate(
+        api_timeout=settings.PLACEHOLDER_API_TIMEOUT,
+        api_url=settings.PLACEHOLDER_API_URL,
+    )(user=user)
     assert actual_id == expected_id
 
 
 @pytest.mark.django_db
 def test_success_lead_update(
     user: User,
-    reg_data: RegistrationData,
+    reg_data,
     expected_user_data: dict[str, Any],
-    assert_correct_user: UserAssertion,
+    assert_correct_user,
+    settings: Settings,
 ) -> None:
     assert_correct_user(reg_data["email"], expected_user_data)
-    LeadUpdate(api_timeout=API_TIMEOUT, api_url=API_URL)(user=user)
+    LeadUpdate(
+        api_timeout=settings.PLACEHOLDER_API_TIMEOUT,
+        api_url=settings.PLACEHOLDER_API_URL,
+    )(user=user)
 
 
 def test_success_validate_user_response() -> None:
