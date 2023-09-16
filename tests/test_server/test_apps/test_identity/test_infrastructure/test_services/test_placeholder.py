@@ -13,21 +13,33 @@ from server.apps.identity.models import User
 from server.common.django.types import Settings
 
 
-@pytest.mark.django_db()
-def test_success_lead_create(
-    user: User,
-    reg_data,
-    expected_user_data: dict[str, Any],
-    assert_correct_user,
-    settings: Settings,
-) -> None:
-    assert_correct_user(reg_data['email'], expected_user_data)
-    actual_id = UserResponse(id=11)
-    expected_id = LeadCreate(
-        api_timeout=settings.PLACEHOLDER_API_TIMEOUT,
-        api_url=settings.PLACEHOLDER_API_URL,
-    )(user=user)
-    assert actual_id == expected_id
+class TestLeadCreate:
+    @pytest.mark.django_db()
+    def test_success_lead_create(
+        self,
+        user: User,
+        reg_data,
+        expected_user_data: dict[str, Any],
+        assert_correct_user,
+        settings: Settings,
+    ) -> None:
+        assert_correct_user(reg_data['email'], expected_user_data)
+        actual_id = UserResponse(id=11)
+        expected_id = LeadCreate(
+            api_timeout=settings.PLACEHOLDER_API_TIMEOUT,
+            api_url=settings.PLACEHOLDER_API_URL,
+        )(user=user)
+        assert actual_id == expected_id
+
+    def test_success_url_path(self, settings: Settings) -> None:
+        """test method for the request."""
+        expected_url_path = "https://jsonplaceholder.typicode.com/users"
+        fetcher = LeadCreate(
+            api_timeout=settings.PLACEHOLDER_API_TIMEOUT,
+            api_url=settings.PLACEHOLDER_API_URL,
+        )
+        actual_url_path = fetcher.url_path()
+        assert actual_url_path == expected_url_path
 
 
 @pytest.mark.django_db
