@@ -1,3 +1,4 @@
+from collections import namedtuple
 from typing import Unpack, Any
 
 import pytest
@@ -80,3 +81,10 @@ def user(
     expected_user_data: RegistrationData,
 ) -> User:
     yield User.objects.create(**expected_user_data)
+
+
+@pytest.fixture()
+def mock_settings(
+) -> namedtuple:
+    Settings = namedtuple("Settings", "PLACEHOLDER_API_URL PLACEHOLDER_API_TIMEOUT")
+    yield Settings("https://jsonplaceholder.typicode.com/", 3)
