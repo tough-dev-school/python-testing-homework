@@ -1,10 +1,10 @@
-from typing import Unpack, Any
+from typing import Any, Unpack
 
 import pytest
 from mimesis import Field, Schema
 from mimesis.locales import Locale
 
-from protocols import (
+from tests.plugins.protocols import (
     RegistrationDataFactory,
     RegistrationData,
     UserAssertion,
