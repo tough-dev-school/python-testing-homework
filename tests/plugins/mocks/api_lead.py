@@ -1,3 +1,4 @@
+import json
 import re
 from http import HTTPStatus
 from typing import TYPE_CHECKING
@@ -32,7 +33,7 @@ def mock_lead_create(settings: 'Settings', lead_create_response):
                 'users',
             ),
             status=HTTPStatus.CREATED,
-            body=lead_create_response,
+            body=json.dumps({'id': lead_create_response}),
         )
         yield lead_create_response
         assert httpretty.has_request()
