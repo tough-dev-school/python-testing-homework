@@ -3,11 +3,11 @@ from typing import Any
 import pytest
 from pydantic import ValidationError
 
-from server.apps.identity.intrastructure.services.placeholder import (
+from server.apps.identity.intrastructure.services.placeholder import (  # isort:skip
     LeadCreate,
     LeadUpdate,
     UserResponse,
-    _serialize_user,  # isort:skip
+    _serialize_user,
 )
 from server.apps.identity.models import User
 from server.common.django.types import Settings
