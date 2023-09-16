@@ -79,7 +79,7 @@ def test_failed_validate_user_response() -> None:
 @pytest.mark.django_db()
 def test_success_serialize_user(
     user: User,
-    expected_serialized_user: dict[str, Any]
+    expected_serialized_user: dict[str, Any],
 ) -> None:
     """Testing _serialize_user function."""
     actial_serialization = _serialize_user(user=user)

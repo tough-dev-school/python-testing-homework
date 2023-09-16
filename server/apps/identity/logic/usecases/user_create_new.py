@@ -38,8 +38,8 @@ class UserCreateNew(object):
             api_timeout=self._settings.PLACEHOLDER_API_TIMEOUT,
         )(user=user)
 
+    @staticmethod
     def _update_user_ids(
-        self,
         user: User,
         response: placeholder.UserResponse,
     ) -> None:
