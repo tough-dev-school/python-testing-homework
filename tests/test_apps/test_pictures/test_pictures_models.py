@@ -10,5 +10,6 @@ def test_favourite_picture(
     favourite_picture = picture_factory(favourite_picture_data)
     assert_favourite_picture(
         favourite_picture=favourite_picture,
-        expected=favourite_picture_data)
+        expected=favourite_picture_data
+    )
 

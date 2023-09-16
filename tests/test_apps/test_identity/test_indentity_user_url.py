@@ -1,4 +1,3 @@
-from server.apps.identity.models import User
 from http import HTTPStatus
 
 import pytest
