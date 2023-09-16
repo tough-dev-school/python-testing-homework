@@ -11,7 +11,7 @@ from ratelimit.mixins import RatelimitMixin
 
 from server.apps.identity.container import container
 from server.apps.identity.intrastructure.django.decorators import (
-    redirect_logged_in_users,
+    redirect_not_logged_in_users,
 )
 from server.apps.identity.intrastructure.django.forms import (
     AuthenticationForm,
@@ -22,7 +22,7 @@ from server.common.django.decorators import dispatch_decorator
 
 
 @final
-@dispatch_decorator(redirect_logged_in_users())
+@dispatch_decorator(redirect_not_logged_in_users())
 @dispatch_decorator(axes_dispatch)
 @dispatch_decorator(sensitive_post_parameters())
 class LoginView(BaseLoginView):
@@ -32,7 +32,7 @@ class LoginView(BaseLoginView):
 
 
 @final
-@dispatch_decorator(redirect_logged_in_users())
+@dispatch_decorator(redirect_not_logged_in_users())
 @dispatch_decorator(sensitive_post_parameters())
 class RegistrationView(RatelimitMixin, FormView[RegistrationForm]):
     """

@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import user_passes_test
 _CallableT = TypeVar('_CallableT', bound=Callable[..., Any])
 
 
-def redirect_logged_in_users(
+def redirect_not_logged_in_users(
     *,
     redirect_field_name: str = '',
 ) -> Callable[[_CallableT], _CallableT]:
