@@ -9,7 +9,9 @@ It may be also used for extending doctest's context:
 pytest_plugins = [
     # Should be the first custom one:
     'plugins.django_settings',
-    'plugins.mocks.api_lead',
+    'plugins.mocks.identity',
+    'plugins.mocks.pictures',
+    'plugins.mocks.user',
 
     # TODO: add your own plugins here!
 ]

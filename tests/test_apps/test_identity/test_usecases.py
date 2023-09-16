@@ -2,6 +2,7 @@ import pytest
 
 from server.apps.identity.container import container
 from server.apps.identity.logic.usecases.user_create_new import UserCreateNew
+from server.apps.identity.logic.usecases.user_update import UserUpdate
 from server.apps.identity.models import User
 
 
@@ -23,3 +24,13 @@ def test_create_new_user(user_factory, mock_lead_create):
 
     user = User.objects.get(email=user.email)
     assert user.lead_id == int(mock_lead_create)
+
+
+@pytest.mark.django_db()
+def test_update_user_lead(user_factory, mock_lead_update):
+    LEAD_ID = '2'
+    user_update = container.instantiate(UserUpdate)
+    user = user_factory(lead_id=int(LEAD_ID))
+
+    user_update(user)
+    assert mock_lead_update.last_request().url.endswith(LEAD_ID)
