@@ -4,17 +4,18 @@ import pytest
 from django.test import Client
 
 
-@pytest.mark.django_db()()
-def test_login(client: Client) -> None:
-    """This test ensures that health check is accessible."""
-    response = client.get('/identity/login')
-
-    assert response.status_code == HTTPStatus.OK
-
-
 @pytest.mark.django_db()
-def test_admin_authorized(admin_client: Client) -> None:
-    """This test ensures that admin panel is accessible."""
-    response = admin_client.get('/identity/logout/')
+@pytest.mark.parametrize(
+    ['url_to_check', 'expected_status'],
+    [
+        ['/identity/login', HTTPStatus.OK],
+        ['/identity/logout', HTTPStatus.FOUND],
+        ['/identity/registration', HTTPStatus.OK],
+        ['/identity/update', HTTPStatus.FOUND],
+    ],
+)
+def test_urls(client: Client, url_to_check: str, expected_status: HTTPStatus) -> None:
+    """Test ensures that app urls are accessible."""
+    response = client.get(url_to_check)
 
-    assert response.status_code == HTTPStatus.OK
+    assert response.status_code == expected_status
