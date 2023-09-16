@@ -2,10 +2,10 @@ from typing import Any
 
 import pytest
 
-from server.apps.identity.models import _UserManager  # type: ignore
+from server.apps.identity.models import _UserManager  # noqa: WPS450
 
 
-class TestUserManager:  # type: ignore
+class TestUserManager:  # noqa: WPS306
     """Test class for testing _UserManager."""
 
     @pytest.mark.django_db()
