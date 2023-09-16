@@ -11,4 +11,5 @@ pytest_plugins = [
     'plugins.django_settings',
 
     # TODO: add your own plugins here!
+    'plugins.identity.user',
 ]
