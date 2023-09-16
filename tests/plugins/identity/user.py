@@ -83,7 +83,8 @@ def assert_user():
     def factory(
             email: str,
             superuser: bool = False,
-            expected: UserData | None = None) -> None:
+            expected: UserData | None = None
+    ) -> None:
         user = User.objects.get(email=email)
         # Special fields:
         assert user.id

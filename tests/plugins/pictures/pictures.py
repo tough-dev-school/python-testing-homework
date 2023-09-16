@@ -12,7 +12,7 @@ class FavouritePictureData(TypedDict):
 
 
 @pytest.fixture
-def favourite_picture_data(create_user):
+def favourite_picture_data(create_user) -> FavouritePictureData:
     # ! рекомендую перейти по ссылке :)
     return FavouritePictureData(
         user=create_user,
@@ -24,7 +24,8 @@ def favourite_picture_data(create_user):
 @pytest.fixture
 def picture_factory():
     def factory(
-            favourite_picture: FavouritePictureData) -> FavouritePicture:
+            favourite_picture: FavouritePictureData
+    ) -> FavouritePicture:
         return FavouritePicture.objects.create(
             **favourite_picture
         )
