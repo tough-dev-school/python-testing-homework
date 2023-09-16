@@ -4,13 +4,8 @@ import pytest
 from mimesis import Field, Schema
 from mimesis.locales import Locale
 
-from tests.plugins.protocols import (
-    RegistrationDataFactory,
-    RegistrationData,
-    UserAssertion,
-    UserData,
-)
 from server.apps.identity.models import User
+from tests.plugins.identity.user import RegistrationDataFactory, RegistrationData, UserAssertion, UserData
 
 
 @pytest.fixture()
