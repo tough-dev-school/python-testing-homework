@@ -11,6 +11,7 @@ from server.apps.identity.intrastructure.services.placeholder import (
 )
 from server.apps.identity.models import User
 from server.common.django.types import Settings
+from tests.plugins.protocols import RegistrationData, UserAssertion
 
 
 class TestLeadCreate:
@@ -18,9 +19,9 @@ class TestLeadCreate:
     def test_success_lead_create(
         self,
         user: User,
-        reg_data,
+        reg_data: RegistrationData,
         expected_user_data: dict[str, Any],
-        assert_correct_user,
+        assert_correct_user: UserAssertion,
         settings: Settings,
     ) -> None:
         assert_correct_user(reg_data['email'], expected_user_data)
@@ -45,9 +46,9 @@ class TestLeadCreate:
 @pytest.mark.django_db
 def test_success_lead_update(
     user: User,
-    reg_data,
+    reg_data: RegistrationData,
     expected_user_data: dict[str, Any],
-    assert_correct_user,
+    assert_correct_user: UserAssertion,
     settings: Settings,
 ) -> None:
     assert_correct_user(reg_data['email'], expected_user_data)
