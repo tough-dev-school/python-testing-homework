@@ -11,7 +11,7 @@ from server.apps.identity.intrastructure.services.placeholder import (
 )
 from server.apps.identity.models import User
 from server.common.django.types import Settings
-from tests.plugins.protocols import RegistrationData, UserAssertion
+from tests.plugins.identity.user import RegistrationData, UserAssertion
 
 
 class TestLeadCreate:
