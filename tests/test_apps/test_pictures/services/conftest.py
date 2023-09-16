@@ -1,11 +1,10 @@
 import json
 import re
-from re import Pattern
-from typing import Iterator, Any
+from typing import Any, Iterator, cast
 
 import httpretty
 import pytest
-from mimesis import Field, Schema, Locale
+from mimesis import Field, Locale, Schema
 from typing_extensions import TypedDict
 
 from server.apps.pictures.container import container
@@ -14,54 +13,62 @@ from server.common.django.types import Settings
 
 
 class PicturesAPIResponse(TypedDict):
+    """Representation of single object from pictures service api."""
+
     id: int
     url: str
 
 
-@pytest.fixture
+@pytest.fixture()
 def seed() -> int:
+    """Seed for generation random data."""
     return Field()('integer_number')
 
 
-@pytest.fixture
+@pytest.fixture()
 def pictures_expected_api_response(seed: int) -> list[PicturesAPIResponse]:
     """Create fake external api response for pictures."""
-
     mf = Field(locale=Locale.EN, seed=seed)
     schema = Schema(
         schema=lambda:
         {
-            'id': str(mf('numeric.increment')),
+            'id': mf('numeric.increment'),
             'url': str(mf('url')),
         },
     )
-    return list(schema.create())
+    return cast(list[PicturesAPIResponse], list(schema.create()))
 
 
-@pytest.fixture
-def pictures_api_mock(
-    settings: Settings,
+@pytest.fixture()
+def api_url(settings: Settings) -> re.Pattern[str]:
+    """Regex of picture API url."""
+    return re.compile(f'{settings.PLACEHOLDER_API_URL}.*')
+
+
+@pytest.fixture()
+def _pictures_api_mock(
+    api_url: re.Pattern[str],
     pictures_expected_api_response: list[PicturesAPIResponse],
-) -> Iterator[list[PicturesAPIResponse]]:
+) -> Iterator[None]:
     """Mock external `PLACEHOLDER_API_URL/*` calls."""
     with httpretty.httprettized():
-        _mock_pictures_api(pictures_expected_api_response, re.compile(rf'{settings.PLACEHOLDER_API_URL}.*'))
+        _mock_pictures_api(pictures_expected_api_response, api_url)
         yield
         assert httpretty.has_request()
 
 
-@pytest.fixture
-def pictures_api_mock_corrupted(
-    settings: Settings,
-) -> Iterator[list[PicturesAPIResponse]]:
-    """Mock external `PLACEHOLDER_API_URL/*` calls, call returns invalid data"""
+@pytest.fixture()
+def _pictures_api_mock_corrupted(
+    api_url: re.Pattern[str],
+) -> Iterator[None]:
+    """Mock external `PLACEHOLDER_API_URL/*` calls, returns invalid data."""
     with httpretty.httprettized():
-        invalid_data = [{}]
-        _mock_pictures_api(invalid_data, re.compile(rf'{settings.PLACEHOLDER_API_URL}.*'))
+        invalid_data: list[dict[str, Any]] = [{}]
+        _mock_pictures_api(invalid_data, api_url)
         yield
 
 
-def _mock_pictures_api(mocked_response: list[Any], api_url: Pattern[str]):
+def _mock_pictures_api(mocked_response: list[Any], api_url: re.Pattern[str]) -> None:
     httpretty.register_uri(
         method=httpretty.GET,
         body=json.dumps(mocked_response),
@@ -69,7 +76,7 @@ def _mock_pictures_api(mocked_response: list[Any], api_url: Pattern[str]):
     )
 
 
-@pytest.fixture
+@pytest.fixture()
 def pictures_service() -> pictures_fetch.PicturesFetch:
     """Get pictures service."""
     return container.instantiate(pictures_fetch.PicturesFetch)
