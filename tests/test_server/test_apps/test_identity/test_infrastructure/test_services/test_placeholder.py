@@ -4,11 +4,11 @@ from typing import Any
 import pytest
 from pydantic import ValidationError
 
-from server.apps.identity.intrastructure.services.placeholder import (
+from server.apps.identity.intrastructure.services.placeholder import (#noqa: WPS450
     LeadCreate,
     LeadUpdate,
     UserResponse,
-    _serialize_user,  #noqa: WPS450
+    _serialize_user,
 )
 from server.apps.identity.models import User
 from server.common.django.types import Settings
