@@ -53,3 +53,4 @@ def test_specials_txt(client: Client, page: str) -> None:
 
     assert response.status_code == HTTPStatus.OK
     assert response.get('Content-Type') == 'text/plain'
+
