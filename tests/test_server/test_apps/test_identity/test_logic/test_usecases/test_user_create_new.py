@@ -7,7 +7,7 @@ from server.common.django.types import Settings
 
 
 class TestUserCreateNew:
-    @pytest.mark.django_db
+    @pytest.mark.django_db()
     def test_success_create_new_user(
         self,
         user: User,
@@ -25,8 +25,8 @@ class TestUserCreateNew:
         expected_lead_id = 11
         assert lead_user.lead_id == expected_lead_id
 
-    @pytest.mark.django_db
-    def test_success__update_user_ids(
+    @pytest.mark.django_db()
+    def test_success_update_user_ids(
         self,
         user: User,
         settings: Settings,

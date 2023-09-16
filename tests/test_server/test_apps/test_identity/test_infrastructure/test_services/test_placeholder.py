@@ -13,7 +13,7 @@ from server.apps.identity.models import User
 from server.common.django.types import Settings
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 def test_success_lead_create(
     user: User,
     reg_data,
@@ -57,7 +57,7 @@ def test_failed_validate_user_response() -> None:
     assert exc.typename == 'ValidationError'
 
 
-@pytest.mark.django_db
+@pytest.mark.django_db()
 def test_success_serialize_user(
     user: User,
     expected_serialized_user: dict[str, Any]
