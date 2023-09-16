@@ -1,4 +1,3 @@
-from collections import namedtuple
 from typing import Unpack, Any
 
 import pytest
