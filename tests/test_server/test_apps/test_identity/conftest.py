@@ -5,7 +5,12 @@ from mimesis import Field, Schema
 from mimesis.locales import Locale
 
 from server.apps.identity.models import User
-from tests.plugins.identity.user import RegistrationData, RegistrationDataFactory, UserAssertion, UserData
+from tests.plugins.identity.user import (
+    RegistrationData,
+    RegistrationDataFactory,
+    UserAssertion,
+    UserData,
+)
 
 
 @pytest.fixture()

@@ -6,6 +6,7 @@ from typing import Callable, Protocol, TypeAlias, TypedDict, Unpack, final
 class UserData(TypedDict, total=False):
     """
     Represent the user data that is required to create a new user.
+
     Does not include `password`, because it's special field in Django.
     """
 
@@ -34,7 +35,6 @@ class RegistrationData(UserData, total=False):
 
 @final
 class RegistrationDataFactory(Protocol):
-
     """User data factory protocol."""
 
     def __call__(self, **fields: Unpack[RegistrationData]) -> RegistrationData:

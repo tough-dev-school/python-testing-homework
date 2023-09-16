@@ -2,7 +2,9 @@ from typing import Any
 
 import pytest
 
-from server.apps.identity.intrastructure.services.placeholder import UserResponse
+from server.apps.identity.intrastructure.services.placeholder import (
+    UserResponse,
+)
 from server.apps.identity.logic.usecases.user_create_new import UserCreateNew
 from server.apps.identity.models import User
 from server.common.django.types import Settings
@@ -10,6 +12,8 @@ from tests.plugins.identity.user import RegistrationData, UserAssertion
 
 
 class TestUserCreateNew:
+    """Test class for testing UserCreateNew service."""
+
     @pytest.mark.django_db()
     def test_success_create_new_user(
         self,

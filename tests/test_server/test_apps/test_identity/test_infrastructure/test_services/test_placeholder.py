@@ -5,8 +5,8 @@ from pydantic import ValidationError
 
 from server.apps.identity.intrastructure.services.placeholder import (
     LeadCreate,
-    UserResponse,
     LeadUpdate,
+    UserResponse,
     _serialize_user,
 )
 from server.apps.identity.models import User
