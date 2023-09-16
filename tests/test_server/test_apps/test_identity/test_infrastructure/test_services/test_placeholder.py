@@ -7,7 +7,7 @@ from server.apps.identity.intrastructure.services.placeholder import (
     LeadCreate,
     LeadUpdate,
     UserResponse,
-    _serialize_user,
+    _serialize_user,  # type: ignore
 )
 from server.apps.identity.models import User
 from server.common.django.types import Settings
@@ -70,8 +70,8 @@ def test_success_validate_user_response() -> None:
 def test_failed_validate_user_response() -> None:
     """Testing UserResponse model, failed case."""
     with pytest.raises(ValidationError) as exc:
-        id_ = UserResponse.model_validate({'TEST': 1}).id
-    assert 'ValidationError' in exc.typename
+        UserResponse.model_validate({'TEST': 1}).id  # type: ignore
+    assert 'ValidationError' in exc.typename  # type: ignore
 
 
 @pytest.mark.django_db()

@@ -41,7 +41,7 @@ def test_success_update_user_ids(
     """Testing usecase that update user id."""
     assert_correct_user(reg_data['email'], expected_user_data)
     response = UserResponse(id=100)
-    UserCreateNew(settings=settings)._update_user_ids(
+    UserCreateNew(settings=settings)._update_user_ids(  # type: ignore
         user=user, response=response,
     )
     actual_user = User.objects.get(email=reg_data['email'])
