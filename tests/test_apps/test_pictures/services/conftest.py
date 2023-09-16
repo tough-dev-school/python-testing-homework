@@ -68,7 +68,10 @@ def _pictures_api_mock_corrupted(
         yield
 
 
-def _mock_pictures_api(mocked_response: list[Any], api_url: re.Pattern[str]) -> None:
+def _mock_pictures_api(
+    mocked_response: list[Any],
+    api_url: re.Pattern[str],
+) -> None:
     httpretty.register_uri(
         method=httpretty.GET,
         body=json.dumps(mocked_response),

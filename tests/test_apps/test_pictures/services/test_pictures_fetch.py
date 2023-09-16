@@ -6,6 +6,7 @@ from server.apps.pictures.intrastructure.services.placeholder import (
     PictureResponse,
 )
 from server.apps.pictures.logic.usecases import pictures_fetch
+
 from .conftest import PicturesAPIResponse
 
 
