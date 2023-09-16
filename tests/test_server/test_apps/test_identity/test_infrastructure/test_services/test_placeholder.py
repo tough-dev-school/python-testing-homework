@@ -28,12 +28,13 @@ class TestLeadCreate:
     ) -> None:
         """Testing service that create lead user."""
         assert_correct_user(reg_data['email'], expected_user_data)
-        actual_id = UserResponse(id=11)
+        actual_id = 11
+        actual_response = UserResponse(id=actual_id)
         expected_id = LeadCreate(
             api_timeout=settings.PLACEHOLDER_API_TIMEOUT,
             api_url=settings.PLACEHOLDER_API_URL,
         )(user=user)
-        assert actual_id == expected_id
+        assert actual_response.id == expected_id
 
     def test_success_url_path(self, settings: Settings) -> None:
         """Testing method that create URL path for the request."""

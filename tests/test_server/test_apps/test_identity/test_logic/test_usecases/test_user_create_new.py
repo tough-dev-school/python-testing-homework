@@ -23,6 +23,7 @@ class TestUserCreateNew:
         reg_data: RegistrationData,
         expected_user_data: dict[str, Any],
     ) -> None:
+        """Testing usecase that create new user."""
         not_lead_user = User.objects.get(email=reg_data['email'])
         assert not_lead_user.lead_id is None
         assert_correct_user(reg_data['email'], expected_user_data)
@@ -41,8 +42,11 @@ class TestUserCreateNew:
         reg_data: RegistrationData,
         expected_user_data: dict[str, Any],
     ) -> None:
+        """Testing usecase that update user id."""
         assert_correct_user(reg_data['email'], expected_user_data)
         response = UserResponse(id=100)
-        UserCreateNew(settings=settings)._update_user_ids(user=user, response=response)
+        UserCreateNew(settings=settings)._update_user_ids(
+            user=user, response=response,
+        )
         actual_user = User.objects.get(email=reg_data['email'])
         assert actual_user.lead_id == response.id

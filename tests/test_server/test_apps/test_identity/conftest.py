@@ -16,7 +16,6 @@ from tests.plugins.identity.user import (
 @pytest.fixture()
 def registration_data_factory() -> RegistrationDataFactory:
     """Fxture that generate fake registration data."""
-
     def factory(**fields: Unpack[RegistrationData]) -> RegistrationData:
         field = Field(locale=Locale.RU, seed=fields.pop('seed'))
         password = field('password')
@@ -41,15 +40,14 @@ def registration_data_factory() -> RegistrationDataFactory:
 @pytest.fixture(scope='session')
 def assert_correct_user() -> UserAssertion:
     """Fixture that check created user attrs from database."""
-
     def factory(email: str, expected: UserData) -> None:
         user = User.objects.get(email=email)
         assert user.id
         assert user.is_active
         assert not user.is_superuser
         assert not user.is_staff
-        for field, value in expected.items():
-            assert getattr(user, field) == value
+        for field, value_name in expected.items():
+            assert getattr(user, field) == value_name
 
     return factory
 
@@ -57,14 +55,12 @@ def assert_correct_user() -> UserAssertion:
 @pytest.fixture()
 def reg_data(registration_data_factory) -> RegistrationData:
     """Fixture that return user reg data."""
-
     return registration_data_factory(seed=1)
 
 
 @pytest.fixture()
 def expected_user_data(reg_data: RegistrationData) -> dict[str, Any]:
     """Fixture that return exeected user data."""
-
     return {
         key: value_name for key, value_name
         in reg_data.items()
@@ -75,7 +71,6 @@ def expected_user_data(reg_data: RegistrationData) -> dict[str, Any]:
 @pytest.fixture()
 def expected_serialized_user(reg_data: RegistrationData) -> dict[str, Any]:
     """Serialized user's key-values that expected in test."""
-
     return {
         'name': reg_data['first_name'],
         'last_name': reg_data['last_name'],
@@ -92,5 +87,4 @@ def user(
     expected_user_data: RegistrationData,
 ) -> User:
     """Return created user in database."""
-
     return User.objects.create(**expected_user_data)
