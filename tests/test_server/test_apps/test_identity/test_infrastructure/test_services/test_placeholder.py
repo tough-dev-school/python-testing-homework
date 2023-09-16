@@ -1,9 +1,10 @@
+# isort: skip_file
 from typing import Any
 
 import pytest
 from pydantic import ValidationError
 
-from server.apps.identity.intrastructure.services.placeholder import (  # isort:skip
+from server.apps.identity.intrastructure.services.placeholder import (
     LeadCreate,
     LeadUpdate,
     UserResponse,
