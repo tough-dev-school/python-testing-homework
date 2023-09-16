@@ -1,9 +1,12 @@
+from typing import Any
+
 import pytest
 
 from server.apps.identity.intrastructure.services.placeholder import UserResponse
 from server.apps.identity.logic.usecases.user_create_new import UserCreateNew
 from server.apps.identity.models import User
 from server.common.django.types import Settings
+from tests.plugins.protocols import UserAssertion, RegistrationData
 
 
 class TestUserCreateNew:
@@ -12,9 +15,9 @@ class TestUserCreateNew:
         self,
         user: User,
         settings: Settings,
-        assert_correct_user,
-        reg_data,
-        expected_user_data,
+        assert_correct_user: UserAssertion,
+        reg_data: RegistrationData,
+        expected_user_data: dict[str, Any],
     ) -> None:
         not_lead_user = User.objects.get(email=reg_data['email'])
         assert not_lead_user.lead_id is None
@@ -30,9 +33,9 @@ class TestUserCreateNew:
         self,
         user: User,
         settings: Settings,
-        assert_correct_user,
-        reg_data,
-        expected_user_data,
+        assert_correct_user: UserAssertion,
+        reg_data: RegistrationData,
+        expected_user_data: dict[str, Any],
     ) -> None:
         assert_correct_user(reg_data['email'], expected_user_data)
         response = UserResponse(id=100)
