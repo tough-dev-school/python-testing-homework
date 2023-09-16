@@ -14,40 +14,37 @@ from server.common.django.types import Settings
 from tests.plugins.identity.user import RegistrationData, UserAssertion
 
 
-class TestLeadCreate:
-    """Test class for testing LeadCreate service."""
-
-    @pytest.mark.django_db()
-    def test_success_lead_create(
-        self,
-        user: User,
-        reg_data: RegistrationData,
-        expected_user_data: dict[str, Any],
-        assert_correct_user: UserAssertion,
-        settings: Settings,
-    ) -> None:
-        """Testing service that create lead user."""
-        assert_correct_user(reg_data['email'], expected_user_data)
-        actual_id = 11
-        actual_response = UserResponse(id=actual_id)
-        expected_id = LeadCreate(
-            api_timeout=settings.PLACEHOLDER_API_TIMEOUT,
-            api_url=settings.PLACEHOLDER_API_URL,
-        )(user=user)
-        assert actual_response.id == expected_id
-
-    def test_success_url_path(self, settings: Settings) -> None:
-        """Testing method that create URL path for the request."""
-        expected_url_path = 'https://jsonplaceholder.typicode.com/users'
-        fetcher = LeadCreate(
-            api_timeout=settings.PLACEHOLDER_API_TIMEOUT,
-            api_url=settings.PLACEHOLDER_API_URL,
-        )
-        actual_url_path = fetcher.url_path()
-        assert actual_url_path == expected_url_path
+@pytest.mark.django_db()
+def test_success_lead_create(
+    user: User,
+    reg_data: RegistrationData,
+    expected_user_data: dict[str, Any],
+    assert_correct_user: UserAssertion,
+    settings: Settings,
+) -> None:
+    """Testing service that create lead user."""
+    assert_correct_user(reg_data['email'], expected_user_data)
+    actual_id = 11
+    actual_response = UserResponse(id=actual_id)
+    expected_id = LeadCreate(
+        api_timeout=settings.PLACEHOLDER_API_TIMEOUT,
+        api_url=settings.PLACEHOLDER_API_URL,
+    )(user=user)
+    assert actual_response.id == expected_id
 
 
-@pytest.mark.django_db
+def test_success_url_path(settings: Settings) -> None:
+    """Testing method that create URL path for the request."""
+    expected_url_path = 'https://jsonplaceholder.typicode.com/users'
+    fetcher = LeadCreate(
+        api_timeout=settings.PLACEHOLDER_API_TIMEOUT,
+        api_url=settings.PLACEHOLDER_API_URL,
+    )
+    actual_url_path = fetcher.url_path()
+    assert actual_url_path == expected_url_path
+
+
+@pytest.mark.django_db()
 def test_success_lead_update(
     user: User,
     reg_data: RegistrationData,
@@ -73,8 +70,8 @@ def test_success_validate_user_response() -> None:
 def test_failed_validate_user_response() -> None:
     """Testing UserResponse model, failed case."""
     with pytest.raises(ValidationError) as exc:
-        UserResponse.model_validate({'TEST': 1}).id
-    assert exc.typename == 'ValidationError'
+        id_ = UserResponse.model_validate({'TEST': 1}).id
+    assert 'ValidationError' in exc.typename
 
 
 @pytest.mark.django_db()

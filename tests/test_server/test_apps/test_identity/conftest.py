@@ -62,8 +62,8 @@ def reg_data(registration_data_factory) -> RegistrationData:
 def expected_user_data(reg_data: RegistrationData) -> dict[str, Any]:
     """Fixture that return exeected user data."""
     return {
-        key: value_name for key, value_name
-        in reg_data.items()
+        key: value_name
+        for key, value_name in reg_data.items()
         if not key.startswith('password')
     }
 
