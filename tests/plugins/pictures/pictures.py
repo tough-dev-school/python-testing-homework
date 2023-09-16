@@ -12,6 +12,16 @@ class FavouritePictureData(TypedDict):
 
 
 @pytest.fixture
+def favourite_picture_data(create_user):
+    # ! рекомендую перейти по ссылке :)
+    return FavouritePictureData(
+        user=create_user,
+        foreign_id=1,
+        url='https://www.youtube.com/watch?v=dQw4w9WgXcQ'
+    )
+
+
+@pytest.fixture
 def picture_factory():
     def factory(
             favourite_picture: FavouritePictureData) -> FavouritePicture:
@@ -21,15 +31,15 @@ def picture_factory():
     return factory
 
 
+@pytest.fixture
 def assert_favourite_picture():
-    def assert_model(
-        favourite_picture_id: int,
+    def factory(
+        favourite_picture: FavouritePicture,
         expected: FavouritePictureData
     ):
-        favourite_picture = FavouritePicture.objects.filter(
-            id=favourite_picture_id)
+        # favourite_picture = FavouritePicture.objects.filter(
+        #     id=favourite_picture_id)
         assert favourite_picture.id
-        if expected:
-            for field_name, data_value in expected.items():
-                assert getattr(favourite_picture, field_name) == data_value
-    return assert_model
+        for field_name, data_value in expected.items():
+            assert getattr(favourite_picture, field_name) == data_value
+    return factory
