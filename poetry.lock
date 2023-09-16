@@ -839,7 +839,7 @@ files = [
 django = "*"
 django-stubs-ext = ">=4.2.2"
 mypy = [
-    {version = ">=1.0.0"},
+    {version = ">=1.0.0", optional = true, markers = "extra != \"compatible-mypy\""},
     {version = "==1.5.*", optional = true, markers = "extra == \"compatible-mypy\""},
 ]
 types-pytz = "*"
@@ -3486,4 +3486,4 @@ dev = ["doc8", "flake8", "flake8-import-order", "rstcheck[sphinx]", "sphinx"]
 [metadata]
 lock-version = "2.0"
 python-versions = "3.11.5"
-content-hash = "4440fb2a5010297509e803cceb40d4e9296f5ebf980be7d9e1b65d2eabfa76ab"
+content-hash = "497d8547d4c0c44f7ec5e4a0863e2c23104a51799b8a7ecf1a7f3820182d9a31"
