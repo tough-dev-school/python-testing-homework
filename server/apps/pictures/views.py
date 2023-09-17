@@ -8,7 +8,7 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView, TemplateView
 
 from server.apps.pictures.container import container
-from server.apps.pictures.intrastructure.django.forms import FavouritesForm
+from server.apps.pictures.infrastructure.django.forms import FavouritesForm
 from server.apps.pictures.logic.usecases import favourites_list, pictures_fetch
 from server.apps.pictures.models import FavouritePicture
 from server.common.django.decorators import dispatch_decorator
