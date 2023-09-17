@@ -30,7 +30,7 @@ class UserCreateNew(object):
         https://sobolevn.me/2019/02/engineering-guide-to-user-stories
         """
         new_ids = self._create_lead(user)
-        return self._update_user_ids(user, new_ids)
+        self._update_user_ids(user, new_ids)
 
     def _create_lead(self, user: User) -> placeholder.UserResponse:
         return placeholder.LeadCreate(
@@ -41,8 +41,8 @@ class UserCreateNew(object):
     def _update_user_ids(
         self,
         user: User,
-        new_ids: placeholder.UserResponse,
+        response: placeholder.UserResponse,
     ) -> None:
         # This can be moved to some other place once this becomes too complex:
-        user.lead_id = new_ids.id
+        user.lead_id = response.id
         user.save(update_fields=['lead_id'])
