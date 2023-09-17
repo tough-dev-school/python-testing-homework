@@ -22,5 +22,5 @@ class FavouritePicture(TimedMixin, models.Model):
     url = models.URLField()
 
     def __str__(self) -> str:
-        """Beatuful representation."""
+        """Beautiful representation."""
         return '<Picture {0} by {1}>'.format(self.foreign_id, self.user_id)
