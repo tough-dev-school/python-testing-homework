@@ -16,10 +16,10 @@ containers =
 layers =
   (urls) | (admin)
   (views)
-  (infrastructure)
-  (logic)
-  (models)
   (container)
+  (logic)
+  (infrastructure)
+  (models)
 
 
 [importlinter:contract:apps-independence]
