@@ -18,4 +18,4 @@ def test_valid_login(
     response = client.get(reverse('index'))
 
     assert response.status_code == HTTPStatus.OK
-    assert 'Личный кабинет' in response.content.decode('utf-8')
+    assert 'Личный кабинет'.encode('utf-8') in response.content
