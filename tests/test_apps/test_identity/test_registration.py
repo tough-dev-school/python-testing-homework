@@ -72,13 +72,13 @@ def test_bad_format_email_required_field(
     registration_data_factory: 'RegistrationDataFactory',
 ) -> None:
     """Test to check with different non-valid email formats."""
-    post_data = registration_data_factory(email=bad_email)
+    user_with_invalid_email = registration_data_factory(email=bad_email)
     response = client.post(
         reverse('identity:registration'),
-        data=post_data,
+        data=user_with_invalid_email,
     )
     assert response.status_code == HTTPStatus.OK
-    assert not User.objects.filter(email=post_data['email'])
+    assert not User.objects.filter(email=user_with_invalid_email['email'])
 
 
 @pytest.mark.django_db()
