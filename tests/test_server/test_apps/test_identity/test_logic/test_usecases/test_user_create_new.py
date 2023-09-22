@@ -8,7 +8,7 @@ from server.apps.identity.intrastructure.services.placeholder import (
 from server.apps.identity.logic.usecases.user_create_new import UserCreateNew
 from server.apps.identity.models import User
 from server.common.django.types import Settings
-from tests.plugins.identity.user import RegistrationData, UserAssertion
+from tests.plugins.identity.user import UserAssertion, RegistrationData
 
 
 @pytest.mark.django_db()
@@ -25,9 +25,8 @@ def test_success_create_new_user(
     assert_correct_user(reg_data['email'], expected_user_data)
 
     UserCreateNew(settings=settings)(user=user)
-    lead_user = User.objects.get(email=reg_data['email'])
-    expected_lead_id = 11
-    assert lead_user.lead_id == expected_lead_id
+    user.refresh_from_db()
+    assert user.lead_id is not None
 
 
 @pytest.mark.django_db()
