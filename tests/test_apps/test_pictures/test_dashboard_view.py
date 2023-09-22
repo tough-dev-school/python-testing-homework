@@ -24,3 +24,11 @@ def test_user_in_form_kwargs(user: User, request_factory: RequestFactory):
     form_kwargs = view.get_form_kwargs()
 
     assert "user" in form_kwargs
+
+
+@pytest.mark.timeout(5)
+@pytest.mark.usefixtures("json_server_on")
+def test_external_service(authorized_client):
+    response = authorized_client.get(url)
+    response_pictures = response.context["pictures"]
+    assert response_pictures

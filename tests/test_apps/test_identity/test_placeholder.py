@@ -1,15 +1,10 @@
 import pytest
 
 from server.apps.identity.intrastructure.services.placeholder import (
-    _serialize_user, LeadCreate
+    _serialize_user
 )
 
 pytestmark = [pytest.mark.django_db]
-
-
-def test_lead_create_success(user):
-    lead = LeadCreate('https://jsonplaceholder.typicode.com/', 5)(user=user)
-    assert lead.id
 
 
 def test_serialize_user_non_empty_birthday(user):

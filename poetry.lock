@@ -1465,6 +1465,16 @@ files = [
 ]
 
 [[package]]
+name = "httpretty"
+version = "1.1.4"
+description = "HTTP client mock for Python"
+optional = false
+python-versions = ">=3"
+files = [
+    {file = "httpretty-1.1.4.tar.gz", hash = "sha256:20de0e5dd5a18292d36d928cc3d6e52f8b2ac73daec40d41eb62dee154933b68"},
+]
+
+[[package]]
 name = "hypothesis"
 version = "6.84.2"
 description = "A library for property-based testing"
@@ -2824,6 +2834,26 @@ security = ["itsdangerous (>=2.0)"]
 yaml = ["pyyaml (>=5.4)"]
 
 [[package]]
+name = "responses"
+version = "0.23.3"
+description = "A utility library for mocking out the `requests` Python library."
+optional = false
+python-versions = ">=3.7"
+files = [
+    {file = "responses-0.23.3-py3-none-any.whl", hash = "sha256:e6fbcf5d82172fecc0aa1860fd91e58cbfd96cee5e96da5b63fa6eb3caa10dd3"},
+    {file = "responses-0.23.3.tar.gz", hash = "sha256:205029e1cb334c21cb4ec64fc7599be48b859a0fd381a42443cdd600bfe8b16a"},
+]
+
+[package.dependencies]
+pyyaml = "*"
+requests = ">=2.30.0,<3.0"
+types-PyYAML = "*"
+urllib3 = ">=1.25.10,<3.0"
+
+[package.extras]
+tests = ["coverage (>=6.0.0)", "flake8", "mypy", "pytest (>=7.0.0)", "pytest-asyncio", "pytest-cov", "pytest-httpserver", "tomli", "tomli-w", "types-requests"]
+
+[[package]]
 name = "restructuredtext-lint"
 version = "1.4.0"
 description = "reStructuredText linter"
@@ -3498,4 +3528,4 @@ dev = ["doc8", "flake8", "flake8-import-order", "rstcheck[sphinx]", "sphinx"]
 [metadata]
 lock-version = "2.0"
 python-versions = "3.11.5"
-content-hash = "3e8a434fd969cae5870cb5689da29c1ef51d6dcb9aed3d70f05f35117c063a80"
+content-hash = "a4da221a4aa772d16cfe90954279d2b0b6df2fc9195e7c2848a70e643fba93f9"

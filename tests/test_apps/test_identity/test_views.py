@@ -6,6 +6,9 @@ from django.urls import reverse
 from server.apps.identity.models import User
 
 
+pytestmark = [pytest.mark.django_db]
+
+
 @pytest.fixture
 def user_data_for_registration(user) -> dict:
     user.last_login = ""
@@ -13,7 +16,6 @@ def user_data_for_registration(user) -> dict:
     return user.__dict__
 
 
-@pytest.mark.django_db()
 def test_success_registration(
     client,
     user_data_for_registration,
