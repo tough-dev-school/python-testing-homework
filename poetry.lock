@@ -1451,6 +1451,16 @@ files = [
 ]
 
 [[package]]
+name = "httpretty"
+version = "1.1.4"
+description = "HTTP client mock for Python"
+optional = false
+python-versions = ">=3"
+files = [
+    {file = "httpretty-1.1.4.tar.gz", hash = "sha256:20de0e5dd5a18292d36d928cc3d6e52f8b2ac73daec40d41eb62dee154933b68"},
+]
+
+[[package]]
 name = "hypothesis"
 version = "6.84.2"
 description = "A library for property-based testing"
@@ -3474,4 +3484,4 @@ dev = ["doc8", "flake8", "flake8-import-order", "rstcheck[sphinx]", "sphinx"]
 [metadata]
 lock-version = "2.0"
 python-versions = "3.11.5"
-content-hash = "66beb62fc80eafa990ea6cc07f0646c4c94058506244f0895639bcc6ab9c2f46"
+content-hash = "c697926e50349215cf187de2bd2e76a077ce76f5e852574fb764964e3af3d1c8"
