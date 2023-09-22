@@ -77,6 +77,6 @@ class FavouritePicturesView(ListView[FavouritePicture]):
 @dispatch_decorator(login_required)
 class FavouriteDeleteView(View):
 
-    def delete(self, request, picture_id):
-        FavouritePicture.objects.filter(id=picture_id, user=request.user).delete()
+    def post(self, request, picture_id):
+        FavouritePicture.objects.filter(foreign_id=picture_id, user=request.user).delete()
         return HttpResponseRedirect(reverse('pictures:dashboard'))

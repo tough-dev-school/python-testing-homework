@@ -40,7 +40,7 @@ def test_create(user_client, exists_user):
 @pytest.mark.usefixtures()
 def test_delete(user_client, exists_user, existed_picture):
     """Test delete picture from favourite."""
-    got = user_client.delete('/pictures/favourites/{0}'.format(existed_picture.id))
+    got = user_client.delete('/pictures/favourites/{0}'.format(existed_picture.foreign_id))
 
     assert got.status_code == HTTPStatus.FOUND
     assert got.headers['location'] == '/pictures/dashboard'
