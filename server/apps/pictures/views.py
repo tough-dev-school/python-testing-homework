@@ -3,8 +3,9 @@ from typing import Any, final
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.db.models import QuerySet
-from django.http import HttpResponse
-from django.urls import reverse_lazy
+from django.http import HttpResponse, HttpResponseRedirect
+from django.urls import reverse_lazy, reverse
+from django.views import View
 from django.views.generic import CreateView, ListView, TemplateView
 
 from server.apps.pictures.container import container
@@ -70,3 +71,12 @@ class FavouritePicturesView(ListView[FavouritePicture]):
         """Return matching pictures."""
         list_favourites = container.instantiate(favourites_list.FavouritesList)
         return list_favourites(self.request.user.id)
+
+
+@final
+@dispatch_decorator(login_required)
+class FavouriteDeleteView(View):
+
+    def delete(self, request, picture_id):
+        FavouritePicture.objects.filter(id=picture_id, user=request.user).delete()
+        return HttpResponseRedirect(reverse('pictures:dashboard'))
