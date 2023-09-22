@@ -6,6 +6,7 @@ import pytest
 from mimesis import Field, Schema
 from mimesis.locales import Locale
 
+from server.apps.identity.intrastructure.services.placeholder import UserResponse
 from server.apps.identity.models import User
 
 
@@ -30,6 +31,7 @@ class UserData(TypedDict, total=False):
 
 
 UserAssertion: TypeAlias = Callable[[str, UserData], None]
+NotLeadUserAssertion: TypeAlias = Callable[[str], None]
 
 
 @final
@@ -125,3 +127,21 @@ def user(
 ) -> 'User':
     """Return created user in database."""
     return User.objects.create(**expected_user_data)
+
+
+@pytest.fixture()
+def expected_user_response(
+    expected_user_data: RegistrationData,
+) -> 'UserResponse':
+    """Return user response obj."""
+    return UserResponse(id=1)
+
+
+@pytest.fixture(scope='session')
+def assert_not_lead_user() -> NotLeadUserAssertion:
+    """Check that user is not lead."""
+    def factory(email: str) -> None:
+        user = User.objects.get(email=email)
+        assert user.lead_id is None
+
+    return factory
