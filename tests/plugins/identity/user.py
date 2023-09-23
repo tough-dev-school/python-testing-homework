@@ -44,7 +44,7 @@ def user_data_factory(field: Field) -> UserDataFactory:
                 'job_title': field('person.occupation'),
                 'phone': field('person.telephone'),
             },
-            iterations=1
+            iterations=1,
         )
         return {
             **schema.create()[0],  # type: ignore[misc]
