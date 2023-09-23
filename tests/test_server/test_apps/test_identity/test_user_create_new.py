@@ -14,8 +14,10 @@ from tests.plugins.identity.user import (
     NotLeadUserAssertion,
 )
 
+pytestmark = pytest.mark.django_db
 
-@pytest.mark.django_db()
+
+@pytest.mark.slow()
 def test_success_create_new_user(
     user: User,
     settings: Settings,
@@ -33,7 +35,6 @@ def test_success_create_new_user(
     assert user.lead_id is not None
 
 
-@pytest.mark.django_db()
 def test_success_update_user_ids(
     user: User,
     settings: Settings,

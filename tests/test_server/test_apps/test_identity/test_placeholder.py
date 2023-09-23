@@ -47,6 +47,7 @@ def test_success_url_path(settings: Settings) -> None:
     assert actual_url_path == expected_url_path
 
 
+@pytest.mark.slow()
 def test_success_lead_update(
     user: User,
     reg_data: RegistrationData,
