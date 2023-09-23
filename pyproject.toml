@@ -96,3 +96,7 @@ format_attribute_template_tags = true
 
 [tool.nitpick]
 style = "https://raw.githubusercontent.com/wemake-services/wemake-python-styleguide/0.18.0/styles/nitpick-style-wemake.toml"
+
+
+[tool.pytest.ini_options]
+DJANGO_SETTINGS_MODULE = "server.settings"
