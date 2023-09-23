@@ -39,6 +39,7 @@ def user_data_factory(field: Field) -> UserDataFactory:
 
     def factory(**fields) -> UserData:
         """Factory.
+
         :param fields: fields to overwrite
         """
         schema = Schema(
@@ -54,7 +55,7 @@ def user_data_factory(field: Field) -> UserDataFactory:
             iterations=1,
         )
         return {
-            **schema.create()[0], #ignore this line
+            **schema.create()[0],  # ignore this line
             **fields,
         }
 
