@@ -1,9 +1,12 @@
 from http import HTTPStatus
 
 import pytest
-from django.contrib.auth.models import User
 from django.test import Client
-from plugins.identity.user import ProfileAssertion, ProfileDataFactory
+from plugins.identity.user import (
+    ProfileAssertion,
+    ProfileDataFactory,
+    logged_user_client
+)
 
 
 @pytest.mark.django_db()()
@@ -45,39 +48,34 @@ def test_admin_docs_authorized(admin_client: Client) -> None:
     assert b'docutils' not in response.content
 
 
-def test_picture_pages_unauthorized(client: Client) -> None:
+@pytest.mark.parametrize("url_found", [
+    '/pictures/dashboard',
+    '/pictures/favourites'
+])
+def test_picture_pages_unauthorized(client: Client, url_found: str) -> None:
     """This test ensures that picture management pages require auth."""
-    response = client.get('/pictures/dashboard')
-    assert response.status_code == HTTPStatus.FOUND
-
-    response = client.get('/pictures/favourites')
+    response = client.get(url_found)
     assert response.status_code == HTTPStatus.FOUND
 
 
 @pytest.mark.django_db()
+@pytest.mark.parametrize("url_accessible", [
+    '/pictures/dashboard',
+    '/pictures/favourites'
+])
 def test_picture_pages_authorized(
-    client: Client,
-    django_user_model: User,
+    logged_user_client: Client,
+    url_accessible: str
 ) -> None:
     """Ensures picture management pages are accessible for authorized user."""
-    password, email = 'password', 'email@example.com'
-    user = django_user_model.objects.create_user(
-        email,
-        password,
-    )
-    client.force_login(user)
 
-    response = client.get('/pictures/dashboard')
-    assert response.status_code == HTTPStatus.OK
-
-    response = client.get('/pictures/favourites')
+    response = logged_user_client.get(url_accessible)
     assert response.status_code == HTTPStatus.OK
 
 
 @pytest.mark.django_db()
 def test_profile_update_authorized(
-    client: Client,
-    django_user_model: User,
+    logged_user_client: Client,
     profile_data_factory: 'ProfileDataFactory',
     assert_correct_profile: 'ProfileAssertion',
     assert_incorrect_profile: 'ProfileAssertion',
@@ -85,17 +83,14 @@ def test_profile_update_authorized(
     """This test ensures profile updating for an authorized user."""
     user_data = profile_data_factory()
 
-    password, email = 'password', 'email@example.com'
-    user = django_user_model.objects.create_user(
-        email,
-        password,
-    )
-    client.force_login(user)
+    # that is an email for `logged_user_client` fixture
+    # maybe add indirect parametrization?
+    email = 'email@example.com'
 
     # there might be a probability of accidental match, but disregard it for now
     assert_incorrect_profile(email, user_data)
 
-    response = client.post(
+    response = logged_user_client.post(
         '/identity/update',
         data=user_data,
     )

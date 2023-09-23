@@ -4,6 +4,8 @@ from typing import Callable, Protocol, TypeAlias, TypedDict, Unpack, final
 
 import pytest
 from django.contrib.auth import get_user_model
+from django.test import Client
+from django.contrib.auth.models import User
 from mimesis.locales import Locale
 from mimesis.schema import Field, Schema
 
@@ -85,3 +87,15 @@ def assert_incorrect_profile() -> ProfileAssertion:
         assert not all(matches)
 
     return factory
+
+
+@pytest.fixture(scope='function')
+def logged_user_client(client: Client, django_user_model: User):
+    """Client for a logged in user."""
+    password, email = 'password', 'email@example.com'
+    user = django_user_model.objects.create_user(
+        email,
+        password,
+    )
+    client.force_login(user)
+    return client
