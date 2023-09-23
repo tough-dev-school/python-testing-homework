@@ -10,4 +10,5 @@ pytest_plugins = [
     'tests.plugins.django_settings',
     'tests.plugins.identity.user',
     'tests.plugins.pictures.pictures',
+    'tests.plugins.slow',
 ]
