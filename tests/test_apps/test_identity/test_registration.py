@@ -34,10 +34,10 @@ def test_pictures_pages_unauthenticated(client: Client, page: str) -> None:
 
 
 def test_valid_registration(
-        client: Client,
-        registration_data: RegistrationData,
-        user_data: UserDataExtractor,
-        assert_correct_user: UserAssertion,
+    client: Client,
+    registration_data: RegistrationData,
+    user_data: UserDataExtractor,
+    assert_correct_user: UserAssertion,
 ) -> None:
     """Test that registration works with correct user data."""
     response = client.post(

@@ -1,10 +1,9 @@
 import datetime as dt
-from typing import (
-    Callable, Protocol, TypeAlias, TypedDict, Unpack, final,
-)
+from typing import Callable, Protocol, TypeAlias, TypedDict, final
 
 import pytest
 from mimesis import Field, Schema
+from typing_extensions import Unpack
 
 from server.apps.identity.models import User
 
@@ -75,8 +74,8 @@ class RegistrationDataFactory(Protocol):  # type: ignore[misc]
 
 @pytest.fixture(scope='session')
 def registration_data_factory(
-        field: Field,
-        user_data_factory: UserDataFactory,
+    field: Field,
+    user_data_factory: UserDataFactory,
 ) -> RegistrationDataFactory:
     """Returns factory for fake random data for registration."""
 
@@ -95,7 +94,7 @@ def registration_data_factory(
 
 @pytest.fixture()
 def user_registration_data(
-        registration_data_factory: RegistrationDataFactory,
+    registration_data_factory: RegistrationDataFactory,
 ) -> RegistrationData:
     """Create instance of ordinary user (not staff or admin)."""
     return registration_data_factory()
