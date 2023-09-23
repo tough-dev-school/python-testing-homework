@@ -15,8 +15,9 @@ from server.apps.identity.models import User
 from server.common.django.types import Settings
 from tests.plugins.identity.user import RegistrationData, UserAssertion
 
+pytestmark = pytest.mark.django_db
 
-@pytest.mark.django_db()
+
 def test_success_lead_create(
     user: User,
     reg_data: RegistrationData,
@@ -46,7 +47,6 @@ def test_success_url_path(settings: Settings) -> None:
     assert actual_url_path == expected_url_path
 
 
-@pytest.mark.django_db()
 def test_success_lead_update(
     user: User,
     reg_data: RegistrationData,
@@ -74,7 +74,6 @@ def test_failed_validate_user_response(failed_pydantic_fields: dict[str, Any]) -
         UserResponse.model_validate(failed_pydantic_fields)  # noqa: WPS428
 
 
-@pytest.mark.django_db()
 def test_success_serialize_user(
     user: User,
     expected_serialized_user: dict[str, Any],
