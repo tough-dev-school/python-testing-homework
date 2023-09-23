@@ -2,7 +2,7 @@ from typing import final
 
 import attr
 
-from server.apps.pictures.intrastructure.services import placeholder
+from server.apps.pictures.infrastructure.services import placeholder
 from server.common.django.types import Settings
 
 
