@@ -1,6 +1,10 @@
+from random import SystemRandom
+
 import pytest
 from django.conf import LazySettings
 from django.core.cache import BaseCache, caches
+
+MAX_RANDOM_INT = 999999
 
 
 @pytest.fixture(autouse=True)
@@ -34,6 +38,12 @@ def _debug(settings: LazySettings) -> None:
     settings.DEBUG = False
     for template in settings.TEMPLATES:
         template['OPTIONS']['debug'] = True
+
+
+@pytest.fixture(scope='session', autouse=True)
+def faker_seed() -> int:
+    """Create a random seed for the Faker library."""
+    return SystemRandom().randint(0, MAX_RANDOM_INT)
 
 
 @pytest.fixture(autouse=True)
