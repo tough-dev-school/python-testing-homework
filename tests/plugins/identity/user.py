@@ -1,5 +1,5 @@
 import datetime as dt
-from typing import Any, Unpack
+from typing import Any, Unpack, TYPE_CHECKING
 from typing import Callable, Protocol, TypeAlias, TypedDict, final
 
 import pytest
@@ -8,6 +8,9 @@ from mimesis.locales import Locale
 
 from server.apps.identity.intrastructure.services.placeholder import UserResponse
 from server.apps.identity.models import User
+
+if TYPE_CHECKING:
+    from django.test import Client
 
 
 @final
@@ -145,3 +148,10 @@ def assert_not_lead_user() -> NotLeadUserAssertion:
         assert user.lead_id is None
 
     return factory
+
+
+@pytest.fixture()
+def authorized_client(client: 'Client', user: 'User') -> 'Client':
+    """Authorized User object."""
+    client.force_login(user)
+    return client
