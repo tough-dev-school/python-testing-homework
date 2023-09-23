@@ -1,5 +1,7 @@
 import datetime as dt
-from typing import Callable, Protocol, TypeAlias, TypedDict, Unpack, final
+from typing import (
+    Callable, Protocol, TypeAlias, TypedDict, Unpack, final,
+)
 
 import pytest
 from mimesis import Field, Schema
