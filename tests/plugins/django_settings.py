@@ -51,3 +51,4 @@ def cache(settings: LazySettings) -> BaseCache:
     # Clearing cache:
     caches[test_cache].clear()
     return caches[test_cache]
+

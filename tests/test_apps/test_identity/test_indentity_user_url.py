@@ -5,6 +5,7 @@ from django.test import Client
 from django.urls import reverse
 
 
+@pytest.mark.timeout(5)
 @pytest.mark.django_db
 def test_registration_view(
     client: Client,
@@ -21,6 +22,7 @@ def test_registration_view(
     assert_user(registration_data['email'], user_model_data)
 
 
+@pytest.mark.timeout(5)
 @pytest.mark.django_db
 def test_login(
     client: Client,
@@ -41,6 +43,7 @@ def test_login(
     assert_user(data['username'], user_model_data)
 
 
+@pytest.mark.timeout(5)
 @pytest.mark.django_db
 def test_user_update(
     client: Client,

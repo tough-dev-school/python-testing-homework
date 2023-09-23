@@ -1,5 +1,6 @@
 from typing import TypedDict
 import pytest
+from mixer.backend.django import mixer
 
 from server.apps.identity.models import User
 from server.apps.pictures.models import FavouritePicture
@@ -22,13 +23,12 @@ def favourite_picture_data(create_user) -> FavouritePictureData:
 
 
 @pytest.fixture
-def picture_factory():
+def picture_factory(create_user):
     def factory(
-            favourite_picture: FavouritePictureData
+        cycle_number: int = 1
     ) -> FavouritePicture:
-        return FavouritePicture.objects.create(
-            **favourite_picture
-        )
+        user = create_user
+        return mixer.cycle(cycle_number).blend(FavouritePicture, user=user)
     return factory
 
 

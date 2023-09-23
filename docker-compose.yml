@@ -59,6 +59,19 @@ services:
       retries: 5
       start_period: 30s
 
+  json-server:
+    image: "vimagick/json-server"
+    command: -H 0.0.0.0 -p 5200 --watch db.json
+    container_name: "json_server"
+    ports:
+      - "5200:5200"
+    volumes:
+      - ./data:/data
+    restart: always
+    networks:
+      - webnet
+
+
 # This task is an example of how to extend existing ones:
 #   some_worker:
 #     <<: *web

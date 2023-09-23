@@ -1,6 +1,6 @@
 import pytest
 import datetime as dt
-from typing import Protocol, Unpack, final, TypedDict
+from typing import final, TypedDict
 
 from server.apps.identity.models import User, _UserManager
 

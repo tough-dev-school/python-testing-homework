@@ -8,9 +8,9 @@ from django.urls import reverse
 @pytest.mark.django_db
 def test_dashboard_view(
     client: Client,
-    create_two_favourite_picture
+    picture_factory
 ) -> None:
-    create_two_favourite_picture
+    picture_factory
     response = client.get(
         '/pictures/dashboard'
     )
@@ -20,9 +20,9 @@ def test_dashboard_view(
 @pytest.mark.django_db
 def test_favourite_picture(
     client: Client,
-    create_two_favourite_picture
+    picture_factory
 ) -> None:
-    create_two_favourite_picture
+    picture_factory
     response = client.get(
         '/pictures/favourites'
     )
