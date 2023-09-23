@@ -9,6 +9,7 @@ from server.apps.identity.models import User
 
 # User Data
 class UserData(TypedDict, total=False):
+    """Represent the user data."""
     email: str
     first_name: str
     last_name: str
@@ -32,16 +33,17 @@ def user_data_factory(field: Field) -> UserDataFactory:
     """Generate random user data."""
 
     def factory(**fields) -> UserData:
-        schema = Schema(schema=lambda: {
-            'email': field('person.email'),
-            'first_name': field('person.first_name'),
-            'last_name': field('person.last_name'),
-            'date_of_birth': field('datetime.date'),
-            'address': field('address.city'),
-            'job_title': field('person.occupation'),
-            'phone': field('person.telephone'),
-        },
-                        iterations=1)
+        schema = Schema(
+            schema=lambda: {
+                'email': field('person.email'),
+                'first_name': field('person.first_name'),
+                'last_name': field('person.last_name'),
+                'date_of_birth': field('datetime.date'),
+                'address': field('address.city'),
+                'job_title': field('person.occupation'),
+                'phone': field('person.telephone'),
+            },
+            iterations=1)
         return {
             **schema.create()[0],  # type: ignore[misc]
             **fields,
@@ -86,13 +88,13 @@ def registration_data_factory(
 
     return factory
 
+
 @pytest.fixture()
 def user_registration_data(
         registration_data_factory: RegistrationDataFactory,
 ) -> RegistrationData:
     """Create instance of ordinary user (not staff or admin)."""
     return registration_data_factory()
-
 
 
 @final
