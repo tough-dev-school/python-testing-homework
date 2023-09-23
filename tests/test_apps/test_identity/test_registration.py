@@ -5,7 +5,9 @@ from django.test import Client
 from django.urls import reverse
 
 from tests.plugins.identity.user import (
-    RegistrationData, UserDataExtractor, UserAssertion,
+    RegistrationData,
+    UserAssertion,
+    UserDataExtractor,
 )
 
 pytestmark = pytest.mark.django_db
@@ -27,7 +29,7 @@ def test_pictures_pages_unauthenticated(client: Client, page: str) -> None:
     response = client.get(page)
 
     assert response.status_code == HTTPStatus.FOUND
-    assert response.url == '/identity/login?next={}'.format(page)
+    assert response.url == '/identity/login?next={0}'.format(page)
 
 
 def test_valid_registration(
