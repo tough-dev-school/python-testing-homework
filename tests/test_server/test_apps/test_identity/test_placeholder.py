@@ -32,7 +32,7 @@ def test_success_lead_create(
         api_timeout=settings.PLACEHOLDER_API_TIMEOUT,
         api_url=settings.PLACEHOLDER_API_URL,
     )(user=user)
-    assert actual_response.id == expected_id
+    assert actual_response == expected_id
 
 
 def test_success_url_path(settings: Settings) -> None:
@@ -62,18 +62,16 @@ def test_success_lead_update(
     )(user=user)
 
 
-def test_success_validate_user_response() -> None:
+def test_success_validate_user_response(expected_user_response: UserResponse) -> None:
     """Testing UserResponse model, success case."""
-    expected_id = 1
-    actual_id = UserResponse.model_validate({'id': 1}).id
-    assert actual_id == expected_id
+    actual_user_response = UserResponse.model_validate({'id': 1})
+    assert actual_user_response == expected_user_response
 
 
-def test_failed_validate_user_response() -> None:
+def test_failed_validate_user_response(failed_pydantic_fields: dict[str, Any]) -> None:
     """Testing UserResponse model, failed case."""
-    with pytest.raises(ValidationError) as exc:
-        UserResponse.model_validate({'TEST': 1}).id  # noqa: WPS428
-    assert 'ValidationError' in exc.typename  # noqa: WPS441
+    with pytest.raises(ValidationError):
+        UserResponse.model_validate(failed_pydantic_fields)  # noqa: WPS428
 
 
 @pytest.mark.django_db()
