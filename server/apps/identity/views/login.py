@@ -10,10 +10,10 @@ from django.views.generic.edit import FormView
 from ratelimit.mixins import RatelimitMixin
 
 from server.apps.identity.container import container
-from server.apps.identity.intrastructure.django.decorators import (
+from server.apps.identity.infrastructure.django.decorators import (
     redirect_logged_in_users,
 )
-from server.apps.identity.intrastructure.django.forms import (
+from server.apps.identity.infrastructure.django.forms import (
     AuthenticationForm,
     RegistrationForm,
 )

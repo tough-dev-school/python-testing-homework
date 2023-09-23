@@ -10,7 +10,7 @@ from django.views.generic import UpdateView
 from ratelimit.mixins import RatelimitMixin
 
 from server.apps.identity.container import container
-from server.apps.identity.intrastructure.django.forms import UserUpdateForm
+from server.apps.identity.infrastructure.django.forms import UserUpdateForm
 from server.apps.identity.logic.usecases.user_update import UserUpdate
 from server.apps.identity.models import User
 from server.common.django.decorators import dispatch_decorator
@@ -31,7 +31,7 @@ class UserUpdateView(RatelimitMixin, UpdateView[User, UserUpdateForm]):
     ratelimit_key = 'ip'
     ratelimit_rate = '10/h'
     ratelimit_block = True
-    retelimit_method = ['POST', 'PUT']  # GET is safe
+    ratelimit_method = ['POST', 'PUT']  # GET is safe
 
     def get_object(self, queryset: QuerySet[User] | None = None) -> User:
         """We only work with the current user."""

@@ -8,7 +8,7 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView, TemplateView
 
 from server.apps.pictures.container import container
-from server.apps.pictures.intrastructure.django.forms import FavouritesForm
+from server.apps.pictures.infrastructure.django.forms import FavouritesForm
 from server.apps.pictures.logic.usecases import favourites_list, pictures_fetch
 from server.apps.pictures.models import FavouritePicture
 from server.common.django.decorators import dispatch_decorator
@@ -40,11 +40,11 @@ class DashboardView(CreateView[FavouritePicture, FavouritesForm]):
     success_url = reverse_lazy('pictures:dashboard')
 
     def get_context_data(self, **kwargs: Any) -> dict[str, Any]:
-        """Innject extra context to template rendering."""
-        fetch_puctures = container.instantiate(pictures_fetch.PicturesFetch)
+        """Inject extra context to template rendering."""
+        fetch_pictures = container.instantiate(pictures_fetch.PicturesFetch)
 
         context = super().get_context_data(**kwargs)
-        context['pictures'] = fetch_puctures()  # sync http call, may hang
+        context['pictures'] = fetch_pictures()  # sync http call, may hang
         return context
 
     def get_form_kwargs(self) -> dict[str, Any]:
